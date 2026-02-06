@@ -35,6 +35,30 @@ export default function HeroSection() {
             backgroundSize: "60px 60px",
           }}
         />
+        {/* Red reticle accent lines - subtle brand color */}
+        <div
+          className="absolute inset-0 opacity-4"
+          style={{
+            backgroundImage: `
+              linear-gradient(to right, #ef4444 1px, transparent 1px, transparent 48px, #ef4444 48px),
+              linear-gradient(to bottom, #ef4444 1px, transparent 1px, transparent 48px, #ef4444 48px)
+            `,
+            backgroundSize: "140px 140px",
+            backgroundPosition: "0 0",
+          }}
+        />
+        {/* Red circular reticle accents */}
+        <div
+          className="absolute inset-0 opacity-3"
+          style={{
+            backgroundImage: `
+              radial-gradient(circle, transparent 35%, #ef4444 40%, #ef4444 42%, transparent 47%),
+              radial-gradient(circle, transparent 70%, #ef4444 75%, transparent 80%)
+            `,
+            backgroundSize: "200px 200px",
+            backgroundPosition: "0 0",
+          }}
+        />
       </div>
 
       {/* Content layer - scrolls over background */}
