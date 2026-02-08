@@ -43,7 +43,7 @@ export default function ContactForm() {
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       {/* Name Field */}
       <div>
-        <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+        <label htmlFor="name" className="block text-sm font-medium text-sky-600 dark:text-gray-300 mb-2">
           My name is...
         </label>
         <input
@@ -60,7 +60,7 @@ export default function ContactForm() {
 
       {/* Company Field */}
       <div>
-        <label htmlFor="company" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+        <label htmlFor="company" className="block text-sm font-medium text-sky-600 dark:text-gray-300 mb-2">
           We work for...
         </label>
         <input
@@ -77,7 +77,7 @@ export default function ContactForm() {
 
       {/* Email Field */}
       <div>
-        <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+        <label htmlFor="email" className="block text-sm font-medium text-sky-600 dark:text-gray-300 mb-2">
           You can reach me at...
         </label>
         <input
@@ -94,7 +94,7 @@ export default function ContactForm() {
 
       {/* Interested In - Select */}
       <div>
-        <label htmlFor="interested" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+        <label htmlFor="interested" className="block text-sm font-medium text-sky-600 dark:text-gray-300 mb-2">
           I am interested in...
         </label>
         <select
@@ -116,7 +116,7 @@ export default function ContactForm() {
 
       {/* Project Description */}
       <div>
-        <label htmlFor="project" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+        <label htmlFor="project" className="block text-sm font-medium text-sky-600 dark:text-gray-300 mb-2">
           My project is...
         </label>
         <p className="text-xs text-gray-600 dark:text-gray-400 mb-2">

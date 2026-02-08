@@ -1,96 +1,66 @@
+import { Fraunces, Plus_Jakarta_Sans } from "next/font/google";
+import Link from "next/link";
 import ContactForm from "./ContactForm";
+
+const displayFont = Fraunces({
+  subsets: ["latin"],
+  variable: "--font-display",
+});
+
+const bodyFont = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-body",
+});
 
 export default function HeroSection() {
   return (
-    <section className="relative min-h-screen w-full overflow-hidden bg-black">
-      {/* Subtle accent lines background - static overlay */}
-      <div className="absolute inset-0 pointer-events-none">
-        {/* Grid pattern - subtle white */}
-        <div
-          className="absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: `
-              linear-gradient(to right, #ffffff 1px, transparent 1px),
-              linear-gradient(to bottom, #ffffff 1px, transparent 1px)
-            `,
-            backgroundSize: "50px 50px",
-          }}
-        />
-        {/* Diagonal accent lines for mathematical feel */}
-        <div
-          className="absolute inset-0 opacity-4"
-          style={{
-            backgroundImage: `
-              linear-gradient(45deg, #ffffff 1px, transparent 1px),
-              linear-gradient(-45deg, #ffffff 1px, transparent 1px)
-            `,
-            backgroundSize: "80px 80px",
-          }}
-        />
-        {/* Radial circles for topology/depth effect */}
-        <div
-          className="absolute inset-0 opacity-3"
-          style={{
-            backgroundImage: `radial-gradient(circle, #ffffff 1px, transparent 1px)`,
-            backgroundSize: "60px 60px",
-          }}
-        />
-        {/* Red reticle accent lines - subtle brand color */}
-        <div
-          className="absolute inset-0 opacity-4"
-          style={{
-            backgroundImage: `
-              linear-gradient(to right, #ef4444 1px, transparent 1px, transparent 48px, #ef4444 48px),
-              linear-gradient(to bottom, #ef4444 1px, transparent 1px, transparent 48px, #ef4444 48px)
-            `,
-            backgroundSize: "140px 140px",
-            backgroundPosition: "0 0",
-          }}
-        />
-        {/* Red circular reticle accents */}
-        <div
-          className="absolute inset-0 opacity-3"
-          style={{
-            backgroundImage: `
-              radial-gradient(circle, transparent 35%, #ef4444 40%, #ef4444 42%, transparent 47%),
-              radial-gradient(circle, transparent 70%, #ef4444 75%, transparent 80%)
-            `,
-            backgroundSize: "200px 200px",
-            backgroundPosition: "0 0",
-          }}
-        />
+    <section className={`${bodyFont.className} relative min-h-screen w-full overflow-hidden text-zinc-100`}>
+      <div className="absolute inset-0 z-0">
+        <div className="absolute -top-40 -left-20 h-[520px] w-[520px] rounded-full bg-[radial-gradient(circle_at_center,rgba(244,63,94,0.35),rgba(15,23,42,0))] blur-3xl" />
+        <div className="absolute top-20 right-0 h-[460px] w-[460px] rounded-full bg-[radial-gradient(circle_at_center,rgba(14,165,233,0.35),rgba(15,23,42,0))] blur-3xl" />
+        <div className="absolute bottom-0 left-1/3 h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle_at_center,rgba(251,191,36,0.25),rgba(15,23,42,0))] blur-3xl" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,6,23,0.9),rgba(2,6,23,0.75),rgba(2,6,23,0.95))]" />
       </div>
 
-      {/* Content layer - scrolls over background */}
       <div className="relative z-10 flex items-center justify-center min-h-screen">
-        <div className="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            {/* Left Side - Title and Subtitle */}
-            <div className="flex flex-col justify-center">
-              <h1 className="text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-                We Build Your Digital Future
-              </h1>
-              <p className="text-xl text-gray-300 leading-relaxed mb-8">
-                Transform your vision into reality with cutting-edge web solutions. 
-                We specialize in creating beautiful, fast, and scalable digital experiences 
-                that drive results for your business.
+        <div className="max-w-6xl w-full mx-auto px-6 sm:px-6 lg:px-10">
+          <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-12 items-center">
+            <div className="flex flex-col justify-center space-y-6">
+              <p className="text-xs font-semibold uppercase tracking-[0.25em] text-rose-200">
+                Premium Digital Design & Development
               </p>
-              <div className="flex gap-4">
-                <button className="px-8 py-3 rounded-lg bg-red-600 text-white font-medium hover:bg-red-700 transition-colors">
-                  Get Started
-                </button>
-                <button className="px-8 py-3 rounded-lg border border-gray-600 text-white font-medium hover:bg-gray-900 transition-colors">
-                  Learn More
-                </button>
+              <h1 className={`${displayFont.className} text-4xl leading-tight text-white sm:text-5xl lg:text-6xl`}>
+                Build digital products that feel unmistakable.
+              </h1>
+              <p className="max-w-xl text-lg text-zinc-200">
+                We craft premium websites, apps, and digital experiences for ambitious brands. From strategy to pixel-perfect delivery.
+              </p>
+              <div className="flex flex-wrap gap-4 pt-4">
+                <Link
+                  href="#services"
+                  className="rounded-full bg-rose-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-rose-500/30 transition hover:bg-rose-400"
+                >
+                  Explore Services
+                </Link>
+                <Link
+                  href="/about"
+                  className="rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white transition hover:border-white/40"
+                >
+                  About Us
+                </Link>
               </div>
             </div>
 
-            {/* Right Side - Contact Form */}
-            <div className="bg-gray-900/80 backdrop-blur-sm rounded-lg p-8 shadow-2xl border border-gray-800">
-              <h2 className="text-2xl font-bold text-white mb-6">
-                Let's Connect
+            <div className="rounded-3xl bg-white/5 p-6 shadow-2xl shadow-black/40 backdrop-blur">
+              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-rose-200">
+                Quick Contact
+              </p>
+              <h2 className="mt-3 text-2xl font-semibold text-white">
+                Let's talk about your next project
               </h2>
-              <ContactForm />
+              <div className="mt-6">
+                <ContactForm />
+              </div>
             </div>
           </div>
         </div>
