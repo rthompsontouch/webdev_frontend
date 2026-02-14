@@ -30,12 +30,21 @@ export const metadata: Metadata = {
     description:
       "We align strategy, UX, and execution with a roadmap that builds momentum and revenue.",
     type: "website",
+    images: [
+      {
+        url: "https://www.thewebprism.com/images/hero_image.jpg",
+        width: 1600,
+        height: 900,
+        alt: "TheWebPrism digital consulting services",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Digital Consulting Services | Strategy, UX, and Growth",
     description:
       "Premium digital consulting for product, marketing, and leadership teams.",
+    images: ["https://www.thewebprism.com/images/hero_image.jpg"],
   },
 };
 

@@ -30,12 +30,21 @@ export const metadata: Metadata = {
     description:
       "We design premium, conversion-focused websites with world-class UX and unmistakable brand presence.",
     type: "website",
+    images: [
+      {
+        url: "https://www.thewebprism.com/images/hero_image.jpg",
+        width: 1600,
+        height: 900,
+        alt: "TheWebPrism web design services",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Web Design Services | Premium UX and Brand-First Websites",
     description:
       "Premium web design and UX for brands that want a site that sells and scales.",
+    images: ["https://www.thewebprism.com/images/hero_image.jpg"],
   },
 };
 

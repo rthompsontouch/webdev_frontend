@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     type: "article",
     images: [
       {
-        url: "/images/our-work/ge/ge_desktop.png",
+        url: "https://www.thewebprism.com/images/our-work/ge/ge_desktop.png",
         width: 1400,
         height: 900,
         alt: "GE case study desktop preview",
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     title: "GE Case Study | Enterprise Brand and Digital Platform",
     description:
       "A scalable digital platform with a global design system and enterprise publishing workflow.",
-    images: ["/images/our-work/ge/ge_desktop.png"],
+    images: ["https://www.thewebprism.com/images/our-work/ge/ge_desktop.png"],
   },
 };
 

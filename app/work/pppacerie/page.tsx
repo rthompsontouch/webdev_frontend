@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     type: "article",
     images: [
       {
-        url: "/images/our-work/pppacerie/desktop.png",
+        url: "https://www.thewebprism.com/images/our-work/pppacerie/desktop.png",
         width: 1400,
         height: 900,
         alt: "PPPacerie case study desktop preview",
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     title: "PPPacerie Case Study | Luxury Cruise Booking Platform",
     description:
       "A premium cruise booking platform with intelligent availability, pricing, and admin operations.",
-    images: ["/images/our-work/pppacerie/desktop.png"],
+    images: ["https://www.thewebprism.com/images/our-work/pppacerie/desktop.png"],
   },
 };
 

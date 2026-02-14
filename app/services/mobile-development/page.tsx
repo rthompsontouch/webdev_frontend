@@ -30,12 +30,21 @@ export const metadata: Metadata = {
     description:
       "We design and build mobile apps that feel premium, perform fast, and scale with your product.",
     type: "website",
+    images: [
+      {
+        url: "https://www.thewebprism.com/images/hero_image.jpg",
+        width: 1600,
+        height: 900,
+        alt: "TheWebPrism mobile app development services",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Mobile App Development | iOS and Android Product Teams",
     description:
       "Premium iOS and Android development for ambitious product teams.",
+    images: ["https://www.thewebprism.com/images/hero_image.jpg"],
   },
 };
 

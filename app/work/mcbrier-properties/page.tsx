@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     type: "article",
     images: [
       {
-        url: "/images/our-work/mcbrier_properties/mcbrier_properties_desktop.png",
+        url: "https://www.thewebprism.com/images/our-work/mcbrier_properties/mcbrier_properties_desktop.png",
         width: 1400,
         height: 900,
         alt: "McBrier Properties case study desktop preview",
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     title: "McBrier Properties Case Study | Real Estate Website",
     description:
       "A lead-focused real estate website with curated listings and conversion-ready templates.",
-    images: ["/images/our-work/mcbrier_properties/mcbrier_properties_desktop.png"],
+    images: ["https://www.thewebprism.com/images/our-work/mcbrier_properties/mcbrier_properties_desktop.png"],
   },
 };
 

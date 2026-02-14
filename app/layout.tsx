@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     url: "https://www.thewebprism.com",
     images: [
       {
-        url: "/images/hero_image.jpg",
+        url: "https://www.thewebprism.com/images/hero_image.jpg",
         width: 1600,
         height: 900,
         alt: "TheWebPrism digital design and development studio",
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     title: "TheWebPrism | Premium Digital Design & Development",
     description:
       "Premium design and development for ambitious brands in Raleigh and beyond.",
-    images: ["/images/hero_image.jpg"],
+    images: ["https://www.thewebprism.com/images/hero_image.jpg"],
   },
 };
 

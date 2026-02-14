@@ -21,6 +21,21 @@ export const metadata: Metadata = {
     description:
       "A digital design and development studio focused on premium brand experiences.",
     type: "website",
+    images: [
+      {
+        url: "https://www.thewebprism.com/images/hero_image.jpg",
+        width: 1600,
+        height: 900,
+        alt: "TheWebPrism digital design and development studio",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "About TheWebPrism",
+    description:
+      "A digital design and development studio focused on premium brand experiences.",
+    images: ["https://www.thewebprism.com/images/hero_image.jpg"],
   },
 };
 

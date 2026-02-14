@@ -30,12 +30,21 @@ export const metadata: Metadata = {
     description:
       "We craft brand strategy and visual identity systems that signal trust and differentiation.",
     type: "website",
+    images: [
+      {
+        url: "https://www.thewebprism.com/images/hero_image.jpg",
+        width: 1600,
+        height: 900,
+        alt: "TheWebPrism branding services",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Branding Services | Visual Identity and Brand Systems",
     description:
       "Premium branding and visual identity for growth-minded teams.",
+    images: ["https://www.thewebprism.com/images/hero_image.jpg"],
   },
 };
 

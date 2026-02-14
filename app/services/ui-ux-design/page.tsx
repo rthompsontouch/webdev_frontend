@@ -30,12 +30,21 @@ export const metadata: Metadata = {
     description:
       "We design digital experiences that feel intuitive, premium, and conversion-ready.",
     type: "website",
+    images: [
+      {
+        url: "https://www.thewebprism.com/images/hero_image.jpg",
+        width: 1600,
+        height: 900,
+        alt: "TheWebPrism UI/UX design services",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "UI/UX Design Services | Product and Experience Design",
     description:
       "Premium UI/UX design for products that need clarity, trust, and retention.",
+    images: ["https://www.thewebprism.com/images/hero_image.jpg"],
   },
 };
 

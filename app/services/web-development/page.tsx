@@ -30,12 +30,21 @@ export const metadata: Metadata = {
     description:
       "We build fast, scalable websites with clean architecture, strong security, and production-grade performance.",
     type: "website",
+    images: [
+      {
+        url: "https://www.thewebprism.com/images/hero_image.jpg",
+        width: 1600,
+        height: 900,
+        alt: "TheWebPrism web development services",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Web Development Services | High-Performance Websites",
     description:
       "High-performance web development for brands that need speed, stability, and scale.",
+    images: ["https://www.thewebprism.com/images/hero_image.jpg"],
   },
 };
 
