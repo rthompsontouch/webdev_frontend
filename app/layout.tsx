@@ -15,6 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.thewebprism.com"),
   title: "TheWebPrism | Premium Design & Development Studio",
   description:
     "Premium digital design and development for ambitious brands. We create websites, apps, and digital experiences that feel premium and drive results.",
@@ -33,6 +34,7 @@ export const metadata: Metadata = {
     description:
       "We build premium digital experiences for brands that want to stand out and scale.",
     type: "website",
+    url: "https://www.thewebprism.com",
   },
   twitter: {
     card: "summary_large_image",
@@ -53,14 +55,14 @@ export default function RootLayout({
       {
         "@type": "Organization",
         name: "TheWebPrism",
-        url: "https://thewebprism.com",
+        url: "https://www.thewebprism.com",
         telephone: "+1-910-403-9019",
         areaServed: "United States",
       },
       {
         "@type": "LocalBusiness",
         name: "TheWebPrism",
-        url: "https://thewebprism.com",
+        url: "https://www.thewebprism.com",
         telephone: "+1-910-403-9019",
         priceRange: "$$$",
         address: {
