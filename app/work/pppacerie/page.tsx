@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { Fraunces, Plus_Jakarta_Sans } from "next/font/google";
@@ -11,6 +12,41 @@ const bodyFont = Plus_Jakarta_Sans({
   subsets: ["latin"],
   variable: "--font-body",
 });
+
+export const metadata: Metadata = {
+  title: "PPPacerie Case Study | Luxury Cruise Booking Platform",
+  description:
+    "We crafted a premium booking experience with a custom engine, intelligent availability rules, and an operational admin suite.",
+  keywords: [
+    "case study",
+    "booking platform",
+    "luxury travel",
+    "web app",
+    "UX design",
+    "custom platform",
+  ],
+  openGraph: {
+    title: "PPPacerie Case Study | Luxury Cruise Booking Platform",
+    description:
+      "A premium cruise booking platform with intelligent availability, pricing, and admin operations.",
+    type: "article",
+    images: [
+      {
+        url: "/images/our-work/pppacerie/desktop.png",
+        width: 1400,
+        height: 900,
+        alt: "PPPacerie case study desktop preview",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "PPPacerie Case Study | Luxury Cruise Booking Platform",
+    description:
+      "A premium cruise booking platform with intelligent availability, pricing, and admin operations.",
+    images: ["/images/our-work/pppacerie/desktop.png"],
+  },
+};
 
 export default function PppacerieCaseStudy() {
   return (

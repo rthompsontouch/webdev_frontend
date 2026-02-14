@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { Fraunces, Plus_Jakarta_Sans } from "next/font/google";
@@ -11,6 +12,41 @@ const bodyFont = Plus_Jakarta_Sans({
   subsets: ["latin"],
   variable: "--font-body",
 });
+
+export const metadata: Metadata = {
+  title: "McBrier Properties Case Study | Real Estate Website",
+  description:
+    "We built a polished, lead-focused property experience with custom WordPress templates, listing filters, and conversion-ready pages.",
+  keywords: [
+    "case study",
+    "real estate website",
+    "WordPress development",
+    "lead generation",
+    "property listings",
+    "web design",
+  ],
+  openGraph: {
+    title: "McBrier Properties Case Study | Real Estate Website",
+    description:
+      "A lead-focused real estate website with curated listings, fast publishing, and conversion-ready templates.",
+    type: "article",
+    images: [
+      {
+        url: "/images/our-work/mcbrier_properties/mcbrier_properties_desktop.png",
+        width: 1400,
+        height: 900,
+        alt: "McBrier Properties case study desktop preview",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "McBrier Properties Case Study | Real Estate Website",
+    description:
+      "A lead-focused real estate website with curated listings and conversion-ready templates.",
+    images: ["/images/our-work/mcbrier_properties/mcbrier_properties_desktop.png"],
+  },
+};
 
 export default function McBrierPropertiesCaseStudy() {
   return (

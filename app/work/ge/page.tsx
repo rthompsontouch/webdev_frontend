@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { Fraunces, Plus_Jakarta_Sans } from "next/font/google";
@@ -11,6 +12,41 @@ const bodyFont = Plus_Jakarta_Sans({
   subsets: ["latin"],
   variable: "--font-body",
 });
+
+export const metadata: Metadata = {
+  title: "GE Case Study | Enterprise Brand and Digital Platform",
+  description:
+    "We reimagined GE's digital presence with a scalable design system, editorial storytelling, and an enterprise-grade publishing workflow.",
+  keywords: [
+    "case study",
+    "enterprise website",
+    "design system",
+    "digital platform",
+    "Next.js",
+    "editorial storytelling",
+  ],
+  openGraph: {
+    title: "GE Case Study | Enterprise Brand and Digital Platform",
+    description:
+      "A scalable digital platform with a global design system and enterprise publishing workflow.",
+    type: "article",
+    images: [
+      {
+        url: "/images/our-work/ge/ge_desktop.png",
+        width: 1400,
+        height: 900,
+        alt: "GE case study desktop preview",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "GE Case Study | Enterprise Brand and Digital Platform",
+    description:
+      "A scalable digital platform with a global design system and enterprise publishing workflow.",
+    images: ["/images/our-work/ge/ge_desktop.png"],
+  },
+};
 
 export default function GeCaseStudy() {
   return (
