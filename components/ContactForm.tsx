@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -15,6 +16,8 @@ const contactFormSchema = z.object({
 type ContactFormData = z.infer<typeof contactFormSchema>;
 
 export default function ContactForm() {
+  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const {
     register,
     handleSubmit,
@@ -24,10 +27,30 @@ export default function ContactForm() {
     resolver: zodResolver(contactFormSchema),
   });
 
-  const onSubmit = (data: ContactFormData) => {
-    console.log("Form data:", data);
-    // Here you would typically send the data to your backend
-    reset();
+  const onSubmit = async (data: ContactFormData) => {
+    setStatus("sending");
+    setErrorMessage("");
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        const result = await response.json().catch(() => null);
+        throw new Error(result?.error || "Failed to send message.");
+      }
+
+      setStatus("success");
+      reset();
+    } catch (error) {
+      setStatus("error");
+      setErrorMessage(
+        error instanceof Error ? error.message : "Failed to send message."
+      );
+    }
   };
 
   const interestOptions = [
@@ -134,12 +157,20 @@ export default function ContactForm() {
         )}
       </div>
 
+      {status === "success" && (
+        <p className="text-sm text-green-600">Thanks! Your message has been sent.</p>
+      )}
+      {status === "error" && (
+        <p className="text-sm text-red-600">{errorMessage}</p>
+      )}
+
       {/* Submit Button */}
       <button
         type="submit"
-        className="w-full px-6 py-3 rounded-lg bg-red-600 text-white font-medium hover:bg-red-700 transition-colors"
+        className="w-full px-6 py-3 rounded-lg bg-red-600 text-white font-medium hover:bg-red-700 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+        disabled={status === "sending"}
       >
-        Send Message
+        {status === "sending" ? "Sending..." : "Send Message"}
       </button>
     </form>
   );

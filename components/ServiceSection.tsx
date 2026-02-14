@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Fraunces, Plus_Jakarta_Sans } from "next/font/google";
 
@@ -21,6 +22,9 @@ interface Service {
 }
 
 export default function ServiceSection() {
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
   const services: Service[] = [
     {
       id: "web-design",
@@ -60,8 +64,31 @@ export default function ServiceSection() {
     },
   ];
 
+  useEffect(() => {
+    const element = sectionRef.current;
+    if (!element) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.05, rootMargin: "0px 0px -25% 0px" }
+    );
+
+    observer.observe(element);
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section id="services" className={`${bodyFont.className} relative px-6 py-20 lg:px-10 text-zinc-100`}>
+    <section
+      id="services"
+      ref={sectionRef}
+      className={`${bodyFont.className} relative px-6 py-20 lg:px-10 text-zinc-100`}
+    >
       <div className="mx-auto max-w-6xl">
         <div className="space-y-10">
           <div className="space-y-4">
@@ -73,11 +100,16 @@ export default function ServiceSection() {
             </h2>
           </div>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {services.map((service) => (
+            {services.map((service, index) => (
               <Link
                 key={service.id}
                 href={service.href}
-                className="rounded-2xl border border-white/10 bg-white/5 p-6 transition hover:border-white/30 group"
+                style={{ transitionDelay: `${index * 160}ms` }}
+                className={`rounded-2xl border border-white/10 bg-white/5 p-6 transition-all duration-700 ease-out will-change-transform hover:border-white/30 group ${
+                  isVisible
+                    ? "translate-y-0 opacity-100"
+                    : "translate-y-4 opacity-0"
+                }`}
               >
                 <h3 className="text-lg font-semibold text-white group-hover:text-rose-200 transition">
                   {service.title}

@@ -223,13 +223,13 @@ export default function BrandingPage() {
                 </p>
                 <div className="flex flex-wrap gap-4">
                   <a
-                    href="#contact"
+                    href="/#contact"
                     className="rounded-full bg-fuchsia-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-fuchsia-500/30 transition hover:bg-fuchsia-400"
                   >
                     Start a rebrand
                   </a>
                   <a
-                    href="#process"
+                    href="/#process"
                     className="rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white transition hover:border-white/40"
                   >
                     View our process

@@ -16,15 +16,16 @@ export default function HeroSection() {
   return (
     <section className={`${bodyFont.className} relative min-h-screen w-full overflow-hidden text-zinc-100`}>
       <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 bg-[url('/images/hero_image.jpg')] bg-cover bg-center" />
         <div className="absolute -top-40 -left-20 h-[520px] w-[520px] rounded-full bg-[radial-gradient(circle_at_center,rgba(244,63,94,0.35),rgba(15,23,42,0))] blur-3xl" />
         <div className="absolute top-20 right-0 h-[460px] w-[460px] rounded-full bg-[radial-gradient(circle_at_center,rgba(14,165,233,0.35),rgba(15,23,42,0))] blur-3xl" />
         <div className="absolute bottom-0 left-1/3 h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle_at_center,rgba(251,191,36,0.25),rgba(15,23,42,0))] blur-3xl" />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,6,23,0.9),rgba(2,6,23,0.75),rgba(2,6,23,0.95))]" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,6,23,0.9),rgba(2,6,23,0.75),rgba(2,6,23,0.95))] opacity-85" />
       </div>
 
-      <div className="relative z-10 flex items-center justify-center min-h-screen">
+      <div className="relative z-10 flex items-center justify-center min-h-screen pt-20">
         <div className="max-w-6xl w-full mx-auto px-6 sm:px-6 lg:px-10">
-          <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-12 items-center">
             <div className="flex flex-col justify-center space-y-6">
               <p className="text-xs font-semibold uppercase tracking-[0.25em] text-rose-200">
                 Premium Digital Design & Development
@@ -37,7 +38,7 @@ export default function HeroSection() {
               </p>
               <div className="flex flex-wrap gap-4 pt-4">
                 <Link
-                  href="#services"
+                  href="/#services"
                   className="rounded-full bg-rose-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-rose-500/30 transition hover:bg-rose-400"
                 >
                   Explore Services
@@ -51,7 +52,7 @@ export default function HeroSection() {
               </div>
             </div>
 
-            <div className="rounded-3xl bg-white/5 p-6 shadow-2xl shadow-black/40 backdrop-blur">
+            <div id="contact" className="rounded-3xl bg-white/5 p-6 shadow-2xl shadow-black/40 backdrop-blur">
               <p className="text-sm font-semibold uppercase tracking-[0.2em] text-rose-200">
                 Quick Contact
               </p>

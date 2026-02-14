@@ -223,13 +223,13 @@ export default function DigitalConsultingPage() {
                 </p>
                 <div className="flex flex-wrap gap-4">
                   <a
-                    href="#contact"
+                    href="/#contact"
                     className="rounded-full bg-amber-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-amber-500/30 transition hover:bg-amber-400"
                   >
                     Start a strategy
                   </a>
                   <a
-                    href="#process"
+                    href="/#process"
                     className="rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white transition hover:border-white/40"
                   >
                     View our process

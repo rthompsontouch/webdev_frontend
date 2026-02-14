@@ -222,13 +222,13 @@ export default function WebDesignPage() {
               </p>
               <div className="flex flex-wrap gap-4">
                 <a
-                  href="#contact"
+                  href="/#contact"
                   className="rounded-full bg-rose-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-rose-500/30 transition hover:bg-rose-400"
                 >
                   Start a project
                 </a>
                 <a
-                  href="#process"
+                  href="/#process"
                   className="rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white transition hover:border-white/40"
                 >
                   View our process

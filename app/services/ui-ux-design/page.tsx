@@ -223,13 +223,13 @@ export default function UiUxDesignPage() {
                 </p>
                 <div className="flex flex-wrap gap-4">
                   <a
-                    href="#contact"
+                    href="/#contact"
                     className="rounded-full bg-sky-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-sky-500/30 transition hover:bg-sky-400"
                   >
                     Start a design sprint
                   </a>
                   <a
-                    href="#process"
+                    href="/#process"
                     className="rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white transition hover:border-white/40"
                   >
                     View our process
