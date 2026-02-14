@@ -35,12 +35,21 @@ export const metadata: Metadata = {
       "We build premium digital experiences for brands that want to stand out and scale.",
     type: "website",
     url: "https://www.thewebprism.com",
+    images: [
+      {
+        url: "/images/hero_image.jpg",
+        width: 1600,
+        height: 900,
+        alt: "TheWebPrism digital design and development studio",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "TheWebPrism | Premium Digital Design & Development",
     description:
       "Premium design and development for ambitious brands in Raleigh and beyond.",
+    images: ["/images/hero_image.jpg"],
   },
 };
 
