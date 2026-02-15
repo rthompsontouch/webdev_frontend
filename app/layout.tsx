@@ -91,9 +91,9 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en">
+    <html lang="en" className="overflow-x-hidden">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased relative bg-black`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased relative bg-black overflow-x-hidden`}
       >
         <script
           type="application/ld+json"
