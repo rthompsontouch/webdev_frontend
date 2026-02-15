@@ -27,6 +27,12 @@ export default function ServiceSection() {
 
   const services: Service[] = [
     {
+      id: "triangle-web-design",
+      title: "Triangle Web Design",
+      description: "Local web design, development, and SEO for Raleigh, Durham, Cary, Apex, and more.",
+      href: "/triangle-web-design",
+    },
+    {
       id: "web-design",
       title: "Web Design",
       description: "Premium websites built for conversion and trust. Strategy, UX, and brand-forward design.",
