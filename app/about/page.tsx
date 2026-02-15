@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   title: "About TheWebPrism | Premium Digital Design & Development",
   description:
     "Learn about TheWebPrism. We are a team of designers and engineers in Raleigh, NC building premium digital experiences for ambitious brands.",
-  keywords: ["about us", "design agency", "web development", "Raleigh NC", "team"],
+  keywords: ["about us", "design agency", "web development", "Raleigh NC"],
   openGraph: {
     title: "About TheWebPrism",
     description:
@@ -62,28 +62,6 @@ const values = [
   },
 ];
 
-const teamMembers = [
-  {
-    name: "Alex Morgan",
-    role: "Founder & Creative Director",
-    bio: "10+ years in digital design and brand strategy. Previously led design teams at Fortune 500 companies.",
-  },
-  {
-    name: "Jordan Lee",
-    role: "Engineering Lead",
-    bio: "Full-stack engineer with expertise in modern web architecture. Shipped 50+ high-performance products.",
-  },
-  {
-    name: "Casey Roberts",
-    role: "Product Designer",
-    bio: "Specialized in UX research and product strategy. Passionate about solving customer problems through design.",
-  },
-  {
-    name: "Morgan Chase",
-    role: "Senior Developer",
-    bio: "React and Node.js specialist. Builds scalable systems with exceptional performance.",
-  },
-];
 
 export default function AboutPage() {
   const organizationJsonLd = {
@@ -215,40 +193,6 @@ export default function AboutPage() {
                     <p className="mt-3 text-base text-white/70">
                       {value.description}
                     </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="px-6 py-20 lg:px-10">
-          <div className="mx-auto max-w-6xl">
-            <div className="space-y-10">
-              <div className="space-y-4">
-                <p className="text-xs font-semibold uppercase tracking-[0.25em] text-rose-200">
-                  Team
-                </p>
-                <h2
-                  className={`${displayFont.className} text-3xl text-white sm:text-4xl`}
-                >
-                  The people behind the work.
-                </h2>
-              </div>
-              <div className="grid gap-6 md:grid-cols-2">
-                {teamMembers.map((member) => (
-                  <div
-                    key={member.name}
-                    className="rounded-2xl border border-white/10 bg-white/5 p-8"
-                  >
-                    <div className="h-16 w-16 rounded-full bg-gradient-to-br from-rose-500 to-orange-500 mb-6" />
-                    <h3 className="text-lg font-semibold text-white">
-                      {member.name}
-                    </h3>
-                    <p className="text-sm uppercase tracking-[0.2em] text-rose-200 font-medium mt-1">
-                      {member.role}
-                    </p>
-                    <p className="mt-4 text-sm text-white/70">{member.bio}</p>
                   </div>
                 ))}
               </div>
