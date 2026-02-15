@@ -197,7 +197,7 @@ export default function TriangleWebDesignPage() {
                   Book a free strategy call
                 </a>
                 <Link
-                  href="/work"
+                  href="/#work"
                   className="rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white/90 transition hover:border-white/40"
                 >
                   See recent work
