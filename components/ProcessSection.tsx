@@ -1,4 +1,6 @@
-import Image from "next/image";
+"use client";
+
+import { useState } from "react";
 import { Fraunces, Plus_Jakarta_Sans } from "next/font/google";
 
 const displayFont = Fraunces({
@@ -19,6 +21,8 @@ interface ProcessStep {
 }
 
 export default function ProcessSection() {
+  const [selectedStep, setSelectedStep] = useState(0);
+
   const processSteps: ProcessStep[] = [
     {
       title: "Discovery",
@@ -39,11 +43,20 @@ export default function ProcessSection() {
       image: "https://images.unsplash.com/photo-1559028012-481c04fa702d?w=600&h=600&fit=crop",
     },
     {
-      title: "Development",
+      title: "Develop",
       subtitle: "Building with Excellence",
       description: "Our developers transform designs into robust, scalable solutions using cutting-edge technologies. We build fast, secure, and maintainable code that grows with your business.",
       image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=600&h=600&fit=crop",
     },
+  ];
+
+  const stepLabels = ["Discovery", "Strat", "Design", "Dev"];
+
+  const stepPositions = [
+    { x: 50, y: 10, angle: -90 },   // Discovery - Top (12 o'clock)
+    { x: 90, y: 50, angle: 0 },     // Strategy - Right (3 o'clock)
+    { x: 50, y: 90, angle: 90 },    // Design - Bottom (6 o'clock)
+    { x: 10, y: 50, angle: 180 },   // Development - Left (9 o'clock)
   ];
 
   return (
@@ -65,40 +78,122 @@ export default function ProcessSection() {
             </p>
           </div>
 
-          <div className="space-y-16">
-            {processSteps.map((step, index) => (
-              <div
-                key={step.title}
-                className={`grid grid-cols-1 lg:grid-cols-2 gap-10 items-center ${
-                  index % 2 === 1 ? "lg:[&>div:first-child]:order-2 lg:[&>div:last-child]:order-1" : ""
-                }`}
-              >
-                <div className="flex flex-col justify-center space-y-4">
-                  <div className="inline-flex items-center gap-3">
-                    <span className="text-4xl font-bold text-rose-200/30">{String(index + 1).padStart(2, "0")}</span>
-                  </div>
-                  <h3 className={`${displayFont.className} text-2xl text-white`}>
-                    {step.title}
-                  </h3>
-                  <p className="text-sm uppercase tracking-[0.2em] text-rose-200 font-semibold">
-                    {step.subtitle}
-                  </p>
-                  <p className="text-base text-white/70">
-                    {step.description}
-                  </p>
-                </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            {/* Circular Process Diagram */}
+            <div className="relative h-[500px] flex items-center justify-center">
+              <svg viewBox="-50 -50 400 400" className="w-full h-full">
+                {/* Background circle */}
+                <circle
+                  cx="150"
+                  cy="150"
+                  r="100"
+                  fill="none"
+                  stroke="rgba(255,255,255,0.05)"
+                  strokeWidth="2"
+                />
+                
+                {/* Progress arc */}
+                <circle
+                  cx="150"
+                  cy="150"
+                  r="100"
+                  fill="none"
+                  stroke="#fda4af"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                  strokeDasharray={`${((selectedStep + 1) / 4) * 628} 628`}
+                  transform="rotate(-90 150 150)"
+                  className="transition-all duration-700"
+                />
+                
+                {/* Center circle */}
+                <circle
+                  cx="150"
+                  cy="150"
+                  r="70"
+                  fill="rgba(244,63,94,0.05)"
+                  stroke="rgba(244,63,94,0.2)"
+                  strokeWidth="1"
+                />
+                
+                {/* Step indicators */}
+                {stepPositions.map((pos, index) => {
+                  const isSelected = selectedStep === index;
+                  const angle = (pos.angle * Math.PI) / 180;
+                  const x = 150 + 100 * Math.cos(angle);
+                  const y = 150 + 100 * Math.sin(angle);
+                  
+                  return (
+                    <g key={index}>
+                      {/* Step circle */}
+                      <circle
+                        cx={x}
+                        cy={y}
+                        r={isSelected ? "32" : "28"}
+                        fill={isSelected ? "#fda4af" : "rgba(253, 164, 175, 0.3)"}
+                        className="cursor-pointer transition-all duration-300"
+                        onClick={() => setSelectedStep(index)}
+                        onMouseEnter={() => setSelectedStep(index)}
+                      />
+                      
+                      {/* Step title */}
+                      <text
+                        x={x}
+                        y={y + 4}
+                        textAnchor="middle"
+                        className={`text-[10px] font-bold uppercase tracking-wide transition-all duration-300 ${
+                          isSelected ? 'fill-slate-900' : 'fill-white'
+                        }`}
+                        style={{ fontFamily: 'inherit', pointerEvents: 'none' }}
+                      >
+                        {processSteps[index].title}
+                      </text>
+                    </g>
+                  );
+                })}
+                
+                {/* Center step number */}
+                <text
+                  x="150"
+                  y="158"
+                  textAnchor="middle"
+                  dominantBaseline="middle"
+                  className="text-6xl font-bold fill-rose-200/30"
+                  style={{ fontFamily: 'inherit' }}
+                >
+                  {String(selectedStep + 1).padStart(2, '0')}
+                </text>
+              </svg>
+            </div>
 
-                <div className="relative h-80 rounded-2xl overflow-hidden border border-white/10">
-                  <Image
-                    src={step.image}
-                    alt={step.title}
-                    fill
-                    className="object-cover"
-                    unoptimized
-                  />
-                </div>
+            {/* Step Details */}
+            <div className="space-y-6">
+              <div className="space-y-4">
+                <h3 className={`${displayFont.className} text-3xl text-white`}>
+                  {processSteps[selectedStep].title}
+                </h3>
+                <p className="text-base uppercase tracking-[0.2em] text-rose-200 font-semibold">
+                  {processSteps[selectedStep].subtitle}
+                </p>
+                <p className="text-base text-white/70">
+                  {processSteps[selectedStep].description}
+                </p>
               </div>
-            ))}
+
+              {/* Step navigation dots */}
+              <div className="flex gap-3 pt-4">
+                {processSteps.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setSelectedStep(index)}
+                    className={`h-2 rounded-full transition-all duration-300 ${
+                      selectedStep === index ? 'w-12 bg-rose-200' : 'w-2 bg-white/20'
+                    }`}
+                    aria-label={`Go to step ${index + 1}`}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>
