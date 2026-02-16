@@ -68,6 +68,18 @@ export default function ServiceSection() {
       description: "Strategic guidance for growth-stage teams. Roadmaps, audits, and alignment workshops.",
       href: "/services/digital-consulting",
     },
+    {
+      id: "marketing",
+      title: "Marketing",
+      description: "Data-driven campaigns that drive growth. From strategy to execution across all channels.",
+      href: "/services/marketing",
+    },
+    {
+      id: "seo-optimization",
+      title: "SEO Optimization",
+      description: "Technical and content SEO that ranks. Organic visibility and sustainable traffic growth.",
+      href: "/services/seo-optimization",
+    },
   ];
 
   useEffect(() => {
@@ -124,9 +136,12 @@ export default function ServiceSection() {
                   {service.title}
                 </h3>
                 <p className="mt-3 text-sm text-white/70">{service.description}</p>
-                <div className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-rose-200 group-hover:translate-x-1 transition">
-                  Learn More
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-rose-200 transition">
+                  <span className="relative inline-block">
+                    Learn More
+                    <span className="absolute left-0 bottom-0 h-0.5 w-0 bg-rose-200 transition-all duration-300 ease-out group-hover:w-full" />
+                  </span>
+                  <svg className="w-4 h-4 group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 </div>

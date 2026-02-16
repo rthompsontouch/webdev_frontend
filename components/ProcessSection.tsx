@@ -50,8 +50,6 @@ export default function ProcessSection() {
     },
   ];
 
-  const stepLabels = ["Discovery", "Strat", "Design", "Dev"];
-
   const stepPositions = [
     { x: 50, y: 10, angle: -90 },   // Discovery - Top (12 o'clock)
     { x: 90, y: 50, angle: 0 },     // Strategy - Right (3 o'clock)

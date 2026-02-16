@@ -59,6 +59,8 @@ export default function ContactForm() {
     "Mobile App",
     "UI/UX Design",
     "Consulting",
+    "Marketing",
+    "SEO Optimization",
     "Other",
   ];
 
