@@ -12,6 +12,7 @@ const routes = [
   "/services/web-design",
   "/services/web-development",
   "/triangle-web-design",
+  "/work/builders-hardware",
   "/work/ge",
   "/work/mcbrier-properties",
   "/work/pppacerie",

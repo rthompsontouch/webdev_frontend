@@ -37,6 +37,17 @@ export default function OurWork() {
       slug: "pppacerie",
     },
     {
+      title: "Builders Hardware",
+      subtitle: "Enterprise web platform and integration suite",
+      description:
+        "Multiple website redesigns with custom bridge applications connecting internal systems and a PCI compliance program to secure sensitive data.",
+      stack: ["Full-Stack Development", "System Integration", "PCI Compliance", "Database Security"],
+      image: "/images/our-work/builders_hardware/builders_desktop.png",
+      secondaryImage: "/images/our-work/builders_hardware/builders_mobile.png",
+      tabletImage: "/images/our-work/builders_hardware/builders_tablet.png",
+      slug: "builders-hardware",
+    },
+    {
       title: "GE",
       subtitle: "Enterprise brand and digital platform",
       description:
