@@ -105,9 +105,9 @@ export default function ServiceSection() {
     <section
       id="services"
       ref={sectionRef}
-      className={`${bodyFont.className} relative px-6 py-20 lg:px-10 text-zinc-100`}
+      className={`${bodyFont.className} relative px-6 py-6 md:py-8 lg:px-10 text-zinc-100 md:min-h-[calc(100vh-4rem)] md:flex md:items-center scroll-mt-16`}
     >
-      <div className="mx-auto max-w-6xl">
+      <div className="mx-auto max-w-6xl w-full">
         <div className="space-y-10">
           <div className="space-y-4">
             <div className="inline-block">

@@ -3,10 +3,13 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState("");
+  const pathname = usePathname();
 
   const navLinks = [
     { name: "Services", href: "/#services" },
@@ -19,6 +22,24 @@ export default function Navbar() {
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 8);
+      
+      // Determine which section is currently most visible
+      const sections = ["services", "work", "process", "contact"];
+      const scrollPosition = window.scrollY + 100; // Offset for navbar
+      
+      for (const sectionId of sections) {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          const { top, bottom } = element.getBoundingClientRect();
+          const elementTop = top + window.scrollY;
+          const elementBottom = bottom + window.scrollY;
+          
+          if (scrollPosition >= elementTop && scrollPosition < elementBottom) {
+            setActiveSection(`#${sectionId}`);
+            break;
+          }
+        }
+      }
     };
 
     handleScroll();
@@ -27,11 +48,19 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const isActive = (href: string) => {
+    if (href.startsWith("/#")) {
+      const hash = href.substring(1); // e.g., "#services"
+      return activeSection === hash;
+    }
+    return pathname === href;
+  };
+
   return (
     <nav
-      className={`fixed inset-x-0 top-0 z-50 border-b transition-colors duration-300 ${
+      className={`fixed inset-x-0 top-0 z-50 border-b transition-all duration-300 shadow-md ${
         isScrolled
-          ? "bg-white border-gray-200"
+          ? "bg-black/80 backdrop-blur-sm border-white/10"
           : "bg-transparent border-transparent"
       }`}
     >
@@ -40,7 +69,7 @@ export default function Navbar() {
             {/* Logo */}
             <Link href="/" className="flex-shrink-0">
               <Image
-                src={isScrolled ? "/images/logo/Logo.png" : "/images/logo/Logo_white.png"}
+                src="/images/logo/Logo_white.png"
                 alt="Logo"
                 width={140}
                 height={36}
@@ -58,12 +87,17 @@ export default function Navbar() {
                   className={
                     link.name === "Contact"
                       ? "px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700 transition-colors font-medium"
-                      : isScrolled
-                        ? "text-gray-700 hover:text-black transition-colors font-medium"
-                        : "text-white/90 hover:text-white transition-colors font-medium"
+                      : "text-white/90 hover:text-white transition-colors font-medium relative group"
                   }
                 >
                   {link.name}
+                  {link.name !== "Contact" && (
+                    <span 
+                      className={`absolute bottom-0 left-0 h-0.5 bg-white rounded-full transition-all duration-300 ${
+                        isActive(link.href) ? 'w-full' : 'w-0 group-hover:w-full'
+                      }`}
+                    />
+                  )}
                 </Link>
               ))}
             </div>
@@ -72,11 +106,7 @@ export default function Navbar() {
             <div className="md:hidden">
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className={`inline-flex items-center justify-center p-2 rounded-md focus:outline-none transition-colors ${
-                  isScrolled
-                    ? "text-gray-700 hover:bg-gray-100"
-                    : "text-white hover:bg-white/10"
-                }`}
+                className="inline-flex items-center justify-center p-2 rounded-md focus:outline-none transition-colors text-white hover:bg-white/10"
               >
                 <svg
                   className="h-6 w-6"
@@ -107,7 +137,7 @@ export default function Navbar() {
 
         {/* Mobile menu */}
         {isOpen && (
-          <div className="md:hidden bg-white">
+          <div className="md:hidden bg-slate-900/95 backdrop-blur-sm">
             <div className="px-2 pt-2 pb-3 space-y-1">
               {navLinks.map((link) => (
                 <Link
@@ -116,7 +146,7 @@ export default function Navbar() {
                   className={
                     link.name === "Contact"
                       ? "block px-3 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700 transition-colors font-medium"
-                      : "block px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100 transition-colors font-medium"
+                      : "block px-3 py-2 rounded-md text-white/90 hover:bg-white/10 transition-colors font-medium"
                   }
                   onClick={() => setIsOpen(false)}
                 >

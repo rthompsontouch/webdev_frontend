@@ -58,10 +58,10 @@ export default function ProcessSection() {
   ];
 
   return (
-    <section id="process" className={`${bodyFont.className} relative px-6 py-20 lg:px-10 text-zinc-100`}>
-      <div className="mx-auto max-w-6xl">
-        <div className="space-y-10">
-          <div className="space-y-4">
+    <section id="process" className={`${bodyFont.className} relative px-6 py-6 lg:px-10 md:py-0 text-zinc-100 md:min-h-[calc(100vh-4rem)] md:flex md:items-center scroll-mt-16`}>
+      <div className="mx-auto max-w-6xl w-full">
+        <div className="space-y-6 md:space-y-8">
+          <div className="space-y-3 md:space-y-4">
             <div className="inline-block">
               <p className="text-xs font-semibold uppercase tracking-[0.25em] text-rose-200">
                 Our Process
@@ -76,9 +76,9 @@ export default function ProcessSection() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
             {/* Circular Process Diagram */}
-            <div className="relative h-[500px] flex items-center justify-center">
+            <div className="relative h-[400px] md:h-[450px] flex items-center justify-center">
               <svg viewBox="-50 -50 400 400" className="w-full h-full">
                 {/* Background circle */}
                 <circle
@@ -165,8 +165,8 @@ export default function ProcessSection() {
             </div>
 
             {/* Step Details */}
-            <div className="space-y-6">
-              <div className="space-y-4">
+            <div className="space-y-4 md:space-y-5">
+              <div className="space-y-3">
                 <h3 className={`${displayFont.className} text-3xl text-white`}>
                   {processSteps[selectedStep].title}
                 </h3>
@@ -179,7 +179,7 @@ export default function ProcessSection() {
               </div>
 
               {/* Step navigation dots */}
-              <div className="flex gap-3 pt-4">
+              <div className="flex gap-3 pt-3">
                 {processSteps.map((_, index) => (
                   <button
                     key={index}
