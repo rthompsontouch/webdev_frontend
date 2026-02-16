@@ -51,12 +51,12 @@ export const metadata: Metadata = {
 export default function McBrierPropertiesCaseStudy() {
   return (
     <main className={`${bodyFont.className} bg-white text-slate-900`}>
-      <section className="bg-slate-950 px-6 pb-16 pt-20 text-white lg:px-10">
+      <section className="px-6 pb-16 pt-20 text-white lg:px-10" style={{ backgroundColor: 'rgb(50, 102, 102)' }}>
         <div className="mx-auto max-w-6xl space-y-10">
           <div className="space-y-4">
-            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-rose-200">Case Study</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.25em]" style={{ color: '#ffb380' }}>Case Study</p>
             <h1 className={`${displayFont.className} text-3xl text-white sm:text-4xl lg:text-5xl`}>McBrier Properties</h1>
-            <p className={`${displayFont.className} text-sm uppercase tracking-[0.25em] text-rose-200`}>
+            <p className={`${displayFont.className} text-sm uppercase tracking-[0.25em]`} style={{ color: '#ffb380' }}>
               WordPress real estate site
             </p>
             <p className="text-lg text-slate-200 max-w-3xl">

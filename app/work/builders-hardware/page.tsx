@@ -52,14 +52,14 @@ export const metadata: Metadata = {
 export default function BuildersHardwareCaseStudy() {
   return (
     <main className={`${bodyFont.className} bg-white text-slate-900`}>
-      <section className="bg-slate-950 px-6 pb-16 pt-20 text-white lg:px-10">
+      <section className="px-6 pb-16 pt-20 text-white lg:px-10" style={{ backgroundColor: 'rgba(0, 66, 112, 1.0)' }}>
         <div className="mx-auto max-w-6xl space-y-10">
           <div className="space-y-4">
-            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-rose-200">Case Study</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.25em]" style={{ color: 'rgb(255, 210, 170)' }}>Case Study</p>
             <h1 className={`${displayFont.className} text-3xl text-white sm:text-4xl lg:text-5xl`}>
               Builders Hardware
             </h1>
-            <p className={`${displayFont.className} text-sm uppercase tracking-[0.25em] text-rose-200`}>
+            <p className={`${displayFont.className} text-sm uppercase tracking-[0.25em]`} style={{ color: 'rgb(255, 210, 170)' }}>
               Enterprise web platform and integration suite
             </p>
             <p className="text-lg text-slate-200 max-w-3xl">

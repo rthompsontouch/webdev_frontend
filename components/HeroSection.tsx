@@ -27,9 +27,12 @@ export default function HeroSection() {
         <div className="max-w-6xl w-full mx-auto px-6 sm:px-6 lg:px-10">
           <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-12 items-center">
             <div className="flex flex-col justify-center space-y-6">
-              <p className="text-xs font-semibold uppercase tracking-[0.25em] text-rose-200">
-                Premium Digital Design & Development
-              </p>
+              <div className="inline-block">
+                <p className="text-xs font-semibold uppercase tracking-[0.25em] text-rose-200">
+                  Premium Digital Design & Development
+                </p>
+                <div className="mt-2 h-0.5 w-16 rounded-full bg-rose-200" />
+              </div>
               <h1 className={`${displayFont.className} text-4xl leading-tight text-white sm:text-5xl lg:text-6xl`}>
                 Build digital products that feel unmistakable.
               </h1>
@@ -57,7 +60,7 @@ export default function HeroSection() {
                 Quick Contact
               </p>
               <h2 className="mt-3 text-2xl font-semibold text-white">
-                Let's talk about your next project
+                Let&apos;s talk about your next project
               </h2>
               <div className="mt-6">
                 <ContactForm />

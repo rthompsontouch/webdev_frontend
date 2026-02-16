@@ -98,9 +98,12 @@ export default function ServiceSection() {
       <div className="mx-auto max-w-6xl">
         <div className="space-y-10">
           <div className="space-y-4">
-            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-rose-200">
-              Services
-            </p>
+            <div className="inline-block">
+              <p className="text-xs font-semibold uppercase tracking-[0.25em] text-rose-200">
+                Services
+              </p>
+              <div className="mt-2 h-0.5 w-16 rounded-full bg-rose-200" />
+            </div>
             <h2 className={`${displayFont.className} text-3xl text-white sm:text-4xl`}>
               Everything you need to launch and scale digital products.
             </h2>

@@ -13,14 +13,14 @@ export default function BrandsCarousel() {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const brands = [
+    "February-Valentines-Day-2-300x284.png.webp",
+    "logo3.png",
+    "McBrier_Properties_Group_Logo.png",
+    "paragon-logo.png",
+    "wikimediaimages-google-1015751_640.png",
     "160355_154794_full-color-horizontal.png",
     "256px-Amazon_logo.svg.png",
     "666379_maleno_50years_logo.png",
-    "February-Valentines-Day-2-300x284.png.webp",
-    "logo3.png",
-    "McBrier_Properties_Group_Logo.gif",
-    "paragon-logo.jpg",
-    "wikimediaimages-google-1015751_640.png",
   ].map((fileName) => ({
     src: `/images/brands/${fileName}`,
     name: fileName
@@ -42,16 +42,19 @@ export default function BrandsCarousel() {
   };
 
   return (
-    <section className={`${bodyFont.className} relative bg-white px-6 py-10 pb-14 lg:px-10 text-slate-600`}>
+    <section className={`${bodyFont.className} relative bg-slate-900 px-6 py-10 pb-14 lg:px-10 text-white`}>
       <div className="max-w-6xl mx-auto">
-        <p className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-500 text-center mb-8">
-          Trusted by leading brands
-        </p>
+        <div className="flex flex-col items-center mb-8">
+          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-300 text-center">
+            Trusted by leading brands
+          </p>
+          <div className="mt-2 h-0.5 w-16 rounded-full bg-rose-200" />
+        </div>
 
         <div className="flex items-center gap-4">
           <button
             onClick={() => scroll("left")}
-            className="hidden md:flex flex-shrink-0 items-center justify-center w-10 h-10 rounded-lg border border-slate-200 hover:border-slate-300 text-slate-500 hover:text-slate-900 transition-all"
+            className="hidden md:flex flex-shrink-0 items-center justify-center w-10 h-10 rounded-lg border border-white/20 hover:border-white/40 text-slate-400 hover:text-white transition-all"
             aria-label="Scroll left"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -67,15 +70,15 @@ export default function BrandsCarousel() {
             {brands.map((brand) => (
               <div
                 key={brand.src}
-                className="flex-shrink-0 h-16 flex items-center justify-center hover:opacity-100 opacity-70 transition-opacity"
+                className="flex-shrink-0 h-20 w-40 flex items-center justify-center hover:opacity-100 opacity-70 transition-opacity"
                 title={brand.name}
               >
                 <Image
                   src={brand.src}
                   alt={brand.name}
-                  width={120}
-                  height={64}
-                  className="h-full w-auto object-contain"
+                  width={150}
+                  height={80}
+                  className="max-h-full max-w-full w-auto h-auto object-contain"
                   unoptimized
                 />
               </div>
@@ -84,7 +87,7 @@ export default function BrandsCarousel() {
 
           <button
             onClick={() => scroll("right")}
-            className="hidden md:flex flex-shrink-0 items-center justify-center w-10 h-10 rounded-lg border border-slate-200 hover:border-slate-300 text-slate-500 hover:text-slate-900 transition-all"
+            className="hidden md:flex flex-shrink-0 items-center justify-center w-10 h-10 rounded-lg border border-white/20 hover:border-white/40 text-slate-400 hover:text-white transition-all"
             aria-label="Scroll right"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
