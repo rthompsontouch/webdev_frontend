@@ -30,13 +30,13 @@ export default function ProcessSection() {
       title: "Strategy",
       subtitle: "Planning for Success",
       description: "With insights in hand, we craft a comprehensive roadmap. We define the user experience, technical architecture, and design direction that will bring your vision to life.",
-      image: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=600&h=600&fit=crop",
+      image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&h=600&fit=crop",
     },
     {
       title: "Design",
       subtitle: "Creating Beautiful Solutions",
       description: "Our designers create stunning, intuitive interfaces that balance aesthetics with functionality. Every pixel is purposeful, every interaction thoughtful.",
-      image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600&h=600&fit=crop",
+      image: "https://images.unsplash.com/photo-1559028012-481c04fa702d?w=600&h=600&fit=crop",
     },
     {
       title: "Development",
