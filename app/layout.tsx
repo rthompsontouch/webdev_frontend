@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import HomeScrollWrapper from "@/components/HomeScrollWrapper";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -138,12 +137,8 @@ export default function RootLayout({
         </div>
 
 
-        {/* Content layer */}
-        <div className="relative z-10">
-          <Navbar />
-          {children}
-          <Footer />
-        </div>
+        {/* Content layer - HomeScrollWrapper handles scroll snap on homepage */}
+        <HomeScrollWrapper>{children}</HomeScrollWrapper>
       </body>
     </html>
   );

@@ -72,3 +72,18 @@ body {
 .animate-pulse-slow {
   animation: pulse-slow 4s ease-in-out infinite;
 }
+
+/* Homepage scroll snap: tablet and desktop only - uses dedicated scroll container */
+@media (min-width: 768px) {
+  .home-scroll-container {
+    scroll-snap-type: y mandatory;
+  }
+
+  /* scroll-margin-top accounts for fixed navbar (h-16 = 4rem) */
+  .home-scroll-container main > *,
+  .home-scroll-container footer {
+    scroll-snap-align: start;
+    scroll-snap-stop: normal;
+    scroll-margin-top: 4rem;
+  }
+}

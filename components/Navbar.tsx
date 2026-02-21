@@ -20,21 +20,24 @@ export default function Navbar() {
   ];
 
   useEffect(() => {
+    // On homepage, scroll happens inside .home-scroll-container, not window
+    const scrollContainer = document.querySelector(".home-scroll-container") ?? window;
+
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 8);
-      
-      // Determine which section is currently most visible
+      const scrollTop = scrollContainer === window
+        ? window.scrollY
+        : (scrollContainer as HTMLElement).scrollTop;
+      setIsScrolled(scrollTop > 8);
+
+      // Determine which section is currently most visible (getBoundingClientRect works for both window and scroll-container scroll)
       const sections = ["services", "work", "process", "contact"];
-      const scrollPosition = window.scrollY + 100; // Offset for navbar
-      
+      const viewportOffset = 150;
+
       for (const sectionId of sections) {
         const element = document.getElementById(sectionId);
         if (element) {
-          const { top, bottom } = element.getBoundingClientRect();
-          const elementTop = top + window.scrollY;
-          const elementBottom = bottom + window.scrollY;
-          
-          if (scrollPosition >= elementTop && scrollPosition < elementBottom) {
+          const rect = element.getBoundingClientRect();
+          if (rect.top <= viewportOffset && rect.bottom > viewportOffset) {
             setActiveSection(`#${sectionId}`);
             break;
           }
@@ -43,10 +46,10 @@ export default function Navbar() {
     };
 
     handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
+    scrollContainer.addEventListener("scroll", handleScroll, { passive: true });
 
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    return () => scrollContainer.removeEventListener("scroll", handleScroll);
+  }, [pathname]);
 
   const isActive = (href: string) => {
     if (href.startsWith("/#")) {
