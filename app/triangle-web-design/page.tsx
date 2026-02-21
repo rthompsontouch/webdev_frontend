@@ -14,24 +14,26 @@ const bodyFont = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Triangle Web Design | Raleigh, Durham, Cary, Apex, Holly Springs, Fuquay",
+  title: "Web Design Cary NC | Raleigh, Durham, Triangle | TheWebPrism",
   description:
-    "Premium web design, web development, and SEO optimization for Triangle businesses. Serving Raleigh, Durham, Cary, Apex, Holly Springs, and Fuquay-Varina with conversion-focused sites.",
+    "Web design Cary NC, Raleigh, Durham, Apex, Holly Springs & Fuquay-Varina. Premium websites and SEO for Triangle businesses. Conversion-focused design and development.",
   keywords: [
+    "web design Cary NC",
+    "web design Raleigh NC",
+    "web design Durham NC",
+    "web design Apex NC",
+    "web design Holly Springs NC",
+    "web design Fuquay Varina NC",
     "triangle web design",
     "raleigh web design",
-    "durham web design",
     "cary web design",
-    "apex web design",
-    "holly springs web design",
-    "fuquay varina web design",
-    "web development",
-    "seo optimization",
+    "web development Triangle",
+    "seo optimization NC",
   ],
   openGraph: {
-    title: "Triangle Web Design | Premium Design + Development",
+    title: "Web Design Cary NC | Raleigh, Durham, Triangle | TheWebPrism",
     description:
-      "Conversion-focused web design, development, and SEO for Triangle-area brands in Raleigh, Durham, Cary, Apex, Holly Springs, and Fuquay-Varina.",
+      "Web design Cary NC, Raleigh, Durham, Apex, Holly Springs & Fuquay-Varina. Premium conversion-focused websites for Triangle businesses.",
     type: "website",
     images: [
       {
@@ -44,10 +46,13 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Triangle Web Design | Premium Design + Development",
+    title: "Web Design Cary NC | Raleigh, Durham, Triangle | TheWebPrism",
     description:
-      "Conversion-focused web design, development, and SEO for Triangle-area brands.",
+      "Web design Cary NC, Raleigh, Durham, Apex & the Triangle. Premium websites for local businesses.",
     images: ["https://www.thewebprism.com/images/hero_image.jpg"],
+  },
+  alternates: {
+    canonical: "https://www.thewebprism.com/triangle-web-design",
   },
 };
 
@@ -142,18 +147,23 @@ export default function TriangleWebDesignPage() {
   const serviceSchema = {
     "@context": "https://schema.org",
     "@type": "Service",
-    name: "Triangle Web Design",
+    name: "Web Design Cary NC, Raleigh, Durham, Triangle",
     serviceType: "Web Design",
+    provider: {
+      "@type": "LocalBusiness",
+      name: "TheWebPrism",
+      url: "https://www.thewebprism.com",
+    },
     areaServed: [
-      "Raleigh, NC",
-      "Durham, NC",
-      "Cary, NC",
-      "Apex, NC",
-      "Holly Springs, NC",
-      "Fuquay-Varina, NC",
+      { "@type": "City", name: "Raleigh", containedInPlace: { "@type": "State", name: "North Carolina" } },
+      { "@type": "City", name: "Durham", containedInPlace: { "@type": "State", name: "North Carolina" } },
+      { "@type": "City", name: "Cary", containedInPlace: { "@type": "State", name: "North Carolina" } },
+      { "@type": "City", name: "Apex", containedInPlace: { "@type": "State", name: "North Carolina" } },
+      { "@type": "City", name: "Holly Springs", containedInPlace: { "@type": "State", name: "North Carolina" } },
+      { "@type": "City", name: "Fuquay-Varina", containedInPlace: { "@type": "State", name: "North Carolina" } },
     ],
     description:
-      "Premium web design, web development, and SEO optimization for Triangle-area businesses.",
+      "Premium web design, web development, and SEO optimization for Triangle-area businesses in Raleigh, Durham, Cary, Apex, Holly Springs, and Fuquay-Varina, NC.",
   };
 
   return (
@@ -182,7 +192,7 @@ export default function TriangleWebDesignPage() {
                 Triangle Web Design
               </p>
               <h1 className={`${displayFont.className} text-4xl text-white sm:text-5xl`}>
-                Premium web design, development, and SEO for the Triangle.
+                Web design Cary NC, Raleigh, Durham & the Triangle.
               </h1>
               <p className="text-base text-white/70">
                 We help Triangle-area businesses launch websites that load fast, rank locally, and turn visitors into
@@ -246,7 +256,7 @@ export default function TriangleWebDesignPage() {
               Service Areas
             </p>
             <h2 className={`${displayFont.className} text-3xl text-white sm:text-4xl`}>
-              Serving the Triangle with local expertise.
+              Web design Raleigh NC, Cary NC, Durham NC & the Triangle.
             </h2>
             <p className="text-base text-white/70">
               We build websites for teams across the Triangle region. Each city has its own market and customer
@@ -260,7 +270,7 @@ export default function TriangleWebDesignPage() {
                 key={area.name}
                 className="rounded-2xl border border-white/10 bg-white/5 p-6"
               >
-                <h3 className={`${displayFont.className} text-xl text-white`}>{area.name}</h3>
+                <h3 className={`${displayFont.className} text-xl text-white`}>Web Design {area.name} NC</h3>
                 <p className="mt-3 text-sm text-white/70">{area.description}</p>
               </div>
             ))}

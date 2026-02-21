@@ -13,17 +13,20 @@ const bodyFont = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Web Design Services | Premium UX and Brand-First Websites",
+  title: "Web Design Services | Raleigh, Cary, Durham | TheWebPrism",
   description:
-    "Professional web design services for growth-minded brands. Strategy, UX, UI, and conversion-focused sites that feel premium and perform fast.",
+    "Professional web design for Raleigh, Cary, Durham & the Triangle. Strategy, UX, UI, and conversion-focused sites for North Carolina businesses.",
   keywords: [
     "web design services",
+    "web design Raleigh NC",
+    "web design Cary NC",
+    "web design Durham NC",
     "professional web design",
     "ux ui design",
     "brand websites",
     "conversion focused design",
     "responsive web design",
-    "design agency",
+    "design agency Triangle",
   ],
   openGraph: {
     title: "Web Design Services | Premium UX and Brand-First Websites",

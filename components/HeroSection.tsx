@@ -34,10 +34,10 @@ export default function HeroSection() {
                 <div className="mt-2 h-0.5 w-16 rounded-full bg-rose-200" />
               </div>
               <h1 className={`${displayFont.className} text-4xl leading-tight text-white sm:text-5xl lg:text-6xl`}>
-                Build digital products that feel unmistakable.
+                Web design and development for Raleigh, Cary & the Triangle.
               </h1>
               <p className="max-w-xl text-lg text-zinc-200">
-                We craft premium websites, apps, and digital experiences for ambitious brands. From strategy to pixel-perfect delivery.
+                We craft premium websites, apps, and digital experiences for Triangle-area businesses. Raleigh, Durham, Cary, Apex, Holly Springs & Fuquay-Varina.
               </p>
               <div className="flex flex-wrap gap-4 pt-4">
                 <Link

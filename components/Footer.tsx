@@ -47,11 +47,24 @@ export default function Footer() {
           {/* Tagline and Copyright */}
           <div className="text-center md:text-left">
             <p className="text-gray-700 dark:text-gray-300 font-medium mb-2">
-              Building digital solutions for tomorrow
+              Web design Raleigh, Cary, Durham & the Triangle
             </p>
             <p className="text-sm text-gray-500 dark:text-gray-400">
-              &copy; {currentYear} All rights reserved.
+              &copy; {currentYear} TheWebPrism. Serving Raleigh, Cary, Durham, Apex, Holly Springs & Fuquay-Varina, NC.
             </p>
+          </div>
+
+          {/* Local SEO Links */}
+          <div className="flex flex-wrap items-center justify-center gap-4 text-sm">
+            <a href="/triangle-web-design" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">
+              Web Design Cary NC
+            </a>
+            <a href="/triangle-web-design" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">
+              Web Design Raleigh NC
+            </a>
+            <a href="/services/web-design" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">
+              Web Design Services
+            </a>
           </div>
 
           {/* Social Links */}
