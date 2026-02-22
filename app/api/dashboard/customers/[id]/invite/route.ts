@@ -24,15 +24,20 @@ async function saveInviteToken(
 const escapeHtml = (s: string) =>
   s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
-function getBaseUrl() {
-  const url = process.env.APP_URL || process.env.NEXT_PUBLIC_APP_URL;
-  if (url) return url.replace(/\/$/, "");
+function getBaseUrl(request: Request): string {
+  const appUrl = process.env.APP_URL || process.env.NEXT_PUBLIC_APP_URL;
+  if (appUrl) return appUrl.replace(/\/$/, "");
+  const host = request.headers.get("x-forwarded-host") || request.headers.get("host") || "";
+  if (host && !host.includes("vercel.app")) {
+    const proto = request.headers.get("x-forwarded-proto") || "https";
+    return `${proto}://${host}`.replace(/\/$/, "");
+  }
   if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
   return "http://localhost:3000";
 }
 
 export async function POST(
-  _request: Request,
+  request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const apiKey = process.env.RESEND_API_KEY;
@@ -68,7 +73,7 @@ export async function POST(
     const token = randomBytes(32).toString("hex");
     const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days
 
-    const portalUrl = `${getBaseUrl()}/portal/invite/${token}`;
+    const portalUrl = `${getBaseUrl(request)}/portal/invite/${token}`;
     const resend = new Resend(apiKey);
 
     const safeName = escapeHtml(customer.name);
