@@ -11,8 +11,7 @@ async function saveInviteToken(
   expiresAt: Date
 ) {
   const conn = await connectDB();
-  const db = conn.connection.db;
-  if (!db) throw new Error("Database connection not ready");
+  const db = conn.connection.db!;
   const result = await db
     .collection("customers")
     .updateOne(

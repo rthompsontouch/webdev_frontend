@@ -62,6 +62,15 @@ export default function HeroSection() {
               <h2 className="mt-3 text-2xl font-semibold text-white">
                 Let&apos;s talk about your next project
               </h2>
+              <p className="mt-2 text-sm text-zinc-400">
+                Prefer to call?{" "}
+                <a
+                  href="tel:+19193466039"
+                  className="font-medium text-rose-300 hover:text-rose-200 transition-colors"
+                >
+                  (919) 346-6039
+                </a>
+              </p>
               <div className="mt-6">
                 <ContactForm />
               </div>

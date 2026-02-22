@@ -70,7 +70,7 @@ export default function AboutPage() {
     name: "TheWebPrism",
     url: "https://thewebprism.com",
     description: "Premium digital design and development studio",
-    telephone: "+1-910-403-9019",
+    telephone: "+1-919-346-6039",
     address: {
       "@type": "PostalAddress",
       addressLocality: "Raleigh",
@@ -225,10 +225,10 @@ export default function AboutPage() {
                     </a>
                     <span className="text-white/40">•</span>
                     <a
-                      href="tel:+19104039019"
+                      href="tel:+19193466039"
                       className="text-rose-200 hover:text-rose-100 font-semibold transition-colors"
                     >
-                      +1 (910) 403-9019
+                      +1 (919) 346-6039
                     </a>
                   </div>
                 </div>

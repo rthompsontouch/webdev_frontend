@@ -67,7 +67,7 @@ export default function RootLayout({
         "@type": "Organization",
         name: "TheWebPrism",
         url: "https://www.thewebprism.com",
-        telephone: "+1-910-403-9019",
+        telephone: "+1-919-346-6039",
         areaServed: [
           { "@type": "City", name: "Raleigh", containedInPlace: { "@type": "State", name: "North Carolina" } },
           { "@type": "City", name: "Durham", containedInPlace: { "@type": "State", name: "North Carolina" } },
@@ -82,7 +82,7 @@ export default function RootLayout({
         name: "TheWebPrism",
         description: "Premium web design, web development, and SEO optimization for Triangle-area businesses in Raleigh, Durham, Cary, Apex, Holly Springs, and Fuquay-Varina, NC.",
         url: "https://www.thewebprism.com",
-        telephone: "+1-910-403-9019",
+        telephone: "+1-919-346-6039",
         priceRange: "$$$",
         address: {
           "@type": "PostalAddress",
