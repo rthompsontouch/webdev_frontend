@@ -12,7 +12,7 @@ export async function POST(
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return NextResponse.json({ error: "Lead not found" }, { status: 404 });
     }
-    const lead = await Lead.findById(id).lean();
+    const lead = await Lead.findById(id).lean() as { name: string; email: string; company?: string; phone?: string; notes?: string } | null;
     if (!lead) {
       return NextResponse.json({ error: "Lead not found" }, { status: 404 });
     }
