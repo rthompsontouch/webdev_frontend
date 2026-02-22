@@ -30,7 +30,7 @@ export async function GET(
     if (!customer) {
       return NextResponse.json({ error: "Customer not found" }, { status: 404 });
     }
-    return NextResponse.json(toCustomerDoc(customer as Parameters<typeof toCustomerDoc>[0]));
+    return NextResponse.json(toCustomerDoc(customer as unknown as Parameters<typeof toCustomerDoc>[0]));
   } catch (error) {
     console.error("Customer GET error:", error);
     return NextResponse.json({ error: "Failed to fetch customer" }, { status: 500 });
@@ -64,7 +64,7 @@ export async function PATCH(
     if (!customer) {
       return NextResponse.json({ error: "Customer not found" }, { status: 404 });
     }
-    return NextResponse.json(toCustomerDoc(customer as Parameters<typeof toCustomerDoc>[0]));
+    return NextResponse.json(toCustomerDoc(customer as unknown as Parameters<typeof toCustomerDoc>[0]));
   } catch (error) {
     console.error("Customer PATCH error:", error);
     return NextResponse.json({ error: "Failed to update customer" }, { status: 500 });

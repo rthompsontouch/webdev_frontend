@@ -31,7 +31,7 @@ export async function GET(
     if (!project) {
       return NextResponse.json({ error: "Project not found" }, { status: 404 });
     }
-    return NextResponse.json(toProjectDoc(project as Parameters<typeof toProjectDoc>[0]));
+    return NextResponse.json(toProjectDoc(project as unknown as Parameters<typeof toProjectDoc>[0]));
   } catch (error) {
     console.error("Project GET error:", error);
     return NextResponse.json({ error: "Failed to fetch project" }, { status: 500 });
@@ -60,7 +60,7 @@ export async function PATCH(
     if (!project) {
       return NextResponse.json({ error: "Project not found" }, { status: 404 });
     }
-    return NextResponse.json(toProjectDoc(project as Parameters<typeof toProjectDoc>[0]));
+    return NextResponse.json(toProjectDoc(project as unknown as Parameters<typeof toProjectDoc>[0]));
   } catch (error) {
     console.error("Project PATCH error:", error);
     return NextResponse.json({ error: "Failed to update project" }, { status: 500 });

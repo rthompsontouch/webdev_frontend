@@ -28,7 +28,7 @@ export async function GET(request: Request) {
     const projects = await Project.find(query).sort({ createdAt: -1 }).lean();
 
     return NextResponse.json(
-      projects.map((p) => toProjectDoc(p as Parameters<typeof toProjectDoc>[0]))
+      projects.map((p) => toProjectDoc(p as unknown as Parameters<typeof toProjectDoc>[0]))
     );
   } catch (error) {
     console.error("Projects GET error:", error);
@@ -55,7 +55,7 @@ export async function POST(request: Request) {
       status: "discovery",
     });
 
-    return NextResponse.json(toProjectDoc(project.toObject() as Parameters<typeof toProjectDoc>[0]));
+    return NextResponse.json(toProjectDoc(project.toObject() as unknown as Parameters<typeof toProjectDoc>[0]));
   } catch (error) {
     console.error("Projects POST error:", error);
     return NextResponse.json({ error: "Failed to create project" }, { status: 500 });

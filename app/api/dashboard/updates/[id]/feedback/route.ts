@@ -37,7 +37,7 @@ export async function GET(
     const feedback = await ProjectUpdateFeedback.findOne(query).lean();
 
     if (!feedback) return NextResponse.json(null);
-    return NextResponse.json(toFeedbackDoc(feedback as Parameters<typeof toFeedbackDoc>[0]));
+    return NextResponse.json(toFeedbackDoc(feedback as unknown as Parameters<typeof toFeedbackDoc>[0]));
   } catch (error) {
     console.error("Feedback GET error:", error);
     return NextResponse.json({ error: "Failed to fetch feedback" }, { status: 500 });
@@ -81,7 +81,7 @@ export async function POST(
       await feedback.save();
     }
 
-    return NextResponse.json(toFeedbackDoc(feedback.toObject() as Parameters<typeof toFeedbackDoc>[0]));
+    return NextResponse.json(toFeedbackDoc(feedback.toObject() as unknown as Parameters<typeof toFeedbackDoc>[0]));
   } catch (error) {
     console.error("Feedback POST error:", error);
     return NextResponse.json({ error: "Failed to save feedback" }, { status: 500 });
@@ -118,7 +118,7 @@ export async function PATCH(
       await feedback.save();
     }
 
-    return NextResponse.json(toFeedbackDoc(feedback.toObject() as Parameters<typeof toFeedbackDoc>[0]));
+    return NextResponse.json(toFeedbackDoc(feedback.toObject() as unknown as Parameters<typeof toFeedbackDoc>[0]));
   } catch (error) {
     console.error("Feedback PATCH error:", error);
     return NextResponse.json({ error: "Failed to update feedback" }, { status: 500 });

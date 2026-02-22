@@ -33,7 +33,7 @@ export async function GET(
       .lean();
 
     return NextResponse.json(
-      updates.map((u) => toUpdateDoc(u as Parameters<typeof toUpdateDoc>[0]))
+      updates.map((u) => toUpdateDoc(u as unknown as Parameters<typeof toUpdateDoc>[0]))
     );
   } catch (error) {
     console.error("Updates GET error:", error);
@@ -80,7 +80,7 @@ export async function POST(
       images: imageUrls,
     });
 
-    return NextResponse.json(toUpdateDoc(update.toObject() as Parameters<typeof toUpdateDoc>[0]));
+    return NextResponse.json(toUpdateDoc(update.toObject() as unknown as Parameters<typeof toUpdateDoc>[0]));
   } catch (error) {
     console.error("Updates POST error:", error);
     return NextResponse.json({ error: "Failed to create update" }, { status: 500 });

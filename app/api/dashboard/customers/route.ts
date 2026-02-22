@@ -33,7 +33,7 @@ export async function GET(request: Request) {
     const customers = await Customer.find(query).sort({ createdAt: -1 }).lean();
 
     return NextResponse.json(
-      customers.map((c) => toCustomerDoc(c as Parameters<typeof toCustomerDoc>[0]))
+      customers.map((c) => toCustomerDoc(c as unknown as Parameters<typeof toCustomerDoc>[0]))
     );
   } catch (error) {
     console.error("Customers GET error:", error);

@@ -32,7 +32,7 @@ export async function GET(
     if (!lead) {
       return NextResponse.json({ error: "Lead not found" }, { status: 404 });
     }
-    return NextResponse.json(toLeadDoc(lead as Parameters<typeof toLeadDoc>[0]));
+    return NextResponse.json(toLeadDoc(lead as unknown as Parameters<typeof toLeadDoc>[0]));
   } catch (error) {
     console.error("Lead GET error:", error);
     return NextResponse.json({ error: "Failed to fetch lead" }, { status: 500 });
@@ -62,7 +62,7 @@ export async function PATCH(
     if (!lead) {
       return NextResponse.json({ error: "Lead not found" }, { status: 404 });
     }
-    return NextResponse.json(toLeadDoc(lead as Parameters<typeof toLeadDoc>[0]));
+    return NextResponse.json(toLeadDoc(lead as unknown as Parameters<typeof toLeadDoc>[0]));
   } catch (error) {
     console.error("Lead PATCH error:", error);
     return NextResponse.json({ error: "Failed to update lead" }, { status: 500 });

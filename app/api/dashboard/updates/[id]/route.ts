@@ -29,7 +29,7 @@ export async function GET(
     if (!update) {
       return NextResponse.json({ error: "Update not found" }, { status: 404 });
     }
-    return NextResponse.json(toUpdateDoc(update as Parameters<typeof toUpdateDoc>[0]));
+    return NextResponse.json(toUpdateDoc(update as unknown as Parameters<typeof toUpdateDoc>[0]));
   } catch (error) {
     console.error("Update GET error:", error);
     return NextResponse.json({ error: "Failed to fetch update" }, { status: 500 });

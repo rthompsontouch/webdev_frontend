@@ -76,7 +76,7 @@ export async function GET(request: Request) {
 
     return NextResponse.json(
       projects.map((p) => {
-        const doc = toProjectDoc(p as Parameters<typeof toProjectDoc>[0]);
+        const doc = toProjectDoc(p as unknown as Parameters<typeof toProjectDoc>[0]);
         return {
           ...doc,
           unviewedUpdatesCount: unviewedByProject.get(String(p._id)) ?? 0,
