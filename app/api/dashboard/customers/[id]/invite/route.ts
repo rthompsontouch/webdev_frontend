@@ -67,7 +67,7 @@ export async function POST(
     const token = randomBytes(32).toString("hex");
     const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days
 
-    const portalUrl = `${getBaseUrl()}/portal/invite?token=${token}`;
+    const portalUrl = `${getBaseUrl()}/portal/invite/${token}`;
     const resend = new Resend(apiKey);
 
     const safeName = escapeHtml(customer.name);

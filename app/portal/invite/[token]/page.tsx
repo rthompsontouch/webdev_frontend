@@ -1,22 +1,24 @@
 import { validateInviteToken } from "@/lib/invite";
-import { InviteForm } from "./InviteForm";
+import { InviteForm } from "../InviteForm";
 
 type Props = {
-  searchParams: Promise<{ token?: string }>;
+  params: Promise<{ token: string }>;
 };
 
-export default async function PortalInvitePage({ searchParams }: Props) {
-  const { token } = await searchParams;
+export default async function PortalInviteTokenPage({ params }: Props) {
+  const { token } = await params;
 
-  if (token) {
-    const result = await validateInviteToken(token);
-    if (result.ok) {
-      return <InviteForm token={token.trim()} name={result.name} email={result.email} />;
-    }
+  if (!token) {
+    return <InviteError message="Invalid invite link" />;
+  }
+
+  const result = await validateInviteToken(token);
+
+  if (!result.ok) {
     return <InviteError message={result.error} />;
   }
 
-  return <InviteError message="Invalid invite link. Please use the link from your invite email." />;
+  return <InviteForm token={token.trim()} name={result.name} email={result.email} />;
 }
 
 function InviteError({ message }: { message: string }) {
