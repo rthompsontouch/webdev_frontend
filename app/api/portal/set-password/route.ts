@@ -38,7 +38,7 @@ export async function POST(request: Request) {
     const passwordHash = await hashPassword(password);
 
     const result = await customers.updateOne(
-      { _id: customer._id },
+      { _id: new mongoose.Types.ObjectId(String(customer._id)) },
       {
         $set: {
           passwordHash,
