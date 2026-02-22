@@ -51,12 +51,13 @@ export async function POST(
       return NextResponse.json({ error: "Customer not found" }, { status: 404 });
     }
 
-    const customer = await Customer.findById(id).lean();
+    const customer = await Customer.findById(id).select("name email inviteStatus").lean() as { name: string; email: string; inviteStatus?: string } | null;
     if (!customer) {
       return NextResponse.json({ error: "Customer not found" }, { status: 404 });
     }
 
-    if (customer.inviteStatus === "signed_up") {
+    const inviteStatus = customer.inviteStatus;
+    if (inviteStatus === "signed_up") {
       return NextResponse.json(
         { error: "Customer has already signed up" },
         { status: 400 }
