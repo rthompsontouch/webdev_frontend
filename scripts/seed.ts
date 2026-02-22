@@ -12,8 +12,8 @@ if (!MONGODB_URI) {
   process.exit(1);
 }
 
-async function seed() {
-  await mongoose.connect(MONGODB_URI);
+async function seed(uri: string) {
+  await mongoose.connect(uri);
   console.log("Connected to MongoDB");
 
   await Lead.deleteMany({});
@@ -136,7 +136,7 @@ async function seed() {
   process.exit(0);
 }
 
-seed().catch((err) => {
+seed(MONGODB_URI).catch((err) => {
   console.error(err);
   process.exit(1);
 });

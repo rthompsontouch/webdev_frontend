@@ -12,8 +12,8 @@ if (!MONGODB_URI) {
   process.exit(1);
 }
 
-async function cleanup() {
-  await mongoose.connect(MONGODB_URI);
+async function cleanup(uri: string) {
+  await mongoose.connect(uri);
   console.log("Connected to MongoDB");
 
   const result = await Lead.deleteMany({ status: "converted" });
@@ -23,7 +23,7 @@ async function cleanup() {
   process.exit(0);
 }
 
-cleanup().catch((err) => {
+cleanup(MONGODB_URI).catch((err) => {
   console.error(err);
   process.exit(1);
 });

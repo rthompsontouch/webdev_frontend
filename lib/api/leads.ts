@@ -1,6 +1,8 @@
 import type { Lead, LeadStatus } from "@/lib/types/dashboard";
 import { api } from "./client";
 
+export type { Lead, LeadStatus };
+
 export async function getLeads(status?: LeadStatus): Promise<Lead[]> {
   const query = status ? `?status=${status}` : "";
   return api.get<Lead[]>(`/leads${query}`);

@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { getLeads, type Lead, type LeadStatus } from "@/lib/api";
 
-export default function LeadsPage() {
+function LeadsContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const statusParam = searchParams.get("status") as LeadStatus | null;
@@ -134,5 +134,19 @@ export default function LeadsPage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function LeadsPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-12 text-center text-zinc-500">
+          Loading leads...
+        </div>
+      }
+    >
+      <LeadsContent />
+    </Suspense>
   );
 }

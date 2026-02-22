@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { usePortal } from "@/lib/context/PortalProvider";
 
-export default function PortalInvitePage() {
+function PortalInviteContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { customerId, setCustomerId } = usePortal();
@@ -152,5 +152,19 @@ export default function PortalInvitePage() {
         </form>
       </div>
     </div>
+  );
+}
+
+export default function PortalInvitePage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-[60vh] items-center justify-center">
+          <div className="h-8 w-8 animate-spin rounded-full border-2 border-rose-500 border-t-transparent" />
+        </div>
+      }
+    >
+      <PortalInviteContent />
+    </Suspense>
   );
 }

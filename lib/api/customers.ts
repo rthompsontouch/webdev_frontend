@@ -1,6 +1,8 @@
 import type { Customer } from "@/lib/types/dashboard";
 import { api } from "./client";
 
+export type { Customer };
+
 export async function getCustomers(search?: string): Promise<Customer[]> {
   const query = search ? `?search=${encodeURIComponent(search)}` : "";
   return api.get<Customer[]>(`/customers${query}`);

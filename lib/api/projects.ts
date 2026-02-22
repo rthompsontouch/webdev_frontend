@@ -1,6 +1,8 @@
 import type { Project, ProjectStatus, ProjectType, ProjectUpdate, ProjectUpdateFeedback } from "@/lib/types/dashboard";
 import { api } from "./client";
 
+export type { Project, ProjectStatus, ProjectType, ProjectUpdate, ProjectUpdateFeedback };
+
 export async function updateProjectStatus(
   id: string,
   status: ProjectStatus
