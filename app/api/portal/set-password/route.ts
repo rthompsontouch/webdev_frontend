@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import mongoose from "mongoose";
 import { connectDB, Customer } from "@/lib/db";
 import { hashPassword } from "@/lib/auth/password";
 
@@ -18,7 +19,9 @@ export async function POST(request: Request) {
     const customer = await Customer.findOne({
       inviteToken: token,
       inviteTokenExpiry: { $gt: new Date() },
-    }).select("_id");
+    })
+      .select("_id")
+      .lean() as { _id: unknown } | null;
 
     if (!customer) {
       return NextResponse.json(
@@ -29,12 +32,27 @@ export async function POST(request: Request) {
 
     const passwordHash = await hashPassword(password);
 
-    await Customer.findByIdAndUpdate(customer._id, {
-      passwordHash,
-      inviteToken: null,
-      inviteTokenExpiry: null,
-      inviteStatus: "signed_up",
-    });
+    // Use native MongoDB driver - Mongoose may strip passwordHash (select: false) during updates
+    const conn = await connectDB();
+    const db = conn.connection.db!;
+    const result = await db.collection("customers").updateOne(
+      { _id: new mongoose.Types.ObjectId(String(customer._id)) },
+      {
+        $set: {
+          passwordHash,
+          inviteToken: null,
+          inviteTokenExpiry: null,
+          inviteStatus: "signed_up",
+        },
+      }
+    );
+
+    if (result.matchedCount === 0) {
+      return NextResponse.json(
+        { error: "Invite link expired or invalid" },
+        { status: 404 }
+      );
+    }
 
     return NextResponse.json({
       customerId: String(customer._id),
