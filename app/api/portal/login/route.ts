@@ -19,7 +19,7 @@ export async function POST(request: Request) {
       email: { $regex: new RegExp(`^${email.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}$`, "i") },
     })
       .select("_id passwordHash inviteStatus")
-      .lean();
+      .lean() as { _id: unknown; passwordHash?: string; inviteStatus?: string } | null;
 
     if (!customer) {
       return NextResponse.json(

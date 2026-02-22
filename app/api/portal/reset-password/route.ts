@@ -26,7 +26,7 @@ export async function POST(request: Request) {
 
     const customer = await Customer.findById(customerId)
       .select("+passwordHash")
-      .lean();
+      .lean() as { passwordHash?: string } | null;
 
     if (!customer?.passwordHash) {
       return NextResponse.json(
