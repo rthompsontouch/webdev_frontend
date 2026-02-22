@@ -73,6 +73,24 @@ body {
   animation: pulse-slow 4s ease-in-out infinite;
 }
 
+/* Dashboard: force light text on dark bg (overrides body color from prefers-color-scheme) */
+[data-dashboard] {
+  color: rgb(244 244 245) !important;
+}
+
+/* Dashboard nav hover - explicit to avoid Tailwind purge/specificity issues */
+.dashboard-nav-link {
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+.dashboard-nav-link:hover {
+  background-color: rgb(39 39 42);
+  color: rgb(244 244 245);
+  border-left-color: rgba(244 63 94 / 0.5);
+}
+.dashboard-nav-link.dashboard-nav-link-active:hover {
+  background-color: rgba(244 63 94 / 0.3);
+}
+
 /* Homepage scroll snap: tablet and desktop only - uses dedicated scroll container */
 @media (min-width: 768px) {
   .home-scroll-container {

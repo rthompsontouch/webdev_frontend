@@ -65,6 +65,9 @@ export default function Footer() {
             <a href="/services/web-design" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">
               Web Design Services
             </a>
+            <a href="/portal/login" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">
+              Client Portal
+            </a>
           </div>
 
           {/* Social Links */}

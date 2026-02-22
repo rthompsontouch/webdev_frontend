@@ -15,7 +15,13 @@ export default function HomeScrollWrapper({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const isDashboard = pathname?.startsWith("/dashboard");
+  const isPortal = pathname?.startsWith("/portal");
   const isHome = pathname === "/";
+
+  if (isDashboard || isPortal) {
+    return <div className="relative z-10 min-h-screen">{children}</div>;
+  }
 
   return (
     <div

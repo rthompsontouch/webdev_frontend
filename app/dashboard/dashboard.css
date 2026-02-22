@@ -1,0 +1,28 @@
+/* Dashboard: force all text visible - overrides any theme/body inheritance */
+.dashboard-content,
+.dashboard-content * {
+  color: #e4e4e7 !important;
+}
+
+.dashboard-content .text-white,
+.dashboard-content [class*="text-white"] {
+  color: #ffffff !important;
+}
+
+.dashboard-content .text-zinc-400 {
+  color: #a1a1aa !important;
+}
+
+.dashboard-content .text-zinc-500 {
+  color: #71717a !important;
+}
+
+.dashboard-content .text-amber-400,
+.dashboard-content [class*="text-amber"] {
+  color: #fbbf24 !important;
+}
+
+.dashboard-content .text-rose-400,
+.dashboard-content [class*="text-rose"] {
+  color: #fb7185 !important;
+}
