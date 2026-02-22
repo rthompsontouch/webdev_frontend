@@ -1,3 +1,64 @@
+/* Portal navbar hover - color/background transitions only */
+.portal-nav-notifications {
+  transition: background-color 0.2s ease-out, color 0.2s ease-out;
+}
+
+.portal-nav-notifications:hover {
+  background-color: rgb(39 39 42);
+  color: white;
+}
+
+.portal-nav-profile {
+  transition: background-color 0.2s ease-out, border-color 0.2s ease-out;
+}
+
+.portal-nav-profile:hover {
+  background-color: rgb(39 39 42);
+  border-color: rgb(82 82 91);
+}
+
+.portal-nav-logo {
+  transition: opacity 0.2s ease-out;
+}
+
+.portal-nav-logo:hover {
+  opacity: 0.9;
+}
+
+.portal-nav-dropdown-item {
+  transition: background-color 0.15s ease-out, color 0.15s ease-out, border-color 0.15s ease-out;
+}
+
+.portal-nav-dropdown-item:hover {
+  background-color: rgb(39 39 42);
+  color: white;
+  border-left-color: rgba(251, 113, 133, 0.6) !important;
+}
+
+.portal-nav-dropdown-item:hover svg {
+  color: rgb(251 113 133) !important;
+}
+
+.portal-nav-dropdown-signout {
+  transition: background-color 0.15s ease-out, color 0.15s ease-out, border-color 0.15s ease-out;
+}
+
+.portal-nav-dropdown-signout:hover {
+  background-color: rgba(251, 113, 133, 0.15) !important;
+  color: rgb(253 164 175) !important;
+  border-left-color: rgba(251, 113, 133, 0.8) !important;
+}
+
+/* Dashboard/Portal: pointer cursor for clickable elements */
+[data-dashboard] button:not(:disabled),
+[data-dashboard] a[href] {
+  cursor: pointer;
+}
+
+[data-dashboard] button:disabled {
+  cursor: not-allowed;
+}
+
 /* Dashboard: force all text visible - overrides any theme/body inheritance */
 .dashboard-content,
 .dashboard-content * {

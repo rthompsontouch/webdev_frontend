@@ -492,7 +492,7 @@ export default function DigitalConsultingPage() {
                     Share the essentials and we will follow up with next steps and a strategic plan.
                   </p>
                   <div className="mt-6">
-                    <ContactForm />
+                    <ContactForm variant="light" />
                   </div>
                 </div>
               </div>

@@ -492,7 +492,7 @@ export default function SEOOptimizationPage() {
                   Tell us about your site and goals. We&apos;ll provide a detailed audit and strategy.
                 </p>
                 <div className="mt-6">
-                  <ContactForm />
+                  <ContactForm variant="light" />
                 </div>
               </div>
             </div>

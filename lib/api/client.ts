@@ -23,6 +23,7 @@ async function request<T>(
   const url = path.startsWith("http") ? path : `${API_BASE}${path}`;
   const res = await fetch(url, {
     ...options,
+    cache: "no-store",
     headers: {
       "Content-Type": "application/json",
       ...options.headers,

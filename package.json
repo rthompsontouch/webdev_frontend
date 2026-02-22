@@ -6,10 +6,15 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "db:seed": "tsx scripts/seed.ts",
+    "db:cleanup-converted": "tsx scripts/cleanup-converted-leads.ts",
+    "resend:setup": "tsx scripts/resend-setup.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
+    "cloudinary": "^2.5.1",
+    "mongoose": "^8.8.3",
     "next": "16.1.6",
     "react": "19.2.3",
     "react-dom": "19.2.3",
@@ -19,6 +24,8 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
+    "dotenv": "^16.4.5",
+    "tsx": "^4.19.2",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",

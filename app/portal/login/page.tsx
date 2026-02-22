@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { getCustomers } from "@/lib/api";
+import { portalLogin } from "@/lib/api";
 import { usePortal } from "@/lib/context/PortalProvider";
 
 export default function PortalLoginPage() {
@@ -22,19 +22,12 @@ export default function PortalLoginPage() {
     setError("");
     setLoading(true);
     try {
-      const customers = await getCustomers();
-      const customer = customers.find(
-        (c) => c.email.toLowerCase() === email.toLowerCase()
-      );
-      if (customer) {
-        setCustomerId(customer.id);
-        router.push("/portal");
-        router.refresh();
-      } else {
-        setError("No account found with that email.");
-      }
-    } catch {
-      setError("Something went wrong. Please try again.");
+      const { customerId: id } = await portalLogin(email, password);
+      setCustomerId(id);
+      router.push("/portal");
+      router.refresh();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong.");
     } finally {
       setLoading(false);
     }
@@ -69,12 +62,10 @@ export default function PortalLoginPage() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              required
               placeholder="••••••••"
               className="mt-1 w-full rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-2 text-white placeholder-zinc-500 focus:border-rose-500/50 focus:outline-none focus:ring-1 focus:ring-rose-500/50"
             />
-            <p className="mt-1 text-xs text-zinc-500">
-              Demo: any password works
-            </p>
           </div>
           {error && (
             <p className="text-sm text-rose-400">{error}</p>
@@ -82,13 +73,13 @@ export default function PortalLoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-lg bg-rose-500/20 py-2.5 text-sm font-medium text-rose-400 transition-colors hover:bg-rose-500/30 disabled:opacity-50"
+            className="w-full cursor-pointer rounded-lg bg-rose-500/20 py-2.5 text-sm font-medium text-rose-400 transition-colors hover:bg-rose-500/30 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {loading ? "Signing in..." : "Sign in"}
           </button>
         </form>
         <p className="mt-4 text-center text-xs text-zinc-500">
-          Demo accounts: jane@acme.com, bob@startup.io, sarah@techflow.co
+          Use the invite link from your email to set your password first.
         </p>
       </div>
     </div>

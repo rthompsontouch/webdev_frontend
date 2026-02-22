@@ -1,50 +1,35 @@
 import { NextResponse } from "next/server";
-import type { Lead } from "@/lib/types/dashboard";
-
-const mockLeads: Lead[] = [
-  {
-    id: "1",
-    name: "Jane Smith",
-    email: "jane@acme.com",
-    phone: "(919) 555-0123",
-    company: "Acme Corp",
-    interested: "Web Design",
-    project: "Looking for a full website redesign with modern UI.",
-    status: "new",
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: "2",
-    name: "Bob Wilson",
-    email: "bob@startup.io",
-    phone: "(919) 555-0456",
-    company: "Startup.io",
-    interested: "SEO Optimization",
-    project: "Need help ranking for local search in Raleigh.",
-    status: "contacted",
-    createdAt: new Date(Date.now() - 86400000).toISOString(),
-  },
-  {
-    id: "3",
-    name: "Sarah Chen",
-    email: "sarah@techflow.co",
-    phone: "(919) 555-0789",
-    company: "TechFlow",
-    interested: "New Website",
-    project: "Startup needs a marketing site and landing pages for our SaaS product.",
-    status: "new",
-    createdAt: new Date(Date.now() - 3600000).toISOString(),
-  },
-];
+import { connectDB, Lead } from "@/lib/db";
+import { toAPIArray } from "@/lib/db/utils";
 
 export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const status = searchParams.get("status");
+  try {
+    await connectDB();
+    const { searchParams } = new URL(request.url);
+    const status = searchParams.get("status");
 
-  let leads = mockLeads;
-  if (status && ["new", "contacted", "converted", "not_interested"].includes(status)) {
-    leads = mockLeads.filter((l) => l.status === status);
+    const baseQuery: Record<string, unknown> = { status: { $ne: "converted" } };
+    if (status && ["new", "contacted", "not_interested"].includes(status)) {
+      baseQuery.status = status;
+    }
+    const leads = await Lead.find(baseQuery).sort({ createdAt: -1 }).lean();
+
+    const result = leads.map((l) => ({
+      id: String(l._id),
+      name: l.name,
+      email: l.email,
+      phone: l.phone,
+      company: l.company,
+      interested: l.interested,
+      project: l.project,
+      status: l.status,
+      notes: l.notes,
+      createdAt: l.createdAt?.toISOString?.() ?? new Date().toISOString(),
+    }));
+
+    return NextResponse.json(result);
+  } catch (error) {
+    console.error("Leads GET error:", error);
+    return NextResponse.json({ error: "Failed to fetch leads" }, { status: 500 });
   }
-
-  return NextResponse.json(leads);
 }

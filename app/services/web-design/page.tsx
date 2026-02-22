@@ -494,7 +494,7 @@ export default function WebDesignPage() {
                   Share the essentials and we will follow up with next steps and a project plan.
                 </p>
                 <div className="mt-6">
-                  <ContactForm />
+                  <ContactForm variant="light" />
                 </div>
               </div>
             </div>

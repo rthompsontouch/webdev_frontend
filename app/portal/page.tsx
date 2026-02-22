@@ -4,7 +4,17 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { usePortal } from "@/lib/context/PortalProvider";
-import { getProjects, type Project } from "@/lib/api";
+
+type PortalProject = {
+  id: string;
+  customerId: string;
+  type: string;
+  name: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+  unviewedUpdatesCount: number;
+};
 
 function projectPhaseColor(status: string) {
   const colors: Record<string, string> = {
@@ -21,7 +31,7 @@ function projectPhaseColor(status: string) {
 export default function PortalPage() {
   const router = useRouter();
   const { customerId, isLoading } = usePortal();
-  const [projects, setProjects] = useState<Project[]>([]);
+  const [projects, setProjects] = useState<PortalProject[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -30,8 +40,10 @@ export default function PortalPage() {
       return;
     }
     if (customerId) {
-      getProjects(customerId)
-        .then(setProjects)
+      fetch(`/api/portal/projects?customerId=${encodeURIComponent(customerId)}`)
+        .then((res) => res.json())
+        .then((data) => setProjects(Array.isArray(data) ? data : []))
+        .catch(() => setProjects([]))
         .finally(() => setLoading(false));
     }
   }, [customerId, isLoading, router]);
@@ -47,29 +59,34 @@ export default function PortalPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold text-white">Your Projects</h1>
-        <p className="mt-1 text-zinc-400">
-          View updates and provide feedback on your projects.
+        <h1 className="text-xl font-semibold text-white">Your Projects</h1>
+        <p className="mt-1 text-sm text-zinc-500">
+          View updates and provide feedback.
         </p>
       </div>
 
       {loading ? (
         <div className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-12 text-center text-zinc-500">
-          Loading projects...
+          Loading...
         </div>
       ) : projects.length === 0 ? (
         <div className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-12 text-center text-zinc-500">
           No projects yet.
         </div>
       ) : (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2">
           {projects.map((project) => (
             <Link
               key={project.id}
               href={`/portal/projects/${project.id}`}
-              className="flex flex-col rounded-xl border border-zinc-800 bg-zinc-900/30 p-6 transition-colors hover:border-zinc-700 hover:bg-zinc-900/50"
+              className="relative flex cursor-pointer flex-col rounded-xl border border-zinc-800 bg-zinc-900/30 p-5 transition-colors hover:border-zinc-700 hover:bg-zinc-900/50"
             >
-              <p className="font-medium text-white">{project.name}</p>
+              {project.unviewedUpdatesCount > 0 && (
+                <span className="absolute right-3 top-3 rounded-full bg-amber-500/20 px-2.5 py-0.5 text-xs font-medium text-amber-400">
+                  New
+                </span>
+              )}
+              <p className="font-medium text-white pr-16">{project.name}</p>
               <p className="mt-1 text-sm capitalize text-zinc-500">
                 {project.type.replace("_", " ")}
               </p>
@@ -78,7 +95,7 @@ export default function PortalPage() {
                   project.status
                 )}`}
               >
-                {project.status.replace("_", " ")}
+                {project.status}
               </span>
             </Link>
           ))}

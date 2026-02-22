@@ -2,8 +2,8 @@
 
 ## API Layer (`lib/api/`)
 
-- **Mock-first**: When `NEXT_PUBLIC_API_URL` is not set, all API calls return mock data.
-- **Backend-ready**: Set `NEXT_PUBLIC_API_URL` to your backend base URL when ready. No frontend refactor needed.
+- **Default**: Uses `/api/dashboard` (MongoDB-backed Next.js API routes) when `NEXT_PUBLIC_API_URL` is not set.
+- **Override**: Set `NEXT_PUBLIC_API_URL` to an external backend base URL if needed.
 - **Single import**: `import { getLeads, getCustomers, ... } from "@/lib/api"`
 
 ## Context (`lib/context/`)

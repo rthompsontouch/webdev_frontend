@@ -491,7 +491,7 @@ export default function MarketingPage() {
                   Share your goals and we&apos;ll follow up with a custom strategy and pricing.
                 </p>
                 <div className="mt-6">
-                  <ContactForm />
+                  <ContactForm variant="light" />
                 </div>
               </div>
             </div>

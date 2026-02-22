@@ -16,3 +16,19 @@ export async function updateCustomer(
 ): Promise<Customer> {
   return api.patch<Customer>(`/customers/${id}`, data);
 }
+
+export async function sendCustomerInvite(customerId: string): Promise<void> {
+  await api.post(`/customers/${customerId}/invite`);
+}
+
+export async function portalLogin(email: string, password: string): Promise<{ customerId: string }> {
+  const res = await fetch("/api/portal/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password }),
+    cache: "no-store",
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || "Login failed");
+  return data;
+}

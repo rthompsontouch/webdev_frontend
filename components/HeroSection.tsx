@@ -55,7 +55,7 @@ export default function HeroSection() {
               </div>
             </div>
 
-            <div id="contact" className="rounded-3xl bg-white/5 p-6 shadow-2xl shadow-black/40 backdrop-blur">
+            <div id="contact" className="rounded-3xl border border-white/20 bg-black/50 p-6 shadow-2xl shadow-black/40 backdrop-blur">
               <p className="text-sm font-semibold uppercase tracking-[0.2em] text-rose-200">
                 Quick Contact
               </p>

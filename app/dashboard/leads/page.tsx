@@ -11,7 +11,7 @@ export default function LeadsPage() {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<LeadStatus | "all">(() => {
-    if (statusParam && ["new", "contacted", "converted", "not_interested"].includes(statusParam)) {
+    if (statusParam && ["new", "contacted", "not_interested"].includes(statusParam)) {
       return statusParam;
     }
     return "all";
@@ -52,7 +52,7 @@ export default function LeadsPage() {
             className="rounded-lg border border-zinc-700 bg-zinc-800/50 px-4 py-2 text-sm text-white placeholder-zinc-500 focus:border-rose-500/50 focus:outline-none focus:ring-1 focus:ring-rose-500/50 sm:w-56"
           />
           <div className="flex gap-2">
-          {(["all", "new", "contacted", "converted", "not_interested"] as const).map(
+          {(["all", "new", "contacted", "not_interested"] as const).map(
             (status) => (
               <button
                 key={status}

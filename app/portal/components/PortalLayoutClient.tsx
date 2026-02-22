@@ -1,8 +1,8 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import PortalNav from "./PortalNav";
 import { usePortal } from "@/lib/context/PortalProvider";
+import PortalNavbar from "./PortalNavbar";
 
 export default function PortalLayoutClient({
   children,
@@ -12,21 +12,24 @@ export default function PortalLayoutClient({
   const pathname = usePathname();
   const { customerId } = usePortal();
   const isLoginPage = pathname === "/portal/login";
-  const showNav = !isLoginPage && customerId;
+  const isInvitePage = pathname === "/portal/invite";
+  const showNavbar = !isLoginPage && !isInvitePage && customerId;
 
   return (
     <div data-dashboard className="min-h-screen bg-zinc-950 text-zinc-100">
-      {showNav && <PortalNav />}
+      {showNavbar && <PortalNavbar />}
       <main
         className={
-          showNav
-            ? "pt-16 md:pl-64 md:pt-0"
-            : "flex min-h-screen items-center justify-center"
+          isLoginPage || isInvitePage
+            ? "flex min-h-screen items-center justify-center"
+            : "min-h-screen"
         }
       >
         <div
           className={
-            showNav ? "dashboard-content p-6 md:p-8" : "w-full max-w-md px-4"
+            isLoginPage || isInvitePage
+              ? "w-full max-w-md px-4"
+              : "mx-auto max-w-3xl p-6 pt-20 md:p-8 md:pt-24"
           }
         >
           {children}

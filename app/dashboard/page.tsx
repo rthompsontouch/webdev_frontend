@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import {
   getLeads,
@@ -38,7 +38,8 @@ export default function DashboardPage() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+  const fetchData = useCallback(() => {
+    setLoading(true);
     Promise.all([getLeads(), getCustomers(), getProjects()])
       .then(([l, c, p]) => {
         setLeads(l);
@@ -47,6 +48,10 @@ export default function DashboardPage() {
       })
       .finally(() => setLoading(false));
   }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   const newLeads = leads.filter((l) => l.status === "new");
   const activeProjects = projects.filter((p) => p.status !== "complete");
@@ -65,11 +70,21 @@ export default function DashboardPage() {
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div>
-        <h1 className="text-2xl font-semibold text-white">Overview</h1>
-        <p className="mt-1 text-zinc-400">
-          Your leads, customers, and projects at a glance.
-        </p>
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h1 className="text-2xl font-semibold text-white">Overview</h1>
+          <p className="mt-1 text-zinc-400">
+            Your leads, customers, and projects at a glance.
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={() => fetchData()}
+          disabled={loading}
+          className="shrink-0 rounded-lg border border-zinc-700 bg-zinc-800/50 px-4 py-2 text-sm font-medium text-zinc-300 transition-colors hover:bg-zinc-700 hover:text-white disabled:opacity-50"
+        >
+          {loading ? "Refreshing..." : "Refresh"}
+        </button>
       </div>
 
       {/* Stats */}

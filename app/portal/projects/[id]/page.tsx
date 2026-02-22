@@ -14,10 +14,26 @@ import {
 } from "@/lib/api";
 import { usePortal } from "@/lib/context/PortalProvider";
 
+const PHASES: { key: string; label: string }[] = [
+  { key: "discovery", label: "Discovery" },
+  { key: "design", label: "Design" },
+  { key: "development", label: "Development" },
+  { key: "review", label: "Review" },
+  { key: "launch", label: "Launch" },
+  { key: "complete", label: "Complete" },
+];
+
 function formatDate(iso: string) {
   return new Date(iso).toLocaleString(undefined, {
     dateStyle: "medium",
     timeStyle: "short",
+  });
+}
+
+function formatTime(iso: string) {
+  return new Date(iso).toLocaleTimeString(undefined, {
+    hour: "numeric",
+    minute: "2-digit",
   });
 }
 
@@ -56,6 +72,7 @@ export default function PortalProjectPage() {
   const [liked, setLiked] = useState<boolean | null>(null);
   const [comment, setComment] = useState("");
   const [saving, setSaving] = useState(false);
+  const [feedbackMessage, setFeedbackMessage] = useState<"success" | "error" | null>(null);
 
   useEffect(() => {
     if (!customerId && !isLoading) {
@@ -107,14 +124,35 @@ export default function PortalProjectPage() {
     e.preventDefault();
     if (!selectedUpdate || !customerId) return;
     setSaving(true);
+    setFeedbackMessage(null);
+    const submittedComment = comment.trim();
+    const previousFeedback = selectedFeedback;
+    const optimisticFeedback: ProjectUpdateFeedback = {
+      ...previousFeedback,
+      id: previousFeedback?.id ?? "",
+      updateId: selectedUpdate.id,
+      liked,
+      comment: submittedComment || previousFeedback?.comment,
+      reply: previousFeedback?.reply,
+      createdAt: previousFeedback?.createdAt ?? new Date().toISOString(),
+    };
+    setSelectedFeedback(optimisticFeedback);
+    setFeedbackMap((prev) => ({ ...prev, [selectedUpdate.id]: optimisticFeedback }));
     try {
       const fb = await submitFeedback(selectedUpdate.id, customerId, {
         liked,
-        comment: comment.trim() || undefined,
+        comment: submittedComment || undefined,
         viewed: true,
       });
       setSelectedFeedback(fb);
       setFeedbackMap((prev) => ({ ...prev, [selectedUpdate.id]: fb }));
+      setFeedbackMessage("success");
+      setTimeout(() => setFeedbackMessage(null), 3000);
+    } catch {
+      setSelectedFeedback(previousFeedback);
+      setFeedbackMap((prev) => ({ ...prev, [selectedUpdate.id]: previousFeedback ?? null }));
+      setFeedbackMessage("error");
+      setTimeout(() => setFeedbackMessage(null), 4000);
     } finally {
       setSaving(false);
     }
@@ -131,7 +169,7 @@ export default function PortalProjectPage() {
   if (!project) {
     return (
       <div className="space-y-6">
-        <Link href="/portal" className="text-sm text-rose-400 hover:text-rose-300">
+        <Link href="/portal" className="cursor-pointer text-sm text-rose-400 hover:text-rose-300">
           ← Back to projects
         </Link>
         <div className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-12 text-center text-zinc-500">
@@ -143,7 +181,7 @@ export default function PortalProjectPage() {
 
   return (
     <div className="space-y-6">
-      <Link href="/portal" className="text-sm text-rose-400 hover:text-rose-300">
+      <Link href="/portal" className="cursor-pointer text-sm text-rose-400 hover:text-rose-300">
         ← Back to projects
       </Link>
 
@@ -152,17 +190,71 @@ export default function PortalProjectPage() {
         <p className="mt-1 capitalize text-zinc-400">
           {project.type.replace("_", " ")}
         </p>
-        <div className="mt-3">
-          <span className="text-xs font-medium uppercase tracking-wider text-zinc-500">
-            Project phase
-          </span>
-          <span
-            className={`ml-2 rounded-full px-2.5 py-0.5 text-sm font-medium capitalize ${projectPhaseColor(
-              project.status
-            )}`}
-          >
-            {project.status.replace("_", " ")}
-          </span>
+        <div className="mt-6">
+          <p className="mb-4 text-xs font-medium uppercase tracking-wider text-zinc-500">
+            Project timeline
+          </p>
+          <div className="relative">
+            {/* Vertical timeline line */}
+            <div className="absolute left-3 top-2 bottom-2 w-px bg-zinc-700" />
+            <div className="space-y-0">
+              {PHASES.map((phase, i) => {
+                const idx = PHASES.findIndex((p) => p.key === project.status);
+                const isCurrent = phase.key === project.status;
+                const isPast = i < idx;
+                const isFuture = i > idx;
+                return (
+                  <div key={phase.key} className="relative flex items-center gap-4 py-2 first:pt-0 last:pb-0">
+                    {/* Dot indicator */}
+                    <div
+                      className={`relative z-10 flex h-6 w-6 shrink-0 items-center justify-center rounded-full ${
+                        isCurrent
+                          ? "bg-rose-500 ring-4 ring-rose-500/30"
+                          : isPast
+                            ? "bg-emerald-500"
+                            : "bg-zinc-700"
+                      }`}
+                    >
+                      {isPast ? (
+                        <svg className="h-3 w-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                        </svg>
+                      ) : isCurrent ? (
+                        <span className="h-1.5 w-1.5 rounded-full bg-white" />
+                      ) : null}
+                    </div>
+                    {/* Phase label */}
+                    <div
+                      className={`flex flex-1 items-center justify-between rounded-lg px-4 py-2.5 ${
+                        isCurrent
+                          ? "bg-rose-500/15 ring-1 ring-rose-500/30"
+                          : isPast
+                            ? "bg-emerald-500/5"
+                            : "bg-zinc-800/40"
+                      }`}
+                    >
+                      <span
+                        className={`text-sm font-medium ${
+                          isCurrent
+                            ? "text-rose-400"
+                            : isPast
+                              ? "text-emerald-400/90"
+                              : "text-zinc-500"
+                        }`}
+                      >
+                        {phase.label}
+                      </span>
+                      {isCurrent && (
+                        <span className="rounded-full bg-rose-500/30 px-2.5 py-0.5 text-xs font-medium text-rose-400">
+                          Current
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </div>
       </div>
 
@@ -189,7 +281,7 @@ export default function PortalProjectPage() {
                   key={update.id}
                   type="button"
                   onClick={() => handleViewUpdate(update)}
-                  className="flex w-full items-center justify-between rounded-lg border border-zinc-700 bg-zinc-800/50 px-4 py-4 text-left transition-colors hover:border-zinc-600 hover:bg-zinc-800/70"
+                  className="flex w-full cursor-pointer items-center justify-between rounded-lg border border-zinc-700 bg-zinc-800/50 px-4 py-4 text-left transition-colors hover:border-zinc-600 hover:bg-zinc-800/70"
                 >
                   <div className="flex items-center gap-3">
                     <div className="relative aspect-video w-24 shrink-0 overflow-hidden rounded bg-zinc-900">
@@ -253,7 +345,7 @@ export default function PortalProjectPage() {
                 <button
                   type="button"
                   onClick={() => setSelectedUpdate(null)}
-                  className="rounded-lg p-2 text-zinc-400 transition-colors hover:bg-zinc-800 hover:text-white"
+                  className="cursor-pointer rounded-lg p-2 text-zinc-400 transition-colors hover:bg-zinc-800 hover:text-white"
                   aria-label="Close"
                 >
                   <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -301,12 +393,51 @@ export default function PortalProjectPage() {
                 </div>
               )}
 
-              {selectedFeedback?.reply && (
-                <div className="rounded-lg border border-rose-500/20 bg-rose-500/5 p-4">
-                  <h4 className="text-xs font-medium uppercase tracking-wider text-rose-400/80">
-                    Response from TheWebPrism
+              {/* Chat-style conversation */}
+              {(selectedFeedback?.comment || selectedFeedback?.reply) && (
+                <div className="rounded-xl border border-zinc-700 bg-zinc-800/30">
+                  <h4 className="border-b border-zinc-700 px-4 py-3 text-xs font-medium uppercase tracking-wider text-zinc-500">
+                    Conversation
                   </h4>
-                  <p className="mt-2 text-zinc-300">{selectedFeedback.reply}</p>
+                  <div className="flex max-h-48 flex-col gap-3 overflow-y-auto p-4">
+                    {selectedFeedback.comment?.trim() && (
+                      <div className="ml-auto max-w-[85%]">
+                        <div className="rounded-2xl rounded-br-md bg-rose-500/20 px-4 py-2.5">
+                          <p className="text-sm text-zinc-200">
+                            {selectedFeedback.comment}
+                          </p>
+                          <p className="mt-1 text-[10px] text-zinc-500">
+                            You
+                            {selectedFeedback.createdAt &&
+                              ` · ${formatTime(selectedFeedback.createdAt)}`}
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                    {selectedFeedback.reply?.trim() && (
+                      <div className="mr-auto max-w-[85%]">
+                        <div className="rounded-2xl rounded-bl-md border border-rose-500/20 bg-zinc-800/80 px-4 py-2.5">
+                          <p className="text-xs font-medium text-rose-400/80">
+                            TheWebPrism
+                          </p>
+                          <p className="mt-1 text-sm text-zinc-300">
+                            {selectedFeedback.reply}
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {feedbackMessage === "success" && (
+                <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-400">
+                  Feedback sent successfully.
+                </div>
+              )}
+              {feedbackMessage === "error" && (
+                <div className="rounded-lg border border-rose-500/30 bg-rose-500/10 px-4 py-3 text-sm text-rose-400">
+                  Failed to send. Please try again.
                 </div>
               )}
 
@@ -319,7 +450,7 @@ export default function PortalProjectPage() {
                     <button
                       type="button"
                       onClick={() => setLiked(true)}
-                      className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
+                      className={`cursor-pointer rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
                         liked === true
                           ? "bg-emerald-500/20 text-emerald-400"
                           : "bg-zinc-800/50 text-zinc-400 hover:bg-zinc-800 hover:text-zinc-100"
@@ -330,7 +461,7 @@ export default function PortalProjectPage() {
                     <button
                       type="button"
                       onClick={() => setLiked(false)}
-                      className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
+                      className={`cursor-pointer rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
                         liked === false
                           ? "bg-rose-500/20 text-rose-400"
                           : "bg-zinc-800/50 text-zinc-400 hover:bg-zinc-800 hover:text-zinc-100"
@@ -354,7 +485,7 @@ export default function PortalProjectPage() {
                   <button
                     type="submit"
                     disabled={saving}
-                    className="rounded-lg bg-rose-500/20 px-4 py-2 text-sm font-medium text-rose-400 transition-colors hover:bg-rose-500/30 disabled:opacity-50"
+                    className="cursor-pointer rounded-lg bg-rose-500/20 px-4 py-2 text-sm font-medium text-rose-400 transition-colors hover:bg-rose-500/30 disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     {saving ? "Saving..." : "Submit feedback"}
                   </button>

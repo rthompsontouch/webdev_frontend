@@ -1,63 +1,63 @@
 import { NextResponse } from "next/server";
-import type { Project } from "@/lib/types/dashboard";
+import mongoose from "mongoose";
+import { connectDB, Project } from "@/lib/db";
 
-const mockProjects: Project[] = [
-  {
-    id: "proj-1",
-    customerId: "cust-1",
-    type: "website_redesign",
-    name: "Acme Website Redesign",
-    status: "design",
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  },
-  {
-    id: "proj-2",
-    customerId: "cust-1",
-    type: "seo",
-    name: "Acme SEO Touch-up",
-    status: "complete",
-    createdAt: new Date(Date.now() - 172800000).toISOString(),
-    updatedAt: new Date().toISOString(),
-  },
-  {
-    id: "proj-3",
-    customerId: "cust-2",
-    type: "seo",
-    name: "Raleigh Local SEO",
-    status: "discovery",
-    createdAt: new Date(Date.now() - 86400000).toISOString(),
-    updatedAt: new Date().toISOString(),
-  },
-];
+function toProjectDoc(doc: { _id: unknown; customerId: { toString: () => string }; type: string; name: string; status: string; createdAt: Date; updatedAt: Date }) {
+  return {
+    id: String(doc._id),
+    customerId: typeof doc.customerId === "object" && doc.customerId !== null && "toString" in doc.customerId
+      ? doc.customerId.toString()
+      : String(doc.customerId),
+    type: doc.type,
+    name: doc.name,
+    status: doc.status,
+    createdAt: doc.createdAt?.toISOString?.() ?? new Date().toISOString(),
+    updatedAt: doc.updatedAt?.toISOString?.() ?? new Date().toISOString(),
+  };
+}
 
 export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const customerId = searchParams.get("customerId");
+  try {
+    await connectDB();
+    const { searchParams } = new URL(request.url);
+    const customerId = searchParams.get("customerId");
 
-  let projects = mockProjects;
-  if (customerId) {
-    projects = mockProjects.filter((p) => p.customerId === customerId);
+    const query = customerId && mongoose.Types.ObjectId.isValid(customerId)
+      ? { customerId: new mongoose.Types.ObjectId(customerId) }
+      : {};
+    const projects = await Project.find(query).sort({ createdAt: -1 }).lean();
+
+    return NextResponse.json(
+      projects.map((p) => toProjectDoc(p as Parameters<typeof toProjectDoc>[0]))
+    );
+  } catch (error) {
+    console.error("Projects GET error:", error);
+    return NextResponse.json({ error: "Failed to fetch projects" }, { status: 500 });
   }
-
-  return NextResponse.json(projects);
 }
 
 export async function POST(request: Request) {
-  const body = await request.json();
-  const { customerId, type, name } = body as { customerId: string; type: Project["type"]; name: string };
-  if (!customerId || !type || !name) {
-    return NextResponse.json({ error: "customerId, type, and name are required" }, { status: 400 });
+  try {
+    await connectDB();
+    const body = await request.json();
+    const { customerId, type, name } = body;
+    if (!customerId || !type || !name) {
+      return NextResponse.json({ error: "customerId, type, and name are required" }, { status: 400 });
+    }
+    if (!mongoose.Types.ObjectId.isValid(customerId)) {
+      return NextResponse.json({ error: "Invalid customerId" }, { status: 400 });
+    }
+
+    const project = await Project.create({
+      customerId: new mongoose.Types.ObjectId(customerId),
+      type,
+      name,
+      status: "discovery",
+    });
+
+    return NextResponse.json(toProjectDoc(project.toObject() as Parameters<typeof toProjectDoc>[0]));
+  } catch (error) {
+    console.error("Projects POST error:", error);
+    return NextResponse.json({ error: "Failed to create project" }, { status: 500 });
   }
-  const project: Project = {
-    id: `proj-${Date.now()}`,
-    customerId,
-    type,
-    name,
-    status: "discovery",
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  };
-  mockProjects.push(project);
-  return NextResponse.json(project);
 }

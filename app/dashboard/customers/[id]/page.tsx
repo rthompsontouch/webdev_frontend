@@ -6,6 +6,7 @@ import Link from "next/link";
 import {
   getCustomer,
   updateCustomer,
+  sendCustomerInvite,
   getProjects,
   createProject,
   type Customer,
@@ -79,12 +80,12 @@ export default function CustomerDetailPage() {
   };
 
   const handleInvite = async () => {
-    if (!customer || customer.inviteStatus !== "not_invited") return;
+    if (!customer || customer.inviteStatus === "signed_up") return;
     setSaving(true);
     setError(null);
     try {
-      const updated = await updateCustomer(customer.id, { inviteStatus: "invited" });
-      setCustomer(updated);
+      await sendCustomerInvite(customer.id);
+      setCustomer((prev) => (prev ? { ...prev, inviteStatus: "invited" } : null));
     } catch {
       setError("Failed to send invite");
     } finally {
@@ -195,9 +196,18 @@ export default function CustomerDetailPage() {
               </button>
             )}
             {customer.inviteStatus === "invited" && (
-              <span className="shrink-0 rounded-lg bg-amber-500/20 px-4 py-2 text-sm font-medium text-amber-400">
-                Invited
-              </span>
+              <div className="flex shrink-0 items-center gap-2">
+                <span className="rounded-lg bg-amber-500/20 px-4 py-2 text-sm font-medium text-amber-400">
+                  Invited
+                </span>
+                <button
+                  onClick={handleInvite}
+                  disabled={saving}
+                  className="rounded-lg border border-zinc-600 px-4 py-2 text-sm font-medium text-zinc-300 transition-colors hover:bg-zinc-800 hover:text-white disabled:opacity-50"
+                >
+                  {saving ? "Sending..." : "Resend invite"}
+                </button>
+              </div>
             )}
           </div>
         </div>
