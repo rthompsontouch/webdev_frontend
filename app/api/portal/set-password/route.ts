@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import mongoose from "mongoose";
-import { connectDB, Customer } from "@/lib/db";
+import { connectDB } from "@/lib/db";
 import { hashPassword } from "@/lib/auth/password";
 
 export async function POST(request: Request) {
@@ -16,12 +16,17 @@ export async function POST(request: Request) {
       );
     }
 
-    const customer = await Customer.findOne({
-      inviteToken: token,
-      inviteTokenExpiry: { $gt: new Date() },
-    })
-      .select("_id")
-      .lean() as { _id: unknown } | null;
+    const conn = await connectDB();
+    const db = conn.connection.db!;
+    const customers = db.collection("customers");
+
+    const customer = await customers.findOne(
+      {
+        inviteToken: token,
+        inviteTokenExpiry: { $gt: new Date() },
+      },
+      { projection: { _id: 1 } }
+    ) as { _id: unknown } | null;
 
     if (!customer) {
       return NextResponse.json(
@@ -32,11 +37,8 @@ export async function POST(request: Request) {
 
     const passwordHash = await hashPassword(password);
 
-    // Use native MongoDB driver - Mongoose may strip passwordHash (select: false) during updates
-    const conn = await connectDB();
-    const db = conn.connection.db!;
-    const result = await db.collection("customers").updateOne(
-      { _id: new mongoose.Types.ObjectId(String(customer._id)) },
+    const result = await customers.updateOne(
+      { _id: customer._id },
       {
         $set: {
           passwordHash,

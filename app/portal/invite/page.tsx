@@ -29,18 +29,41 @@ function PortalInviteContent() {
       return;
     }
 
-    fetch(`/api/portal/invite?token=${encodeURIComponent(token)}`)
-      .then(async (res) => {
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.error || "Invalid or expired link");
-        return data;
+    setError("");
+    setFetching(true);
+    let cancelled = false;
+    const trimmedToken = token.trim();
+    const fetchInvite = () =>
+      fetch(`/api/portal/invite?token=${encodeURIComponent(trimmedToken)}`)
+        .then(async (res) => {
+          const data = await res.json();
+          if (!res.ok) throw new Error(data.error || "Invalid or expired link");
+          return data as { name: string; email: string };
+        });
+
+    fetchInvite()
+      .catch((err) => {
+        return new Promise<{ name: string; email: string }>((resolve, reject) => {
+          setTimeout(() => fetchInvite().then(resolve).catch(reject), 1500);
+        });
       })
       .then((data) => {
-        setName(data.name);
-        setEmail(data.email);
+        if (!cancelled) {
+          setError("");
+          setName(data.name);
+          setEmail(data.email);
+        }
       })
-      .catch((err) => setError(err instanceof Error ? err.message : "This invite link is invalid or has expired."))
-      .finally(() => setFetching(false));
+      .catch((err) => {
+        if (!cancelled) setError(err instanceof Error ? err.message : "This invite link is invalid or has expired.");
+      })
+      .finally(() => {
+        if (!cancelled) setFetching(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
   }, [token, customerId, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
