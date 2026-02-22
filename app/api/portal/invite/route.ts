@@ -16,7 +16,7 @@ export async function GET(request: Request) {
       inviteTokenExpiry: { $gt: new Date() },
     })
       .select("name email")
-      .lean();
+      .lean() as { name: string; email: string } | null;
 
     if (!customer) {
       const expired = await Customer.findOne({ inviteToken: token })
