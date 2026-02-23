@@ -5,9 +5,9 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 
 /**
- * Wraps layout content. On homepage (tablet/desktop), uses a dedicated scroll
- * container with section-by-section snap. Other pages use normal scroll.
- * Same DOM structure for both to minimize hydration mismatch.
+ * Wraps layout content. On homepage desktop (md+), uses a dedicated scroll
+ * container with section-by-section snap. On mobile/tablet and other pages,
+ * uses normal window scroll.
  */
 export default function HomeScrollWrapper({
   children,
@@ -25,7 +25,7 @@ export default function HomeScrollWrapper({
 
   return (
     <div
-      className={`relative z-10 ${isHome ? "home-scroll-container h-screen overflow-y-auto overflow-x-hidden" : ""}`}
+      className={`relative z-10 ${isHome ? "home-scroll-container md:h-screen md:overflow-y-auto md:overflow-x-hidden" : ""}`}
       suppressHydrationWarning
     >
       <Navbar />

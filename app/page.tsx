@@ -4,6 +4,7 @@ import BrandsCarousel from "@/components/BrandsCarousel";
 import ServiceSection from "@/components/ServiceSection";
 import OurWork from "@/components/OurWork";
 import ProcessSection from "@/components/ProcessSection";
+import FAQSection from "@/components/FAQSection";
 
 export const metadata: Metadata = {
   title: "TheWebPrism | Web Design Raleigh, Cary, Durham | Triangle NC",
@@ -25,6 +26,7 @@ export default function Home() {
       <ServiceSection />
       <OurWork />
       <ProcessSection />
+      <FAQSection />
     </main>
   );
 }

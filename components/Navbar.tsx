@@ -15,22 +15,28 @@ export default function Navbar() {
     { name: "Services", href: "/#services" },
     { name: "Work", href: "/#work" },
     { name: "Process", href: "/#process" },
+    { name: "FAQ", href: "/#faq" },
     { name: "About", href: "/about" },
     { name: "Contact", href: "/#contact" },
   ];
 
   useEffect(() => {
-    // On homepage, scroll happens inside .home-scroll-container, not window
-    const scrollContainer = document.querySelector(".home-scroll-container") ?? window;
+    const getScrollContainer = () => {
+      const isDesktop = window.matchMedia("(min-width: 768px)").matches;
+      const isHome = pathname === "/";
+      return isHome && isDesktop
+        ? (document.querySelector(".home-scroll-container") as HTMLElement) ?? window
+        : window;
+    };
 
     const handleScroll = () => {
+      const scrollContainer = getScrollContainer();
       const scrollTop = scrollContainer === window
         ? window.scrollY
         : (scrollContainer as HTMLElement).scrollTop;
       setIsScrolled(scrollTop > 8);
 
-      // Determine which section is currently most visible (getBoundingClientRect works for both window and scroll-container scroll)
-      const sections = ["services", "work", "process", "contact"];
+      const sections = ["services", "work", "process", "faq", "contact"];
       const viewportOffset = 150;
 
       for (const sectionId of sections) {
@@ -45,10 +51,26 @@ export default function Navbar() {
       }
     };
 
+    let scrollContainer = getScrollContainer();
     handleScroll();
     scrollContainer.addEventListener("scroll", handleScroll, { passive: true });
 
-    return () => scrollContainer.removeEventListener("scroll", handleScroll);
+    const handleResize = () => {
+      const next = getScrollContainer();
+      if (next !== scrollContainer) {
+        scrollContainer.removeEventListener("scroll", handleScroll);
+        scrollContainer = next;
+        scrollContainer.addEventListener("scroll", handleScroll, { passive: true });
+        handleScroll();
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      scrollContainer.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleResize);
+    };
   }, [pathname]);
 
   const isActive = (href: string) => {

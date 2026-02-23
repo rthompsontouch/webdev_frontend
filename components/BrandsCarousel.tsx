@@ -36,16 +36,16 @@ export default function BrandsCarousel() {
   return (
     <section 
       id="brands"
-      className={`${bodyFont.className} relative bg-slate-900 text-white md:h-[calc(100vh-4rem)] md:flex md:items-center md:justify-center px-6 py-16 md:py-8 scroll-mt-16 overflow-hidden`}
+      className={`${bodyFont.className} relative overflow-hidden bg-white text-zinc-900 md:h-[calc(100vh-4rem)] md:flex md:items-center md:justify-center px-6 py-16 md:py-8 scroll-mt-16`}
     >
       <div className="max-w-6xl mx-auto w-full">
         {/* Mobile Grid View */}
         <div className="md:hidden">
           <div className="flex flex-col items-center mb-8">
-            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-300 text-center">
+            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-rose-600 text-center">
               Trusted by leading brands
             </p>
-            <div className="mt-2 h-0.5 w-16 rounded-full bg-rose-200" />
+            <div className="mt-2 h-0.5 w-16 rounded-full bg-rose-500 mx-auto" />
           </div>
           <div className="grid grid-cols-2 gap-8">
             {brands.map((brand) => (
@@ -58,7 +58,7 @@ export default function BrandsCarousel() {
                   alt={brand.name}
                   width={150}
                   height={80}
-                  className="max-h-full max-w-full w-auto h-auto object-contain opacity-70"
+                  className="max-h-full max-w-full w-auto h-auto object-contain opacity-80"
                   unoptimized
                 />
               </div>
@@ -71,11 +71,11 @@ export default function BrandsCarousel() {
           {/* Center Content */}
           <div className="absolute inset-0 flex flex-col items-center justify-center z-10">
             <div className="text-center space-y-4">
-              <h3 className={`${displayFont.className} text-3xl lg:text-4xl font-bold text-white`}>
+              <h3 className={`${displayFont.className} text-3xl lg:text-4xl font-bold text-zinc-900`}>
                 Trusted Partners
               </h3>
-              <p className="text-slate-300 text-base">50+ Leading Brands</p>
-              <div className="h-0.5 w-24 rounded-full bg-rose-200 mx-auto" />
+              <p className="text-zinc-600 text-base">50+ Leading Brands</p>
+              <div className="h-0.5 w-24 rounded-full bg-rose-500 mx-auto" />
             </div>
           </div>
 
@@ -96,13 +96,13 @@ export default function BrandsCarousel() {
                   transform: "translate(-50%, -50%)",
                 }}
               >
-                <div className="w-32 h-24 flex items-center justify-center bg-slate-800/50 backdrop-blur-sm rounded-lg border border-slate-700/50 transition-all duration-300 group-hover:scale-110 group-hover:bg-slate-800 group-hover:border-rose-200/50 group-hover:shadow-lg group-hover:shadow-rose-200/20">
+                <div className="w-32 h-24 flex items-center justify-center bg-zinc-50 rounded-xl border border-zinc-200 transition-all duration-300 group-hover:scale-110 group-hover:border-rose-300 group-hover:shadow-lg group-hover:shadow-zinc-200">
                   <Image
                     src={brand.src}
                     alt={brand.name}
                     width={120}
                     height={80}
-                    className="max-h-full max-w-full w-auto h-auto object-contain opacity-70 group-hover:opacity-100 transition-opacity p-2"
+                    className="max-h-full max-w-full w-auto h-auto object-contain opacity-75 group-hover:opacity-100 transition-opacity p-2"
                     unoptimized
                   />
                 </div>
