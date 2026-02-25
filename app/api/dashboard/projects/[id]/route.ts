@@ -1,9 +1,20 @@
 import { NextResponse } from "next/server";
 import mongoose from "mongoose";
 import { connectDB, Project } from "@/lib/db";
-import type { ProjectStatus } from "@/lib/types/dashboard";
+import type { ProjectStatus, PaymentStatus } from "@/lib/types/dashboard";
 
-function toProjectDoc(doc: { _id: unknown; customerId: unknown; type: string; name: string; status: string; createdAt: Date; updatedAt: Date }) {
+function toProjectDoc(doc: {
+  _id: unknown;
+  customerId: unknown;
+  type: string;
+  name: string;
+  status: string;
+  oneTimeCost?: number;
+  paymentStatus?: string;
+  manualPayments?: { _id: unknown; amount: number; date: Date; method?: string; notes?: string }[];
+  createdAt: Date;
+  updatedAt: Date;
+}) {
   return {
     id: String(doc._id),
     customerId: typeof doc.customerId === "object" && doc.customerId !== null && "toString" in doc.customerId
@@ -12,6 +23,15 @@ function toProjectDoc(doc: { _id: unknown; customerId: unknown; type: string; na
     type: doc.type,
     name: doc.name,
     status: doc.status,
+    oneTimeCost: doc.oneTimeCost ?? 0,
+    paymentStatus: (doc.paymentStatus as PaymentStatus) ?? "unpaid",
+    manualPayments: (doc.manualPayments ?? []).map((p) => ({
+      id: String(p._id),
+      amount: p.amount,
+      date: p.date?.toISOString?.() ?? new Date().toISOString(),
+      method: p.method,
+      notes: p.notes,
+    })),
     createdAt: doc.createdAt?.toISOString?.() ?? new Date().toISOString(),
     updatedAt: doc.updatedAt?.toISOString?.() ?? new Date().toISOString(),
   };
@@ -49,14 +69,49 @@ export async function PATCH(
       return NextResponse.json({ error: "Project not found" }, { status: 404 });
     }
     const body = await request.json();
-    const { status } = body as { status?: ProjectStatus };
+    const {
+      status,
+      oneTimeCost,
+      paymentStatus,
+      manualPayment,
+    } = body as {
+      status?: ProjectStatus;
+      oneTimeCost?: number;
+      paymentStatus?: PaymentStatus;
+      manualPayment?: { amount: number; date?: string; method?: string; notes?: string };
+    };
 
     const update: Record<string, unknown> = {};
     if (status && ["discovery", "design", "development", "review", "launch", "complete"].includes(status)) {
       update.status = status;
     }
+    if (typeof oneTimeCost === "number" && oneTimeCost >= 0) {
+      update.oneTimeCost = oneTimeCost;
+    }
+    if (paymentStatus && ["unpaid", "partially_paid", "paid"].includes(paymentStatus)) {
+      update.paymentStatus = paymentStatus;
+    }
 
-    const project = await Project.findByIdAndUpdate(id, update, { new: true }).lean();
+    let project;
+    if (manualPayment && typeof manualPayment.amount === "number" && manualPayment.amount > 0) {
+      const paymentDoc = {
+        amount: manualPayment.amount,
+        date: manualPayment.date ? new Date(manualPayment.date) : new Date(),
+        method: manualPayment.method ?? "other",
+        notes: manualPayment.notes,
+      };
+      project = await Project.findByIdAndUpdate(
+        id,
+        { $push: { manualPayments: paymentDoc }, ...update },
+        { new: true }
+      ).lean();
+    } else {
+      project = await Project.findByIdAndUpdate(
+        id,
+        Object.keys(update).length ? update : { $set: { updatedAt: new Date() } },
+        { new: true }
+      ).lean();
+    }
     if (!project) {
       return NextResponse.json({ error: "Project not found" }, { status: 404 });
     }

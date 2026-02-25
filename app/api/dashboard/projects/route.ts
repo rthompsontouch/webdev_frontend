@@ -2,7 +2,17 @@ import { NextResponse } from "next/server";
 import mongoose from "mongoose";
 import { connectDB, Project } from "@/lib/db";
 
-function toProjectDoc(doc: { _id: unknown; customerId: { toString: () => string }; type: string; name: string; status: string; createdAt: Date; updatedAt: Date }) {
+function toProjectDoc(doc: {
+  _id: unknown;
+  customerId: { toString: () => string };
+  type: string;
+  name: string;
+  status: string;
+  oneTimeCost?: number;
+  paymentStatus?: string;
+  createdAt: Date;
+  updatedAt: Date;
+}) {
   return {
     id: String(doc._id),
     customerId: typeof doc.customerId === "object" && doc.customerId !== null && "toString" in doc.customerId
@@ -11,6 +21,8 @@ function toProjectDoc(doc: { _id: unknown; customerId: { toString: () => string 
     type: doc.type,
     name: doc.name,
     status: doc.status,
+    oneTimeCost: doc.oneTimeCost ?? 0,
+    paymentStatus: doc.paymentStatus ?? "unpaid",
     createdAt: doc.createdAt?.toISOString?.() ?? new Date().toISOString(),
     updatedAt: doc.updatedAt?.toISOString?.() ?? new Date().toISOString(),
   };

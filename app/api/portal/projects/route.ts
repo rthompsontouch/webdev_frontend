@@ -13,6 +13,9 @@ function toProjectDoc(doc: {
   type: string;
   name: string;
   status: string;
+  oneTimeCost?: number;
+  paymentStatus?: string;
+  manualPayments?: { amount: number; date: Date; method?: string; notes?: string }[];
   createdAt: Date;
   updatedAt: Date;
 }) {
@@ -27,6 +30,14 @@ function toProjectDoc(doc: {
     type: doc.type,
     name: doc.name,
     status: doc.status,
+    oneTimeCost: doc.oneTimeCost ?? 0,
+    paymentStatus: doc.paymentStatus ?? "unpaid",
+    manualPayments: (doc.manualPayments ?? []).map((p) => ({
+      amount: p.amount,
+      date: p.date?.toISOString?.() ?? new Date().toISOString(),
+      method: p.method,
+      notes: p.notes,
+    })),
     createdAt: doc.createdAt?.toISOString?.() ?? new Date().toISOString(),
     updatedAt: doc.updatedAt?.toISOString?.() ?? new Date().toISOString(),
   };

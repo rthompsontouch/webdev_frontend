@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import mongoose from "mongoose";
 import { connectDB, Customer } from "@/lib/db";
 
-function toCustomerDoc(doc: { _id: unknown; name: string; email: string; company?: string; phone?: string; notes?: string; inviteStatus?: string; createdAt: Date; updatedAt: Date }) {
+function toCustomerDoc(doc: { _id: unknown; name: string; email: string; company?: string; phone?: string; notes?: string; inviteStatus?: string; stripeCustomerId?: string; createdAt: Date; updatedAt: Date }) {
   return {
     id: String(doc._id),
     name: doc.name,
@@ -11,6 +11,7 @@ function toCustomerDoc(doc: { _id: unknown; name: string; email: string; company
     phone: doc.phone,
     notes: doc.notes,
     inviteStatus: doc.inviteStatus,
+    stripeCustomerId: doc.stripeCustomerId,
     createdAt: doc.createdAt?.toISOString?.() ?? new Date().toISOString(),
     updatedAt: doc.updatedAt?.toISOString?.() ?? new Date().toISOString(),
   };

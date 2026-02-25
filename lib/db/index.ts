@@ -4,3 +4,5 @@ export { Customer } from "./models/Customer";
 export { Project } from "./models/Project";
 export { ProjectUpdate } from "./models/ProjectUpdate";
 export { ProjectUpdateFeedback } from "./models/ProjectUpdateFeedback";
+export { Document } from "./models/Document";
+export { RecurringSubscription } from "./models/RecurringSubscription";

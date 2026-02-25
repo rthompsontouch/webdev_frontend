@@ -8,9 +8,14 @@ import {
   getProjectUpdates,
   getUpdateFeedback,
   submitFeedback,
+  getDocuments,
+  getSubscriptions,
+  getBillingPortalUrl,
   type Project,
   type ProjectUpdate,
   type ProjectUpdateFeedback,
+  type Document,
+  type RecurringSubscription,
 } from "@/lib/api";
 import { usePortal } from "@/lib/context/PortalProvider";
 
@@ -73,6 +78,9 @@ export default function PortalProjectPage() {
   const [comment, setComment] = useState("");
   const [saving, setSaving] = useState(false);
   const [feedbackMessage, setFeedbackMessage] = useState<"success" | "error" | null>(null);
+  const [documents, setDocuments] = useState<Document[]>([]);
+  const [subscriptions, setSubscriptions] = useState<RecurringSubscription[]>([]);
+  const [billingPortalLoading, setBillingPortalLoading] = useState(false);
 
   useEffect(() => {
     if (!customerId && !isLoading) {
@@ -113,6 +121,37 @@ export default function PortalProjectPage() {
       setComment(f?.comment ?? "");
     });
   }, [selectedUpdate?.id, customerId]);
+
+  useEffect(() => {
+    if (!customerId) return;
+    getDocuments(customerId, projectId)
+      .then(setDocuments)
+      .catch(() => setDocuments([]));
+  }, [customerId, projectId]);
+
+  useEffect(() => {
+    if (!customerId) return;
+    getSubscriptions({ customerId })
+      .then(setSubscriptions)
+      .catch(() => setSubscriptions([]));
+  }, [customerId]);
+
+  const handleOpenBillingPortal = async () => {
+    if (!customerId) return;
+    setBillingPortalLoading(true);
+    try {
+      const { url } = await getBillingPortalUrl(
+        customerId,
+        typeof window !== "undefined" ? window.location.href : undefined
+      );
+      window.open(url, "_blank");
+    } catch {
+      setFeedbackMessage("error");
+      setTimeout(() => setFeedbackMessage(null), 4000);
+    } finally {
+      setBillingPortalLoading(false);
+    }
+  };
 
   const handleViewUpdate = async (update: ProjectUpdate) => {
     setSelectedUpdate(update);
@@ -256,6 +295,119 @@ export default function PortalProjectPage() {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Billing & documents */}
+      <div className="space-y-6">
+        {(project.oneTimeCost != null && project.oneTimeCost > 0) ||
+        (project.manualPayments && project.manualPayments.length > 0) ||
+        subscriptions.length > 0 ||
+        project.paymentStatus ? (
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-6">
+            <h2 className="text-lg font-medium text-white">Billing</h2>
+            <div className="mt-4 space-y-4">
+              {project.oneTimeCost != null && project.oneTimeCost > 0 && (
+                <div>
+                  <p className="text-sm text-zinc-400">Project cost</p>
+                  <p className="text-xl font-semibold text-white">
+                    ${project.oneTimeCost.toFixed(2)}
+                  </p>
+                </div>
+              )}
+              {project.paymentStatus && (
+                <div>
+                  <p className="text-sm text-zinc-400">Payment status</p>
+                  <span
+                    className={`inline-block rounded-full px-2.5 py-0.5 text-sm font-medium capitalize ${
+                      project.paymentStatus === "paid"
+                        ? "bg-emerald-500/20 text-emerald-400"
+                        : project.paymentStatus === "partially_paid"
+                          ? "bg-amber-500/20 text-amber-400"
+                          : "bg-zinc-600/50 text-zinc-400"
+                    }`}
+                  >
+                    {project.paymentStatus.replace("_", " ")}
+                  </span>
+                </div>
+              )}
+              {subscriptions.length > 0 && (
+                <div>
+                  <p className="text-sm text-zinc-400">Recurring</p>
+                  <ul className="mt-2 space-y-2">
+                    {subscriptions
+                      .filter((s) => s.projectId === projectId)
+                      .map((sub) => {
+                        const total =
+                          sub.amount ??
+                          (sub.items?.reduce((s, i) => s + i.amount, 0) ?? 0);
+                        const displayName =
+                          sub.items && sub.items.length > 1
+                            ? sub.items.map((i) => i.productName).join(" + ")
+                            : sub.productName ?? sub.items?.[0]?.productName ?? "Subscription";
+                        return (
+                          <li
+                            key={sub.id}
+                            className="flex items-center justify-between rounded-lg border border-zinc-700 bg-zinc-800/50 px-3 py-2 text-sm"
+                          >
+                            <span className="text-white">{displayName}</span>
+                            <span className="text-zinc-400">
+                              ${total.toFixed(2)}/{sub.interval ?? "month"}
+                            </span>
+                          </li>
+                        );
+                      })}
+                  </ul>
+                </div>
+              )}
+              {subscriptions.length > 0 && (
+                <button
+                  type="button"
+                  onClick={handleOpenBillingPortal}
+                  disabled={billingPortalLoading}
+                  className="cursor-pointer rounded-lg bg-rose-500/20 px-4 py-2 text-sm font-medium text-rose-400 transition-colors hover:bg-rose-500/30 disabled:opacity-50"
+                >
+                  {billingPortalLoading ? "Opening..." : "Manage billing & payment methods →"}
+                </button>
+              )}
+            </div>
+          </div>
+        ) : null}
+
+        {documents.length > 0 && (
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-6">
+            <h2 className="text-lg font-medium text-white">Documents</h2>
+            <p className="mt-1 text-sm text-zinc-500">
+              Contracts and other files shared with you.
+            </p>
+            <ul className="mt-4 space-y-2">
+              {documents.map((doc) => (
+                <li key={doc.id}>
+                  <a
+                    href={doc.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 rounded-lg border border-zinc-700 bg-zinc-800/50 px-4 py-3 text-rose-400 transition-colors hover:border-zinc-600 hover:bg-zinc-800/70 hover:text-rose-300"
+                  >
+                    <svg
+                      className="h-5 w-5 shrink-0 text-zinc-500"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                      />
+                    </svg>
+                    {doc.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
 
       <div>

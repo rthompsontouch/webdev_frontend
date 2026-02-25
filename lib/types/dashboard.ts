@@ -28,6 +28,34 @@ export interface Customer {
   phone?: string;
   notes?: string;
   inviteStatus?: InviteStatus;
+  stripeCustomerId?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface RecurringSubscriptionItem {
+  stripePriceId: string;
+  stripeProductId: string;
+  productName: string;
+  amount: number;
+  interval: string;
+}
+
+export interface RecurringSubscription {
+  id: string;
+  projectId: string;
+  customerId: string;
+  stripeSubscriptionId: string;
+  items?: RecurringSubscriptionItem[];
+  stripePriceId?: string;
+  stripeProductId?: string;
+  productName?: string;
+  amount?: number;
+  interval?: string;
+  billingDay?: number;
+  firstPaymentDate?: string;
+  cancelAtPeriodEnd?: boolean;
+  status: "active" | "canceled" | "past_due" | "trialing" | "incomplete";
   createdAt: string;
   updatedAt: string;
 }
@@ -36,14 +64,37 @@ export type ProjectType = "website_redesign" | "new_website" | "seo" | "marketin
 
 export type ProjectStatus = "discovery" | "design" | "development" | "review" | "launch" | "complete";
 
+export type PaymentStatus = "unpaid" | "partially_paid" | "paid";
+
+export interface ManualPayment {
+  id: string;
+  amount: number;
+  date: string;
+  method?: string;
+  notes?: string;
+}
+
 export interface Project {
   id: string;
   customerId: string;
   type: ProjectType;
   name: string;
   status: ProjectStatus;
+  oneTimeCost?: number;
+  paymentStatus?: PaymentStatus;
+  manualPayments?: ManualPayment[];
   createdAt: string;
   updatedAt: string;
+}
+
+export interface Document {
+  id: string;
+  customerId: string;
+  projectId?: string;
+  name: string;
+  url: string;
+  type?: string;
+  createdAt: string;
 }
 
 export interface ProjectUpdate {

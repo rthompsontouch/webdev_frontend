@@ -13,6 +13,7 @@ const customerSchema = new Schema(
       enum: ["not_invited", "invited", "signed_up"],
       default: "not_invited",
     },
+    stripeCustomerId: String,
     passwordHash: { type: String, select: false },
     inviteToken: { type: String, select: false },
     inviteTokenExpiry: { type: Date, select: false },

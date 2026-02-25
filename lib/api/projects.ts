@@ -1,13 +1,41 @@
-import type { Project, ProjectStatus, ProjectType, ProjectUpdate, ProjectUpdateFeedback } from "@/lib/types/dashboard";
+import type {
+  Project,
+  ProjectStatus,
+  ProjectType,
+  ProjectUpdate,
+  ProjectUpdateFeedback,
+  PaymentStatus,
+  ManualPayment,
+} from "@/lib/types/dashboard";
 import { api } from "./client";
 
-export type { Project, ProjectStatus, ProjectType, ProjectUpdate, ProjectUpdateFeedback };
+export type {
+  Project,
+  ProjectStatus,
+  ProjectType,
+  ProjectUpdate,
+  ProjectUpdateFeedback,
+  PaymentStatus,
+  ManualPayment,
+};
 
 export async function updateProjectStatus(
   id: string,
   status: ProjectStatus
 ): Promise<Project> {
   return api.patch<Project>(`/projects/${id}`, { status });
+}
+
+export async function updateProject(
+  id: string,
+  data: {
+    status?: ProjectStatus;
+    oneTimeCost?: number;
+    paymentStatus?: PaymentStatus;
+    manualPayment?: { amount: number; date?: string; method?: string; notes?: string };
+  }
+): Promise<Project> {
+  return api.patch<Project>(`/projects/${id}`, data);
 }
 
 export async function createProject(

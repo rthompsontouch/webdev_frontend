@@ -29,3 +29,17 @@ export async function uploadImages(
   );
   return results.map((r) => r.url);
 }
+
+export async function uploadDocument(
+  file: string | Buffer,
+  options?: { folder?: string; originalName?: string }
+): Promise<{ url: string; publicId: string }> {
+  const source = typeof file === "string"
+    ? file
+    : `data:application/pdf;base64,${(file as Buffer).toString("base64")}`;
+  const result = await cloudinary.uploader.upload(source, {
+    folder: options?.folder ?? "documents",
+    resource_type: "auto",
+  });
+  return { url: result.secure_url, publicId: result.public_id };
+}

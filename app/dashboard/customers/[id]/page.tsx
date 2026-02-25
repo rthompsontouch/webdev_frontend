@@ -9,9 +9,13 @@ import {
   sendCustomerInvite,
   getProjects,
   createProject,
+  getDocuments,
+  uploadDocument,
+  deleteDocument,
   type Customer,
   type Project,
   type ProjectType,
+  type Document,
 } from "@/lib/api";
 
 function formatDate(iso: string) {
@@ -53,6 +57,11 @@ export default function CustomerDetailPage() {
   const [showAddProject, setShowAddProject] = useState(false);
   const [newProjectName, setNewProjectName] = useState("");
   const [newProjectType, setNewProjectType] = useState<ProjectType>("new_website");
+  const [documents, setDocuments] = useState<Document[]>([]);
+  const [documentsLoading, setDocumentsLoading] = useState(false);
+  const [docUploading, setDocUploading] = useState(false);
+  const [docFile, setDocFile] = useState<File | null>(null);
+  const [docName, setDocName] = useState("");
 
   useEffect(() => {
     Promise.all([getCustomer(id), getProjects(id)])
@@ -63,6 +72,15 @@ export default function CustomerDetailPage() {
       })
       .catch(() => setError("Failed to load customer"))
       .finally(() => setLoading(false));
+  }, [id]);
+
+  useEffect(() => {
+    if (!id) return;
+    setDocumentsLoading(true);
+    getDocuments(id)
+      .then(setDocuments)
+      .catch(() => setDocuments([]))
+      .finally(() => setDocumentsLoading(false));
   }, [id]);
 
   const handleSaveNotes = async () => {
@@ -90,6 +108,37 @@ export default function CustomerDetailPage() {
       setError("Failed to send invite");
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handleDocUpload = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!customer || !docFile) return;
+    setDocUploading(true);
+    setError(null);
+    try {
+      const doc = await uploadDocument(docFile, {
+        customerId: customer.id,
+        name: docName.trim() || docFile.name,
+        type: "other",
+      });
+      setDocuments((prev) => [doc, ...prev]);
+      setDocFile(null);
+      setDocName("");
+    } catch {
+      setError("Failed to upload document");
+    } finally {
+      setDocUploading(false);
+    }
+  };
+
+  const handleDocDelete = async (docId: string) => {
+    if (!confirm("Delete this document?")) return;
+    try {
+      await deleteDocument(docId);
+      setDocuments((prev) => prev.filter((d) => d.id !== docId));
+    } catch {
+      setError("Failed to delete document");
     }
   };
 
@@ -362,6 +411,85 @@ export default function CustomerDetailPage() {
               </div>
             </div>
           )}
+
+          {/* Documents */}
+          <div>
+            <h3 className="text-xs font-medium uppercase tracking-wider text-zinc-500">
+              Documents
+            </h3>
+            <div className="mt-4 space-y-4">
+              <form onSubmit={handleDocUpload} className="flex flex-wrap items-end gap-3">
+                <div>
+                  <label className="block text-sm font-medium text-zinc-400">File</label>
+                  <input
+                    type="file"
+                    accept=".pdf,.doc,.docx,image/*"
+                    onChange={(e) => setDocFile(e.target.files?.[0] ?? null)}
+                    className="mt-1 block text-sm text-zinc-400 file:mr-2 file:rounded-lg file:border-0 file:bg-rose-500/20 file:px-4 file:py-2 file:text-sm file:font-medium file:text-rose-400 file:hover:bg-rose-500/30"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-zinc-400">Name (optional)</label>
+                  <input
+                    type="text"
+                    value={docName}
+                    onChange={(e) => setDocName(e.target.value)}
+                    placeholder="e.g. Contract"
+                    className="mt-1 w-40 rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-white placeholder-zinc-500 focus:border-rose-500/50 focus:outline-none focus:ring-1 focus:ring-rose-500/50"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  disabled={docUploading || !docFile}
+                  className="rounded-lg bg-rose-500/20 px-4 py-2 text-sm font-medium text-rose-400 transition-colors hover:bg-rose-500/30 disabled:opacity-50"
+                >
+                  {docUploading ? "Uploading..." : "Upload"}
+                </button>
+              </form>
+              {documentsLoading ? (
+                <div className="flex h-12 items-center text-sm text-zinc-500">Loading documents...</div>
+              ) : documents.length === 0 ? (
+                <div className="rounded-lg border border-dashed border-zinc-700 bg-zinc-800/30 p-6 text-center text-sm text-zinc-500">
+                  No documents yet. Upload contracts or other files above.
+                </div>
+              ) : (
+                <ul className="space-y-2">
+                  {documents.map((doc) => (
+                    <li
+                      key={doc.id}
+                      className="flex items-center justify-between rounded-lg border border-zinc-700 bg-zinc-800/50 px-4 py-3"
+                    >
+                      <a
+                        href={doc.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-rose-400 hover:text-rose-300"
+                      >
+                        {doc.name}
+                      </a>
+                      <div className="flex items-center gap-2">
+                        <a
+                          href={doc.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="rounded-lg px-3 py-1.5 text-sm text-zinc-400 transition-colors hover:bg-zinc-700 hover:text-white"
+                        >
+                          View
+                        </a>
+                        <button
+                          type="button"
+                          onClick={() => handleDocDelete(doc.id)}
+                          className="rounded-lg px-3 py-1.5 text-sm text-rose-400 transition-colors hover:bg-rose-500/20"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </div>
 
           {/* Notes */}
           <div>
