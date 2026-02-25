@@ -66,7 +66,7 @@ export async function PATCH(
     if (!sub) {
       return NextResponse.json({ error: "Subscription not found" }, { status: 404 });
     }
-    const doc = sub as { stripeSubscriptionId: string };
+    const doc = sub as unknown as { stripeSubscriptionId: string };
 
     let stripeSub = await stripe.subscriptions.retrieve(doc.stripeSubscriptionId);
 
