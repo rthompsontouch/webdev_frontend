@@ -27,20 +27,20 @@ export async function POST(request: Request) {
     if (!project) {
       return NextResponse.json({ error: "Project not found" }, { status: 404 });
     }
-    const proj = project as { customerId: unknown };
+    const proj = project as unknown as { customerId: unknown };
     const customerId = String(proj.customerId);
 
     const customer = await Customer.findById(customerId).lean();
     if (!customer) {
       return NextResponse.json({ error: "Customer not found" }, { status: 404 });
     }
-    const cust = customer as { stripeCustomerId?: string; email: string; name: string };
+    const cust = customer as unknown as { stripeCustomerId?: string; email: string; name: string };
     let stripeCustomerId = cust.stripeCustomerId;
 
     if (stripeCustomerId) {
       try {
         const existing = await stripe.customers.retrieve(stripeCustomerId);
-        if ((existing as { deleted?: boolean }).deleted) {
+        if ((existing as unknown as { deleted?: boolean }).deleted) {
           stripeCustomerId = undefined;
         }
       } catch {
