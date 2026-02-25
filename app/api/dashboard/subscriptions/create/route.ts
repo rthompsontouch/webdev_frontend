@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import mongoose from "mongoose";
+import type Stripe from "stripe";
 import { connectDB, Customer, Project, RecurringSubscription } from "@/lib/db";
 import { stripe } from "@/lib/stripe";
 
@@ -76,13 +77,7 @@ export async function POST(request: Request) {
 
     const day = typeof billingDay === "number" && billingDay >= 1 && billingDay <= 28 ? billingDay : 1;
 
-    const subParams: {
-      customer: string;
-      items: { price: string }[];
-      billing_cycle_anchor?: number;
-      payment_behavior: string;
-      proration_behavior?: string;
-    } = {
+    const subParams: Stripe.SubscriptionCreateParams = {
       customer: stripeCustomerId,
       items: ids.map((p) => ({ price: p })),
       payment_behavior: "default_incomplete",
