@@ -1,6 +1,14 @@
 import { NextResponse } from "next/server";
 import mongoose from "mongoose";
-import { connectDB, Customer } from "@/lib/db";
+import {
+  connectDB,
+  Customer,
+  Project,
+  Document,
+  RecurringSubscription,
+  ProjectUpdate,
+  ProjectUpdateFeedback,
+} from "@/lib/db";
 
 function toCustomerDoc(doc: { _id: unknown; name: string; email: string; company?: string; phone?: string; notes?: string; inviteStatus?: string; stripeCustomerId?: string; createdAt: Date; updatedAt: Date }) {
   return {
@@ -69,5 +77,41 @@ export async function PATCH(
   } catch (error) {
     console.error("Customer PATCH error:", error);
     return NextResponse.json({ error: "Failed to update customer" }, { status: 500 });
+  }
+}
+
+export async function DELETE(
+  _request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    await connectDB();
+    const { id } = await params;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return NextResponse.json({ error: "Customer not found" }, { status: 404 });
+    }
+
+    const customerId = new mongoose.Types.ObjectId(id);
+
+    // Get projects for this customer (needed for ProjectUpdate cascade)
+    const projects = await Project.find({ customerId }).lean();
+    const projectIds = projects.map((p) => p._id);
+
+    // Cascade delete in order
+    await RecurringSubscription.deleteMany({ customerId });
+    await ProjectUpdateFeedback.deleteMany({ customerId: id });
+    await ProjectUpdate.deleteMany({ projectId: { $in: projectIds } });
+    await Document.deleteMany({ customerId });
+    await Project.deleteMany({ customerId });
+    const deleted = await Customer.findByIdAndDelete(id);
+
+    if (!deleted) {
+      return NextResponse.json({ error: "Customer not found" }, { status: 404 });
+    }
+
+    return NextResponse.json({ ok: true });
+  } catch (error) {
+    console.error("Customer DELETE error:", error);
+    return NextResponse.json({ error: "Failed to delete customer" }, { status: 500 });
   }
 }

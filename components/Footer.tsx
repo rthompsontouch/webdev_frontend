@@ -50,14 +50,14 @@ export default function Footer() {
             <div className="lg:col-span-1">
               <Link href="/" className="inline-block">
                 <Image
-                  src="/images/logo/Logo_white.png"
+                  src="/images/logo/TheWebPrism_LOGO.png"
                   alt="TheWebPrism"
-                  width={140}
-                  height={36}
-                  className="h-9 w-auto"
+                  width={200}
+                  height={80}
+                  className="h-14 w-auto"
                 />
               </Link>
-              <p className="mt-4 max-w-xs text-sm leading-relaxed text-zinc-400">
+              <p className="mt-0 max-w-xs text-sm leading-relaxed text-zinc-400">
                 Premium web design and development for Raleigh, Cary, Durham, and the Triangle. We build websites that convert.
               </p>
               <div className="mt-6 flex gap-4">

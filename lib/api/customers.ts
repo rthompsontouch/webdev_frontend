@@ -23,6 +23,10 @@ export async function sendCustomerInvite(customerId: string): Promise<void> {
   await api.post(`/customers/${customerId}/invite`);
 }
 
+export async function deleteCustomer(id: string): Promise<void> {
+  await api.delete(`/customers/${id}`);
+}
+
 export async function portalLogin(email: string, password: string): Promise<{ customerId: string }> {
   const res = await fetch("/api/portal/login", {
     method: "POST",

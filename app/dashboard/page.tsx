@@ -6,8 +6,10 @@ import {
   getLeads,
   getCustomers,
   getProjects,
+  getPaymentStats,
   type Lead,
   type Project,
+  type PaymentStats,
 } from "@/lib/api";
 
 function formatDate(iso: string) {
@@ -36,16 +38,19 @@ export default function DashboardPage() {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [customers, setCustomers] = useState<{ id: string }[]>([]);
   const [projects, setProjects] = useState<Project[]>([]);
+  const [paymentStats, setPaymentStats] = useState<PaymentStats | null>(null);
   const [loading, setLoading] = useState(true);
 
   const fetchData = useCallback(() => {
     setLoading(true);
-    Promise.all([getLeads(), getCustomers(), getProjects()])
-      .then(([l, c, p]) => {
+    Promise.all([getLeads(), getCustomers(), getProjects(), getPaymentStats()])
+      .then(([l, c, p, stats]) => {
         setLeads(l);
         setCustomers(c);
         setProjects(p);
+        setPaymentStats(stats);
       })
+      .catch(() => setPaymentStats(null))
       .finally(() => setLoading(false));
   }, []);
 
@@ -55,6 +60,12 @@ export default function DashboardPage() {
 
   const newLeads = leads.filter((l) => l.status === "new");
   const activeProjects = projects.filter((p) => p.status !== "complete");
+  const paymentIssueCount =
+    paymentStats
+      ? paymentStats.lateSubscriptions.length +
+        paymentStats.pendingSubscriptions.length +
+        paymentStats.unpaidProjects.length
+      : 0;
   const recentLeads = [...leads].sort(
     (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
   ).slice(0, 5);
@@ -88,7 +99,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Stats */}
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
         <Link
           href="/dashboard/leads"
           className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-6 transition-colors hover:border-rose-500/30 hover:bg-zinc-900"
@@ -128,6 +139,22 @@ export default function DashboardPage() {
             {activeProjects.length}
           </p>
           <p className="mt-1 text-xs text-zinc-500">In progress</p>
+        </Link>
+        <Link
+          href="#payment-issues"
+          className={`rounded-xl border p-6 transition-colors ${
+            paymentIssueCount > 0
+              ? "border-rose-500/30 bg-rose-500/10 hover:border-rose-500/50 hover:bg-rose-500/20"
+              : "border-zinc-800 bg-zinc-900/50 hover:border-rose-500/30 hover:bg-zinc-900"
+          }`}
+        >
+          <p className="text-sm font-medium text-zinc-400">Payment issues</p>
+          <p className={`mt-2 text-2xl font-semibold ${paymentIssueCount > 0 ? "text-rose-400" : "text-white"}`}>
+            {paymentStats === null ? "—" : paymentIssueCount}
+          </p>
+          <p className="mt-1 text-xs text-zinc-500">
+            {paymentIssueCount > 0 ? "Need your attention" : "All caught up"}
+          </p>
         </Link>
       </div>
 
@@ -228,6 +255,94 @@ export default function DashboardPage() {
           </div>
         </div>
       </div>
+
+      {/* Payment issues */}
+      <div id="payment-issues" className="rounded-xl border border-zinc-800 bg-zinc-900/30">
+        <div className="border-b border-zinc-800 px-6 py-4">
+          <h2 className="font-semibold text-white">Payment issues</h2>
+          <p className="mt-1 text-sm text-zinc-400">
+            {paymentStats === null
+              ? "Loading..."
+              : paymentIssueCount > 0
+                ? `${paymentIssueCount} to address — late payments, pending setup, or unpaid invoices`
+                : "All caught up — no late payments or unpaid invoices"}
+          </p>
+        </div>
+          <div className="divide-y divide-zinc-800">
+            {!paymentStats ? (
+              <div className="px-6 py-12 text-center text-sm text-zinc-500">
+                Loading payment stats...
+              </div>
+            ) : paymentIssueCount === 0 ? (
+              <div className="px-6 py-12 text-center text-sm text-zinc-500">
+                No payment issues to address.
+              </div>
+            ) : (
+              <>
+            {paymentStats.lateSubscriptions.map((sub) => (
+              <Link
+                key={`late-${sub.id}`}
+                href={`/dashboard/projects/${sub.projectId}`}
+                className="block px-6 py-4 transition-colors hover:bg-rose-500/10"
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <p className="font-medium text-white">{sub.customerName}</p>
+                    <p className="text-sm text-zinc-400">
+                      {sub.projectName} · {sub.productName}
+                      {sub.amount != null && sub.interval && ` · $${(sub.amount / 100).toFixed(0)}/${sub.interval}`}
+                    </p>
+                  </div>
+                  <span className="shrink-0 rounded-full bg-rose-500/30 px-2.5 py-0.5 text-xs font-medium text-rose-400">
+                    Late payment
+                  </span>
+                </div>
+              </Link>
+            ))}
+            {paymentStats.pendingSubscriptions.map((sub) => (
+              <Link
+                key={`pending-${sub.id}`}
+                href={`/dashboard/projects/${sub.projectId}`}
+                className="block px-6 py-4 transition-colors hover:bg-rose-500/10"
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <p className="font-medium text-white">{sub.customerName}</p>
+                    <p className="text-sm text-zinc-400">
+                      {sub.projectName} · {sub.productName}
+                      {sub.amount != null && sub.interval && ` · $${(sub.amount / 100).toFixed(0)}/${sub.interval}`}
+                    </p>
+                  </div>
+                  <span className="shrink-0 rounded-full bg-amber-500/20 px-2.5 py-0.5 text-xs font-medium text-amber-400">
+                    Pending payment
+                  </span>
+                </div>
+              </Link>
+            ))}
+            {paymentStats.unpaidProjects.map((proj) => (
+              <Link
+                key={`unpaid-${proj.id}`}
+                href={`/dashboard/projects/${proj.id}`}
+                className="block px-6 py-4 transition-colors hover:bg-rose-500/10"
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <p className="font-medium text-white">{proj.customerName}</p>
+                    <p className="text-sm text-zinc-400">
+                      {proj.projectName}
+                      {proj.oneTimeCost != null && proj.oneTimeCost > 0 && ` · $${proj.oneTimeCost.toFixed(2)} due`}
+                    </p>
+                  </div>
+                  <span className="shrink-0 rounded-full bg-amber-500/20 px-2.5 py-0.5 text-xs font-medium text-amber-400">
+                    {proj.paymentStatus === "partially_paid" ? "Partially paid" : "Unpaid"}
+                  </span>
+                </div>
+              </Link>
+            ))}
+              </>
+            )}
+          </div>
+        </div>
 
       {/* New leads CTA */}
       {newLeads.length > 0 && (

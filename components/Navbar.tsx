@@ -83,22 +83,22 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed inset-x-0 top-0 z-50 border-b transition-all duration-300 shadow-md ${
+      className={`fixed inset-x-0 top-0 z-50 overflow-visible border-b transition-all duration-300 shadow-md ${
         isScrolled
           ? "bg-black/80 backdrop-blur-sm border-white/10"
           : "bg-transparent border-transparent"
       }`}
     >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            {/* Logo */}
-            <Link href="/" className="flex-shrink-0">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 overflow-visible">
+          <div className="flex justify-between items-center h-16 overflow-visible">
+            {/* Logo - larger, hangs below navbar */}
+            <Link href="/" className="flex-shrink-0 flex items-center">
               <Image
-                src="/images/logo/Logo_white.png"
+                src="/images/logo/TheWebPrism_LOGO.png"
                 alt="Logo"
-                width={140}
-                height={36}
-                className="h-16 w-auto"
+                width={200}
+                height={80}
+                className="h-24 w-auto translate-y-3"
                 priority
               />
             </Link>

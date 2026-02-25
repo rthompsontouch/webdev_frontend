@@ -81,7 +81,7 @@ export default function PortalNavbar() {
             className="portal-nav-logo flex cursor-pointer items-center gap-3"
           >
             <Image
-              src="/images/logo/Logo_white.png"
+              src="/images/logo/TheWebPrism_LOGO.png"
               alt="TheWebPrism"
               width={160}
               height={40}

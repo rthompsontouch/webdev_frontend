@@ -10,3 +10,4 @@ export * from "./projects";
 export * from "./documents";
 export * from "./stripe";
 export * from "./subscriptions";
+export * from "./dashboard";

@@ -15,6 +15,10 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.thewebprism.com"),
+  icons: {
+    icon: "/images/logo/TheWebPrism_Favicon.png",
+    apple: "/images/logo/TheWebPrism_Favicon.png",
+  },
   title: "TheWebPrism | Premium Design & Development Studio",
   description:
     "Premium web design and development for Raleigh, Cary, Durham, and the Triangle. We create websites, apps, and digital experiences for ambitious brands in North Carolina.",

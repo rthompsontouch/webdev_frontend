@@ -1,12 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import {
   getCustomer,
   updateCustomer,
   sendCustomerInvite,
+  deleteCustomer,
   getProjects,
   createProject,
   getDocuments,
@@ -47,6 +48,7 @@ const PROJECT_TYPES: { value: ProjectType; label: string }[] = [
 
 export default function CustomerDetailPage() {
   const params = useParams();
+  const router = useRouter();
   const id = params.id as string;
   const [customer, setCustomer] = useState<Customer | null>(null);
   const [projects, setProjects] = useState<Project[]>([]);
@@ -139,6 +141,26 @@ export default function CustomerDetailPage() {
       setDocuments((prev) => prev.filter((d) => d.id !== docId));
     } catch {
       setError("Failed to delete document");
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!customer) return;
+    if (
+      !confirm(
+        `Delete ${customer.name}? This will permanently remove this customer and all their projects, documents, and subscriptions. This cannot be undone.`
+      )
+    )
+      return;
+    setSaving(true);
+    setError(null);
+    try {
+      await deleteCustomer(customer.id);
+      router.push("/dashboard/customers");
+    } catch {
+      setError("Failed to delete customer");
+    } finally {
+      setSaving(false);
     }
   };
 
@@ -235,17 +257,18 @@ export default function CustomerDetailPage() {
                 Added {formatDate(customer.createdAt)}
               </p>
             </div>
+            <div className="flex shrink-0 flex-wrap items-center gap-2">
             {customer.inviteStatus === "not_invited" && (
               <button
                 onClick={handleInvite}
                 disabled={saving}
-                className="shrink-0 rounded-lg bg-rose-500/20 px-4 py-2 text-sm font-medium text-rose-400 transition-colors hover:bg-rose-500/30 disabled:opacity-50"
+                className="rounded-lg bg-rose-500/20 px-4 py-2 text-sm font-medium text-rose-400 transition-colors hover:bg-rose-500/30 disabled:opacity-50"
               >
                 Invite to dashboard
               </button>
             )}
             {customer.inviteStatus === "invited" && (
-              <div className="flex shrink-0 items-center gap-2">
+              <>
                 <span className="rounded-lg bg-amber-500/20 px-4 py-2 text-sm font-medium text-amber-400">
                   Invited
                 </span>
@@ -256,8 +279,16 @@ export default function CustomerDetailPage() {
                 >
                   {saving ? "Sending..." : "Resend invite"}
                 </button>
-              </div>
+              </>
             )}
+            <button
+              onClick={handleDelete}
+              disabled={saving}
+              className="rounded-lg border border-rose-500/30 px-4 py-2 text-sm font-medium text-rose-400 transition-colors hover:bg-rose-500/20 disabled:opacity-50"
+            >
+              Delete customer
+            </button>
+          </div>
           </div>
         </div>
 
