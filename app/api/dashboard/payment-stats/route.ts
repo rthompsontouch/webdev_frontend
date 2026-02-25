@@ -79,9 +79,9 @@ export async function GET() {
     };
 
     return NextResponse.json({
-      lateSubscriptions: (lateSubs as SubDoc[]).map(toSubItem),
-      pendingSubscriptions: (pendingSubs as SubDoc[]).map(toSubItem),
-      unpaidProjects: (unpaidProjects as ProjectDoc[]).map(toProjectItem),
+      lateSubscriptions: (lateSubs as unknown as SubDoc[]).map(toSubItem),
+      pendingSubscriptions: (pendingSubs as unknown as SubDoc[]).map(toSubItem),
+      unpaidProjects: (unpaidProjects as unknown as ProjectDoc[]).map(toProjectItem),
     });
   } catch (error) {
     console.error("Payment stats error:", error);
