@@ -13,18 +13,18 @@ export async function POST(request: Request) {
     if (!customerId || !mongoose.Types.ObjectId.isValid(customerId)) {
       return NextResponse.json({ error: "Valid customerId required" }, { status: 400 });
     }
-    const customer = await Customer.findById(customerId).lean();
+    const customer = await Customer.findById(customerId).select("name email stripeCustomerId").lean();
     if (!customer) {
       return NextResponse.json({ error: "Customer not found" }, { status: 404 });
     }
-    const doc = customer as { _id: unknown; stripeCustomerId?: string; name: string; email: string };
+    const doc = customer as unknown as { stripeCustomerId?: string; name: string; email: string };
     if (doc.stripeCustomerId) {
       return NextResponse.json({ stripeCustomerId: doc.stripeCustomerId });
     }
     const stripeCustomer = await stripe.customers.create({
       email: doc.email,
       name: doc.name,
-      metadata: { internalCustomerId: String(doc._id) },
+      metadata: { internalCustomerId: customerId },
     });
     await Customer.findByIdAndUpdate(customerId, {
       stripeCustomerId: stripeCustomer.id,
