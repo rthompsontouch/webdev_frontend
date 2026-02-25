@@ -6,3 +6,4 @@ export { ProjectUpdate } from "./models/ProjectUpdate";
 export { ProjectUpdateFeedback } from "./models/ProjectUpdateFeedback";
 export { Document } from "./models/Document";
 export { RecurringSubscription } from "./models/RecurringSubscription";
+export { Admin } from "./models/Admin";

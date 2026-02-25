@@ -218,10 +218,10 @@ export default function AboutPage() {
                   </p>
                   <div className="flex flex-wrap gap-4 pt-4">
                     <a
-                      href="mailto:thewebprism@outlook.com"
+                      href="mailto:hello@thewebprism.com"
                       className="text-rose-200 hover:text-rose-100 font-semibold transition-colors"
                     >
-                      thewebprism@outlook.com
+                      hello@thewebprism.com
                     </a>
                     <span className="text-white/40">•</span>
                     <a

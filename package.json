@@ -9,7 +9,8 @@
     "lint": "eslint",
     "db:seed": "tsx scripts/seed.ts",
     "db:cleanup-converted": "tsx scripts/cleanup-converted-leads.ts",
-    "resend:setup": "tsx scripts/resend-setup.ts"
+    "resend:setup": "tsx scripts/resend-setup.ts",
+    "hash-dashboard-password": "tsx scripts/hash-dashboard-password.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

@@ -22,13 +22,21 @@ export default function DashboardLoginPage() {
     setError("");
     setLoading(true);
     try {
-      if (password === "admin") {
-        setUser({ id: "admin", email: "admin@thewebprism.com", name: "Admin", role: "admin" });
-        router.replace("/dashboard");
-        router.refresh();
-      } else {
-        setError("Invalid password.");
+      const res = await fetch("/api/dashboard/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error ?? "Invalid password.");
+        return;
       }
+      setUser(data.user);
+      router.replace("/dashboard");
+      router.refresh();
+    } catch {
+      setError("Something went wrong.");
     } finally {
       setLoading(false);
     }
@@ -71,9 +79,6 @@ export default function DashboardLoginPage() {
           {loading ? "Signing in..." : "Sign in"}
         </button>
       </form>
-      <p className="mt-4 text-center text-xs text-zinc-500">
-        Demo: password is &quot;admin&quot;
-      </p>
     </div>
   );
 }

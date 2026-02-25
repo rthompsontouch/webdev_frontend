@@ -27,7 +27,7 @@ export function DashboardProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const stored = typeof window !== "undefined" ? localStorage.getItem(DASHBOARD_AUTH_KEY) : null;
     if (stored === "1") {
-      setUser({ id: "admin", email: "admin@thewebprism.com", name: "Admin", role: "admin" });
+      setUser({ id: "admin", email: "hello@thewebprism.com", name: "Admin", role: "admin" });
     }
     setIsLoading(false);
   }, []);
