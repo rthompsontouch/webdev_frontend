@@ -65,7 +65,7 @@ export async function GET(request: Request) {
 
     if (stripe) {
       for (const sub of allSubs) {
-        const doc = sub as { _id: unknown; stripeSubscriptionId: string };
+        const doc = sub as unknown as { _id: unknown; stripeSubscriptionId: string };
         try {
           const stripeSub = await stripe.subscriptions.retrieve(doc.stripeSubscriptionId);
           const stripeStatus = stripeSub.status;
@@ -80,8 +80,8 @@ export async function GET(request: Request) {
                 : stripeStatus === "incomplete"
                   ? "incomplete"
                   : "active";
-          const ourStatus = (sub as { status: string }).status;
-          const ourCancelAtPeriodEnd = (sub as { cancelAtPeriodEnd?: boolean }).cancelAtPeriodEnd;
+          const ourStatus = (sub as unknown as { status: string }).status;
+          const ourCancelAtPeriodEnd = (sub as unknown as { cancelAtPeriodEnd?: boolean }).cancelAtPeriodEnd;
           if (ourStatus !== mappedStatus || ourCancelAtPeriodEnd !== cancelAtPeriodEnd) {
             await RecurringSubscription.findByIdAndUpdate(doc._id, {
               status: mappedStatus,
