@@ -63,7 +63,7 @@ export async function POST(request: Request) {
   const fromAddr = (fromEmail.match(/<([^>]+)>/)?.[1] ?? fromEmail).toLowerCase();
   const toAddr = toEmail?.toLowerCase();
   const isSelfSend = toAddr && fromAddr === toAddr;
-  const adminFrom = isSelfSend ? "TheWebPrism <onboarding@resend.dev>" : fromEmail;
+  const adminFrom = isSelfSend ? "onboarding@resend.dev" : fromEmail;
 
   if (apiKey && toEmail) {
     const resend = new Resend(apiKey);
