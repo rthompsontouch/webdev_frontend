@@ -116,38 +116,38 @@ export default function ContactForm({ variant = "dark" }: { variant?: "dark" | "
         </div>
       </div>
 
-      {/* Company Field */}
-      <div>
-        <label htmlFor="company" className={`block text-sm font-medium mb-1.5 ${labelCls}`}>
-          We work for...
-        </label>
-        <input
-          {...register("company")}
-          type="text"
-          id="company"
-          className={`w-full px-4 py-2 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none transition ${inputCls}`}
-          placeholder="Company name"
-        />
-        {errors.company && (
-          <p className="text-red-600 text-sm mt-1">{errors.company.message}</p>
-        )}
-      </div>
-
-      {/* Email Field */}
-      <div>
-        <label htmlFor="email" className={`block text-sm font-medium mb-1.5 ${labelCls}`}>
-          You can reach me at...
-        </label>
-        <input
-          {...register("email")}
-          type="email"
-          id="email"
-          className={`w-full px-4 py-2 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none transition ${inputCls}`}
-          placeholder="your.email@example.com"
-        />
-        {errors.email && (
-          <p className="text-red-600 text-sm mt-1">{errors.email.message}</p>
-        )}
+      {/* Company & Email - same row */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label htmlFor="company" className={`block text-sm font-medium mb-1.5 ${labelCls}`}>
+            We work for...
+          </label>
+          <input
+            {...register("company")}
+            type="text"
+            id="company"
+            className={`w-full px-4 py-2 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none transition ${inputCls}`}
+            placeholder="Company name"
+          />
+          {errors.company && (
+            <p className="text-red-600 text-sm mt-1">{errors.company.message}</p>
+          )}
+        </div>
+        <div>
+          <label htmlFor="email" className={`block text-sm font-medium mb-1.5 ${labelCls}`}>
+            You can reach me at...
+          </label>
+          <input
+            {...register("email")}
+            type="email"
+            id="email"
+            className={`w-full px-4 py-2 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none transition ${inputCls}`}
+            placeholder="your.email@example.com"
+          />
+          {errors.email && (
+            <p className="text-red-600 text-sm mt-1">{errors.email.message}</p>
+          )}
+        </div>
       </div>
 
       {/* Interested In - Select */}
