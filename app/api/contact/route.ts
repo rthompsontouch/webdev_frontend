@@ -58,14 +58,8 @@ export async function POST(request: Request) {
   }
 
   const apiKey = process.env.RESEND_API_KEY;
-  const toEmail = process.env.CONTACT_TO_EMAIL?.trim();
+  const toEmail = process.env.CONTACT_TO_EMAIL;
   const fromEmail = process.env.CONTACT_FROM_EMAIL || "onboarding@resend.dev";
-  const fromAddr = (fromEmail.match(/<([^>]+)>/)?.[1] ?? fromEmail).toLowerCase();
-  const toAddr = toEmail?.toLowerCase();
-  const isSelfSend = toAddr && fromAddr === toAddr;
-  const adminFrom = isSelfSend && toAddr
-    ? `noreply@${toAddr.split("@")[1] ?? "thewebprism.com"}`
-    : fromEmail;
 
   if (apiKey && toEmail) {
     const resend = new Resend(apiKey);
@@ -96,7 +90,7 @@ export async function POST(request: Request) {
     `;
     try {
       await resend.emails.send({
-        from: adminFrom,
+        from: fromEmail,
         to: toEmail,
         replyTo: email,
         subject: `New contact form submission from ${name}`,
