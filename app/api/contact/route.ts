@@ -58,8 +58,15 @@ export async function POST(request: Request) {
   }
 
   const apiKey = process.env.RESEND_API_KEY;
-  const toEmail = process.env.CONTACT_TO_EMAIL;
-  const fromEmail = process.env.CONTACT_FROM_EMAIL || "onboarding@resend.dev";
+  const toEmail = process.env.CONTACT_TO_EMAIL?.trim();
+  let fromEmail = process.env.CONTACT_FROM_EMAIL || "onboarding@resend.dev";
+  // Extract email from "Name <email>" format if present
+  const fromAddr = (fromEmail.match(/<([^>]+)>/)?.[1] ?? fromEmail).toLowerCase();
+  const toAddr = toEmail?.toLowerCase();
+  // Avoid self-sending: many providers (Zoho, etc.) drop or filter emails sent to the same address
+  if (toAddr && fromAddr === toAddr) {
+    fromEmail = "TheWebPrism <onboarding@resend.dev>";
+  }
 
   if (apiKey && toEmail) {
     const resend = new Resend(apiKey);
