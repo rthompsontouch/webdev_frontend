@@ -16,6 +16,7 @@ export const metadata: Metadata = {
       "Premium web design and development for Raleigh, Cary, Durham, Apex, Holly Springs & Fuquay-Varina. Conversion-focused websites for Triangle businesses.",
     url: "https://www.thewebprism.com",
   },
+  alternates: { canonical: "https://www.thewebprism.com" },
 };
 
 export default function Home() {

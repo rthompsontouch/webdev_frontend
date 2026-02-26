@@ -46,6 +46,7 @@ export const metadata: Metadata = {
       "Premium branding and visual identity for growth-minded teams.",
     images: ["https://www.thewebprism.com/images/hero_image.jpg"],
   },
+  alternates: { canonical: "https://www.thewebprism.com/services/branding" },
 };
 
 const outcomes = [

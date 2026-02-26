@@ -46,6 +46,7 @@ export const metadata: Metadata = {
       "Performance marketing that drives measurable growth and sustainable pipeline.",
     images: ["https://www.thewebprism.com/images/hero_image.jpg"],
   },
+  alternates: { canonical: "https://www.thewebprism.com/services/marketing" },
 };
 
 const outcomes = [

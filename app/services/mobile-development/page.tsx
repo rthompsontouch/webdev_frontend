@@ -46,6 +46,7 @@ export const metadata: Metadata = {
       "Premium iOS and Android development for ambitious product teams.",
     images: ["https://www.thewebprism.com/images/hero_image.jpg"],
   },
+  alternates: { canonical: "https://www.thewebprism.com/services/mobile-development" },
 };
 
 const outcomes = [

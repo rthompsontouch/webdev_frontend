@@ -49,6 +49,7 @@ export const metadata: Metadata = {
       "Premium web design and UX for brands that want a site that sells and scales.",
     images: ["https://www.thewebprism.com/images/hero_image.jpg"],
   },
+  alternates: { canonical: "https://www.thewebprism.com/services/web-design" },
 };
 
 const outcomes = [

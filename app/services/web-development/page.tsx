@@ -46,6 +46,7 @@ export const metadata: Metadata = {
       "High-performance web development for brands that need speed, stability, and scale.",
     images: ["https://www.thewebprism.com/images/hero_image.jpg"],
   },
+  alternates: { canonical: "https://www.thewebprism.com/services/web-development" },
 };
 
 const outcomes = [

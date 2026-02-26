@@ -46,6 +46,7 @@ export const metadata: Metadata = {
       "A lead-focused real estate website with curated listings and conversion-ready templates.",
     images: ["https://www.thewebprism.com/images/our-work/mcbrier_properties/mcbrier_properties_desktop.png"],
   },
+  alternates: { canonical: "https://www.thewebprism.com/work/mcbrier-properties" },
 };
 
 export default function McBrierPropertiesCaseStudy() {

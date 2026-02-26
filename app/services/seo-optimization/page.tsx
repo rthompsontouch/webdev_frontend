@@ -47,6 +47,7 @@ export const metadata: Metadata = {
       "Technical and content SEO that drives sustainable organic growth and visibility.",
     images: ["https://www.thewebprism.com/images/hero_image.jpg"],
   },
+  alternates: { canonical: "https://www.thewebprism.com/services/seo-optimization" },
 };
 
 const outcomes = [

@@ -46,6 +46,7 @@ export const metadata: Metadata = {
       "Premium digital consulting for product, marketing, and leadership teams.",
     images: ["https://www.thewebprism.com/images/hero_image.jpg"],
   },
+  alternates: { canonical: "https://www.thewebprism.com/services/digital-consulting" },
 };
 
 const outcomes = [

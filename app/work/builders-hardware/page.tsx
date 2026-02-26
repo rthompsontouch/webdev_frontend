@@ -47,6 +47,7 @@ export const metadata: Metadata = {
       "Multiple website redesigns with custom bridge applications and PCI compliance solutions for enterprise security.",
     images: ["https://www.thewebprism.com/images/our-work/builders_hardware/builders_desktop.png"],
   },
+  alternates: { canonical: "https://www.thewebprism.com/work/builders-hardware" },
 };
 
 export default function BuildersHardwareCaseStudy() {

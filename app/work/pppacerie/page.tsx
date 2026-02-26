@@ -46,6 +46,7 @@ export const metadata: Metadata = {
       "A premium cruise booking platform with intelligent availability, pricing, and admin operations.",
     images: ["https://www.thewebprism.com/images/our-work/pppacerie/desktop.png"],
   },
+  alternates: { canonical: "https://www.thewebprism.com/work/pppacerie" },
 };
 
 export default function PppacerieCaseStudy() {

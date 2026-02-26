@@ -37,6 +37,7 @@ export const metadata: Metadata = {
       "A digital design and development studio focused on premium brand experiences.",
     images: ["https://www.thewebprism.com/images/hero_image.jpg"],
   },
+  alternates: { canonical: "https://www.thewebprism.com/about" },
 };
 
 const values = [

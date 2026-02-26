@@ -46,6 +46,7 @@ export const metadata: Metadata = {
       "A scalable digital platform with a global design system and enterprise publishing workflow.",
     images: ["https://www.thewebprism.com/images/our-work/ge/ge_desktop.png"],
   },
+  alternates: { canonical: "https://www.thewebprism.com/work/ge" },
 };
 
 export default function GeCaseStudy() {

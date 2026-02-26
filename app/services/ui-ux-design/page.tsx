@@ -46,6 +46,7 @@ export const metadata: Metadata = {
       "Premium UI/UX design for products that need clarity, trust, and retention.",
     images: ["https://www.thewebprism.com/images/hero_image.jpg"],
   },
+  alternates: { canonical: "https://www.thewebprism.com/services/ui-ux-design" },
 };
 
 const outcomes = [
