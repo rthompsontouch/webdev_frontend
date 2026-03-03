@@ -295,8 +295,8 @@ export default function OurWork() {
                     onTouchEnd={handleTouchEnd}
                   >
                     {selectedView === 'desktop' && (
-                      <div key={`${work.slug}-desktop-wrapper`} className="relative w-full max-w-[600px] animate-fadeIn">
-                        <div className="relative z-10 aspect-[3/2] overflow-hidden rounded-2xl bg-white shadow-sm" style={{ border: '3px solid black' }}>
+                      <div key={`${work.slug}-desktop-wrapper`} className="relative w-full max-w-[600px] h-[240px] md:h-auto animate-fadeIn">
+                        <div className="relative z-10 h-full w-full overflow-hidden rounded-2xl bg-white shadow-sm md:aspect-[3/2]" style={{ border: '3px solid black' }}>
                           <Image
                             src={work.image}
                             alt={work.title}
@@ -310,8 +310,11 @@ export default function OurWork() {
                     )}
                     
                     {selectedView === 'tablet' && work.tabletImage && (
-                      <div key={`${work.slug}-tablet-wrapper`} className="relative w-[320px] animate-fadeIn">
-                        <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-white shadow-xl" style={{ border: '3px solid black' }}>
+                      <div
+                        key={`${work.slug}-tablet-wrapper`}
+                        className="relative w-[320px] h-[240px] animate-fadeIn md:h-auto md:aspect-[4/3]"
+                      >
+                        <div className="relative h-full w-full overflow-hidden rounded-xl bg-white shadow-xl" style={{ border: '3px solid black' }}>
                           <Image
                             src={work.tabletImage}
                             alt={`${work.title} tablet view`}
@@ -325,8 +328,11 @@ export default function OurWork() {
                     )}
                     
                     {selectedView === 'mobile' && work.secondaryImage && (
-                      <div key={`${work.slug}-mobile-wrapper`} className="relative w-[150px] animate-fadeIn">
-                        <div className="relative aspect-[9/16] overflow-hidden rounded-xl bg-white shadow-xl" style={{ border: '3px solid black' }}>
+                      <div
+                        key={`${work.slug}-mobile-wrapper`}
+                        className="relative w-[150px] h-[240px] animate-fadeIn md:h-auto md:aspect-[9/16]"
+                      >
+                        <div className="relative h-full w-full overflow-hidden rounded-xl bg-white shadow-xl" style={{ border: '3px solid black' }}>
                           <Image
                             src={work.secondaryImage}
                             alt={`${work.title} mobile view`}
