@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { Fraunces, Plus_Jakarta_Sans } from "next/font/google";
 
@@ -23,15 +24,10 @@ interface Service {
 
 export default function ServiceSection() {
   const sectionRef = useRef<HTMLElement | null>(null);
-  const [isVisible, setIsVisible] = useState(false);
+  const cardRefs = useRef<Array<HTMLAnchorElement | null>>([]);
+  const [visibleCards, setVisibleCards] = useState<Record<number, boolean>>({});
 
   const services: Service[] = [
-    {
-      id: "triangle-web-design",
-      title: "Triangle Web Design",
-      description: "Local web design, development, and SEO for Raleigh, Durham, Cary, Apex, and more.",
-      href: "/triangle-web-design",
-    },
     {
       id: "web-design",
       title: "Web Design",
@@ -82,21 +78,68 @@ export default function ServiceSection() {
     },
   ];
 
-  useEffect(() => {
-    const element = sectionRef.current;
-    if (!element) return;
+  const pastelCardTones = [
+    "bg-rose-100 text-zinc-900 border-rose-200",
+    "bg-amber-100 text-zinc-900 border-amber-200",
+    "bg-sky-100 text-zinc-900 border-sky-200",
+    "bg-emerald-100 text-zinc-900 border-emerald-200",
+    "bg-violet-100 text-zinc-900 border-violet-200",
+    "bg-pink-100 text-zinc-900 border-pink-200",
+    "bg-lime-100 text-zinc-900 border-lime-200",
+    "bg-orange-100 text-zinc-900 border-orange-200",
+  ];
 
+  const serviceImages: Record<string, { src: string; alt: string }> = {
+    "web-design": {
+      src: "/images/services/web-design.png",
+      alt: "Web design",
+    },
+    "web-development": {
+      src: "/images/services/development.png",
+      alt: "Web development",
+    },
+    "mobile-development": {
+      src: "/images/services/mobile.png",
+      alt: "Mobile development",
+    },
+    "ui-ux-design": {
+      src: "/images/services/ui-ux.png",
+      alt: "UI/UX design",
+    },
+    branding: {
+      src: "/images/services/branding.png",
+      alt: "Branding",
+    },
+    "digital-consulting": {
+      src: "/images/services/consulting.png",
+      alt: "Digital consulting",
+    },
+    marketing: {
+      src: "/images/services/marketing.png",
+      alt: "Marketing",
+    },
+    "seo-optimization": {
+      src: "/images/services/seo.png",
+      alt: "SEO optimization",
+    },
+  };
+
+  useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect();
-        }
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const index = Number(entry.target.getAttribute("data-card-index"));
+          if (Number.isNaN(index)) return;
+          setVisibleCards((prev) => ({ ...prev, [index]: true }));
+        });
       },
-      { threshold: 0.05, rootMargin: "0px 0px -25% 0px" }
+      { threshold: 0.15, rootMargin: "0px 0px -5% 0px" }
     );
 
-    observer.observe(element);
+    cardRefs.current.forEach((card) => {
+      if (card) observer.observe(card);
+    });
 
     return () => observer.disconnect();
   }, []);
@@ -105,9 +148,20 @@ export default function ServiceSection() {
     <section
       id="services"
       ref={sectionRef}
-      className={`${bodyFont.className} relative px-6 py-6 md:py-8 lg:px-10 text-zinc-100 md:min-h-[calc(100vh-4rem)] md:flex md:items-center scroll-mt-16`}
+      className={`${bodyFont.className} relative px-6 py-[64px] md:py-[72px] lg:px-10 text-zinc-100 md:min-h-[calc(100vh-4rem)] md:flex md:items-center scroll-mt-16`}
     >
-      <div className="mx-auto max-w-6xl w-full">
+      <svg
+        className="pointer-events-none absolute top-0 left-0 h-12 w-full"
+        viewBox="0 0 1440 120"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
+        <path
+          d="M0,0 H1440 V36 C1200,92 960,18 720,54 C480,92 240,44 0,80 Z"
+          fill="white"
+        />
+      </svg>
+      <div className="mx-auto w-full max-w-6xl px-6 md:px-0">
         <div className="space-y-10">
           <div className="space-y-4">
             <div className="inline-block">
@@ -120,33 +174,58 @@ export default function ServiceSection() {
               Everything you need to launch and scale digital products.
             </h2>
           </div>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {services.map((service, index) => (
-              <Link
-                key={service.id}
-                href={service.href}
-                style={{ transitionDelay: `${index * 160}ms` }}
-                className={`rounded-2xl border border-white/10 bg-white/5 p-6 transition-all duration-700 ease-out will-change-transform hover:border-white/30 group ${
-                  isVisible
-                    ? "translate-y-0 opacity-100"
-                    : "translate-y-4 opacity-0"
-                }`}
-              >
-                <h3 className="text-lg font-semibold text-white group-hover:text-rose-200 transition">
-                  {service.title}
-                </h3>
-                <p className="mt-3 text-sm text-white/70">{service.description}</p>
-                <div className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-rose-200 transition">
-                  <span className="relative inline-block">
-                    Learn More
-                    <span className="absolute left-0 bottom-0 h-0.5 w-0 bg-rose-200 transition-all duration-300 ease-out group-hover:w-full" />
-                  </span>
-                  <svg className="w-4 h-4 group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </div>
-              </Link>
-            ))}
+          <div className="grid gap-2 -space-y-2 md:grid-cols-2 md:gap-6 md:space-y-0 lg:grid-cols-3">
+            {services.map((service, index) => {
+              const image = serviceImages[service.id];
+
+              return (
+                <Link
+                  key={service.id}
+                  href={service.href}
+                  ref={(el) => {
+                    cardRefs.current[index] = el;
+                  }}
+                  data-card-index={index}
+                  style={{
+                    transitionDelay: visibleCards[index]
+                      ? `${(index % 3) * 80}ms`
+                      : "0ms",
+                  }}
+                  className={`rounded-2xl border p-6 transition-all duration-700 ease-out will-change-transform hover:border-white/40 group transform-gpu ${
+                    visibleCards[index]
+                      ? "translate-y-0 translate-x-0 opacity-100"
+                      : `translate-y-4 opacity-0 ${index % 2 === 0 ? "-translate-x-6" : "translate-x-6"}`
+                  } ${index % 2 === 0 ? "-rotate-2" : "rotate-2"} ${pastelCardTones[index % pastelCardTones.length]} md:rotate-0 md:translate-x-0 md:border-white/10 md:bg-white/5 md:text-white md:hover:border-white/30`}
+                >
+                  {image && (
+                    <div className="flex w-full items-center justify-center md:hidden">
+                      <Image
+                        src={image.src}
+                        alt={image.alt}
+                        width={160}
+                        height={160}
+                        className="h-36 w-36 object-contain"
+                      />
+                    </div>
+                  )}
+                  <div className="mt-6 text-left">
+                    <h3 className="text-lg font-semibold text-zinc-900 transition md:text-white md:group-hover:text-rose-200">
+                      {service.title}
+                    </h3>
+                    <p className="mt-3 text-sm text-zinc-700 md:text-white/70">{service.description}</p>
+                    <div className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-rose-700 transition md:text-rose-200">
+                      <span className="relative inline-block">
+                        Learn More
+                        <span className="absolute left-0 bottom-0 h-0.5 w-0 bg-rose-200 transition-all duration-300 ease-out group-hover:w-full" />
+                      </span>
+                      <svg className="w-4 h-4 group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </div>

@@ -95,9 +95,9 @@ export default function FAQSection() {
           transition: "transform 0.1s ease-out",
         }}
       >
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-zinc-950 to-black" />
-        <div className="absolute top-1/4 -left-32 h-96 w-96 rounded-full bg-rose-500/10 blur-3xl" />
-        <div className="absolute bottom-1/4 -right-32 h-80 w-80 rounded-full bg-cyan-500/10 blur-3xl" />
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-black to-slate-950" />
+        <div className="absolute top-1/4 -left-32 h-96 w-96 rounded-full bg-emerald-500/10 blur-3xl" />
+        <div className="absolute bottom-1/4 -right-32 h-80 w-80 rounded-full bg-sky-500/10 blur-3xl" />
         <div
           className="absolute inset-0 opacity-[0.03]"
           style={{

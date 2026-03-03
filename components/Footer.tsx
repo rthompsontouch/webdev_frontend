@@ -47,7 +47,7 @@ export default function Footer() {
         <div className="py-16 lg:py-20">
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-4 lg:gap-8">
             {/* Brand column */}
-            <div className="lg:col-span-1">
+            <div className="lg:col-span-1 flex flex-col items-center text-center md:items-start md:text-left">
               <Link href="/" className="inline-block">
                 <Image
                   src="/images/logo/TheWebPrism_LOGO.png"
@@ -57,7 +57,7 @@ export default function Footer() {
                   className="h-14 w-auto"
                 />
               </Link>
-              <p className="mt-0 max-w-xs text-sm leading-relaxed text-zinc-400">
+              <p className="mt-3 max-w-xs text-sm leading-relaxed text-zinc-400">
                 Premium web design and development for Raleigh, Cary, Durham, and the Triangle. We build websites that convert.
               </p>
               <div className="mt-6 flex gap-4">
@@ -80,11 +80,11 @@ export default function Footer() {
 
             {/* Link columns */}
             {linkGroups.map((group) => (
-              <div key={group.title}>
+              <div key={group.title} className="text-center md:text-left">
                 <h3 className="text-xs font-semibold uppercase tracking-wider text-rose-200">
                   {group.title}
                 </h3>
-                <ul className="mt-4 space-y-3">
+                <ul className="mt-4 space-y-3 md:items-start">
                   {group.links.map((link) => (
                     <li key={link.href}>
                       <Link
@@ -102,7 +102,7 @@ export default function Footer() {
 
           {/* Bottom bar */}
           <div className="mt-16 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 md:flex-row">
-            <p className="text-sm text-zinc-500">
+            <p className="text-sm text-center text-zinc-500 md:text-left">
               © {currentYear} TheWebPrism. Raleigh, Cary, Durham, Apex, Holly Springs & Fuquay-Varina, NC.
             </p>
             <a

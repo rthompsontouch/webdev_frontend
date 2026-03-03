@@ -98,7 +98,7 @@ export default function Navbar() {
                 alt="Logo"
                 width={200}
                 height={80}
-                className="h-24 w-auto translate-y-3"
+                className="h-16 w-auto translate-y-2 sm:h-24 sm:translate-y-3"
                 priority
               />
             </Link>

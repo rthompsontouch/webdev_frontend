@@ -96,7 +96,37 @@ export default function ProcessSection() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16 lg:items-center">
+          <div className="space-y-6 md:hidden">
+            {processSteps.map((step, index) => (
+              <div
+                key={step.title}
+                className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] p-5"
+              >
+                <div className="absolute -top-6 -right-6 h-20 w-20 rounded-full bg-rose-500/20 blur-2xl" />
+                <div className="absolute -bottom-6 -left-6 h-20 w-20 rounded-full bg-amber-500/10 blur-2xl" />
+                <div className="relative">
+                  <div className="flex items-center gap-3">
+                    <span className="flex h-10 w-10 items-center justify-center rounded-full bg-rose-500/25 text-sm font-semibold text-rose-200">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <div>
+                      <h3 className={`${displayFont.className} text-xl text-white`}>
+                        {step.title}
+                      </h3>
+                      <p className="text-xs uppercase tracking-[0.2em] text-rose-200">
+                        {step.subtitle}
+                      </p>
+                    </div>
+                  </div>
+                  <p className="mt-3 text-sm leading-relaxed text-white/70">
+                    {step.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="hidden grid-cols-1 gap-10 md:grid lg:grid-cols-2 lg:gap-16 lg:items-center">
             {/* Circular Process Diagram - modernized */}
             <div className="relative flex items-center justify-center">
               <div className="relative h-[380px] w-full max-w-[380px] md:h-[420px] md:max-w-[420px]">

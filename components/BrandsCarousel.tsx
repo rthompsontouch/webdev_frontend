@@ -36,7 +36,7 @@ export default function BrandsCarousel() {
   return (
     <section 
       id="brands"
-      className={`${bodyFont.className} relative overflow-hidden bg-white text-zinc-900 md:h-[calc(100vh-4rem)] md:flex md:items-center md:justify-center px-6 py-16 md:py-8 scroll-mt-16`}
+      className={`${bodyFont.className} relative overflow-hidden bg-white text-zinc-900 md:h-[calc(100vh-4rem)] md:flex md:items-center md:justify-center px-0 py-16 md:py-8 scroll-mt-16`}
     >
       <div className="max-w-6xl mx-auto w-full">
         {/* Mobile Grid View */}
@@ -47,22 +47,24 @@ export default function BrandsCarousel() {
             </p>
             <div className="mt-2 h-0.5 w-16 rounded-full bg-rose-500 mx-auto" />
           </div>
-          <div className="grid grid-cols-2 gap-8">
-            {brands.map((brand) => (
-              <div
-                key={brand.src}
-                className="flex items-center justify-center h-24"
-              >
-                <Image
-                  src={brand.src}
-                  alt={brand.name}
-                  width={150}
-                  height={80}
-                  className="max-h-full max-w-full w-auto h-auto object-contain opacity-80"
-                  unoptimized
-                />
-              </div>
-            ))}
+          <div className="marquee">
+            <div className="marquee-track">
+              {[...brands, ...brands].map((brand, index) => (
+                <div
+                  key={`${brand.src}-${index}`}
+                  className="flex items-center justify-center h-20 w-32 shrink-0"
+                >
+                  <Image
+                    src={brand.src}
+                    alt={brand.name}
+                    width={140}
+                    height={70}
+                    className="max-h-full max-w-full w-auto h-auto object-contain opacity-80"
+                    unoptimized
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 

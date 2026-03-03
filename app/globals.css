@@ -73,6 +73,35 @@ body {
   animation: pulse-slow 4s ease-in-out infinite;
 }
 
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.marquee-track {
+  display: flex;
+  gap: 2rem;
+  width: max-content;
+  animation: marquee 22s linear infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+}
+
 /* Dashboard: force light text on dark bg (overrides body color from prefers-color-scheme) */
 [data-dashboard] {
   color: rgb(244 244 245) !important;

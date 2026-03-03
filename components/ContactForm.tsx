@@ -17,7 +17,7 @@ const contactFormSchema = z.object({
 type ContactFormData = z.infer<typeof contactFormSchema>;
 
 const inputStyles = {
-  dark: "border border-black/50 bg-black/60 text-white placeholder:text-gray-400",
+  dark: "border border-white/20 bg-black/60 text-white placeholder:text-gray-400",
   light: "border border-gray-300 bg-white text-gray-900 placeholder:text-gray-500",
 };
 
